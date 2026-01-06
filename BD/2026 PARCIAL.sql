@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-01-2026 a las 22:45:56
+-- Tiempo de generación: 06-01-2026 a las 07:38:46
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.3
 
@@ -619,6 +619,22 @@ CREATE TABLE `usuario_cargo` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `usuario_cargo_menu`
+--
+
+CREATE TABLE `usuario_cargo_menu` (
+  `id` int(11) NOT NULL,
+  `id_usuario_cargo` int(11) NOT NULL,
+  `id_usuario_menu` int(11) NOT NULL,
+  `ingreso` tinyint(1) NOT NULL DEFAULT '0',
+  `observaciones` varchar(255) DEFAULT NULL,
+  `fechacreado` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `estado` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuario_docente`
 --
 
@@ -677,6 +693,22 @@ CREATE TABLE `usuario_estado_civil` (
   `fechacreado` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `estado` tinyint(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario_menu`
+--
+
+CREATE TABLE `usuario_menu` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(150) NOT NULL,
+  `icono` varchar(100) DEFAULT NULL,
+  `ruta` varchar(200) DEFAULT NULL,
+  `observaciones` text,
+  `fechacreado` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `estado` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -943,6 +975,14 @@ ALTER TABLE `usuario_cargo`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `usuario_cargo_menu`
+--
+ALTER TABLE `usuario_cargo_menu`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_usuario_cargo_menu_cargo` (`id_usuario_cargo`),
+  ADD KEY `fk_usuario_cargo_menu_menu` (`id_usuario_menu`);
+
+--
 -- Indices de la tabla `usuario_docente`
 --
 ALTER TABLE `usuario_docente`
@@ -963,6 +1003,12 @@ ALTER TABLE `usuario_documento`
 -- Indices de la tabla `usuario_estado_civil`
 --
 ALTER TABLE `usuario_estado_civil`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `usuario_menu`
+--
+ALTER TABLE `usuario_menu`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1174,10 +1220,16 @@ ALTER TABLE `usuario_cargo`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT de la tabla `usuario_cargo_menu`
+--
+ALTER TABLE `usuario_cargo_menu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+
+--
 -- AUTO_INCREMENT de la tabla `usuario_docente`
 --
 ALTER TABLE `usuario_docente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_documento`
@@ -1190,6 +1242,12 @@ ALTER TABLE `usuario_documento`
 --
 ALTER TABLE `usuario_estado_civil`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `usuario_menu`
+--
+ALTER TABLE `usuario_menu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_sexo`
@@ -1351,6 +1409,13 @@ ALTER TABLE `usuario_alumno`
 ALTER TABLE `usuario_apoderado`
   ADD CONSTRAINT `usuario_apoderado_ibfk_1` FOREIGN KEY (`id_apoderado_tipo`) REFERENCES `usuario_apoderado_tipo` (`id`),
   ADD CONSTRAINT `usuario_apoderado_ibfk_2` FOREIGN KEY (`id_documento`) REFERENCES `usuario_documento` (`id`);
+
+--
+-- Filtros para la tabla `usuario_cargo_menu`
+--
+ALTER TABLE `usuario_cargo_menu`
+  ADD CONSTRAINT `fk_usuario_cargo_menu_cargo` FOREIGN KEY (`id_usuario_cargo`) REFERENCES `usuario_cargo` (`id`),
+  ADD CONSTRAINT `fk_usuario_cargo_menu_menu` FOREIGN KEY (`id_usuario_menu`) REFERENCES `usuario_menu` (`id`);
 
 --
 -- Filtros para la tabla `usuario_docente`

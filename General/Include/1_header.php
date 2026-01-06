@@ -107,32 +107,37 @@
             <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-            <?php
-            $array = array(
-                "1" => array(   "nombre" => "INICIO",           "link" => "Inicio",         "cargo" => array("TODOS")),
-                "2" => array(   "nombre" => "USUARIO",          "link" => "Usuario",        "cargo" => array("ADMINISTRATIVO")),
-                "3" => array(   "nombre" => "INSTITUCION",      "link" => "Institucion",    "cargo" => array("ADMINISTRATIVO")),
-                "4" => array(   "nombre" => "MATRICULA 2026",   "link" => "Matricula",      "cargo" => array("DIRECTOR", "ADMINISTRATIVO")),
-                "5" => array(   "nombre" => "MENSUALIDAD",      "link" => "Mensualidad",    "cargo" => array("DIRECTOR", "ADMINISTRATIVO")),
-                "6" => array(   "nombre" => "FACTURACION",      "link" => "Facturacion",    "cargo" => array("DIRECTOR", "ADMINISTRATIVO")),
-                "8" => array(   "nombre" => "DOCUMENTO",        "link" => "Documento",      "cargo" => array("DIRECTOR", "ADMINISTRATIVO")),
-                "9" => array(   "nombre" => "ALMACEN",          "link" => "Almacen",        "cargo" => array("DIRECTOR", "ADMINISTRATIVO")),
-                "10" => array(  "nombre" => "BIBLIOTECA",       "link" => "Biblioteca",     "cargo" => array("TODOS")),
-            );
-            ?>
             <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <?php
-                    $cargoSesion = $_SESSION['docente_cargo']; // por ejemplo: "DIRECTOR", "ADMINISTRATIVO", etc.
-                    foreach ($array as $item) {
-                        if (in_array("TODOS", $item["cargo"]) || in_array($cargoSesion, $item["cargo"])) {
-                            echo '<li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="../../' . $item["link"] . '/Vista/Escritorio.php">' . $item["nombre"] . '</a>
-                      </li>';
-                        }
-                    }
+                    if (session_status() === PHP_SESSION_NONE) { session_start(); }
+                    require_once("Menu.php");
+                    $menu = new Menu();
+                    $docente_id = isset($_SESSION['docente_id']) ? $_SESSION['docente_id'] : "";
+
+                    if (empty($docente_id)) { echo ''; return; }
+
+                    $rspta = $menu->listar($docente_id);
                     ?>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                        <?php
+                            while ($reg = $rspta->fetch_object()) {
+                                $nombre = htmlspecialchars($reg->nombre, ENT_QUOTES, 'UTF-8');
+                                $icono  = htmlspecialchars($reg->icono ?? '', ENT_QUOTES, 'UTF-8');
+                                $ruta   = htmlspecialchars($reg->ruta ?? '', ENT_QUOTES, 'UTF-8');
+
+                                if ($ruta === '') { continue; }
+
+                                echo '
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="' . $ruta . '">' . ($icono !== '' ? '<i class="' . $icono . '"></i> ' : '') . $nombre . '</a>
+                                    </li>';
+                            }
+                        ?>
+
+                    </ul>
+
                 </ul>
                 <div class="d-flex" role="search">
                     <div class="btn-group dropstart">

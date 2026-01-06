@@ -6,8 +6,6 @@ function init() {
         guardaryeditar(e);
     });
     MostrarListado();
-    actualizarFechaHora();
-    setInterval(actualizarFechaHora, 1000);
 }
 
 $(document).ready(function () {
@@ -20,7 +18,9 @@ function limpiar() {
     $("#id").val("");
     $("#nombre").val("");
     $("#observaciones").val("");
-    $("#estado").val("1");
+
+    const tbody = document.querySelector("#tablaMenus tbody");
+    if (tbody) tbody.innerHTML = "";
 }
 
 function MostrarListado() {
@@ -37,66 +37,139 @@ function MostrarFormulario() {
 function guardaryeditar(e) {
     e.preventDefault();
 
-    $.ajax({
-        url: link + "guardaryeditar",
-        type: "POST",
-        data: $("#frm_form").serialize(),
+    const formData = new FormData(document.getElementById("frm_form"));
+    const id = $("#id").val();
 
-        success: function (datos) {
-            alert(datos);
-            MostrarListado();
-            tabla.ajax.reload();
+    // Si hay ID -> editar; si no hay -> guardar
+    const op = (id && id.trim() !== "") ? "editar" : "guardar";
+
+    $.ajax({
+        url: link + op,
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            alert(response);
+            if (response.includes("correctamente")) {
+                MostrarListado();
+                tabla.ajax.reload();
+            }
+        },
+        error: function () {
+            alert("Error al intentar guardar/editar los datos.");
         }
     });
-    limpiar();
+}
+
+function listar_usuario_menu_activos(callback) {
+    $.ajax({
+        url: link + "listar_usuario_menu_activos",
+        type: "GET",
+        success: function (response) {
+            const tbody = document.querySelector("#tablaMenus tbody");
+            tbody.innerHTML = response;
+
+            if (typeof callback === "function") {
+                callback();
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Error al cargar los menús: ", error);
+        }
+    });
 }
 
 function mostrar(id) {
-    $.post(link + "mostrar", { id: id },
-        function (data, status) {
-            data = JSON.parse(data);
+    $.ajax({
+        url: link + "mostrar",
+        type: "POST",
+        data: { id: id },
+        success: function (response) {
+            let data = null;
+
+            try {
+                data = JSON.parse(response);
+            } catch (e) {
+                alert("No se pudo leer la respuesta del servidor.");
+                return;
+            }
+
+            if (data && data.error) {
+                alert(data.error);
+                return;
+            }
+
             MostrarFormulario();
 
-            $("#id").val(data.id);
-            $("#nombre").val(data.nombre);
-            $("#observaciones").val(data.observaciones);
-            $("#estado").val(data.estado);
-        }
-    );
-}
-
-function activar(id) {
-    let condicion = confirm("¿ACTIVAR?");
-    if (condicion === true) {
-        $.ajax({
-            type: "POST",
-            url: link + "activar",
-            data: { id: id },
-            success: function (datos) {
-                alert(datos);
-                tabla.ajax.reload();
+            // Cabecera
+            if (data && data.cabecera) {
+                $("#id").val(data.cabecera.id);
+                $("#nombre").val(data.cabecera.nombre);
+                $("#observaciones").val(data.cabecera.observaciones);
             }
-        });
-    } else {
-        alert("CANCELADO");
-    }
+
+            // 1) Cargar menús activos
+            // 2) Aplicar detalle por id_usuario_menu
+            listar_usuario_menu_activos(function () {
+                if (!data || !data.detalle) return;
+
+                $("#tablaMenus tbody tr").each(function () {
+                    const hidden = $(this).find("input[type='hidden'][name*='[id_usuario_menu]']");
+                    const menuId = hidden.val();
+
+                    if (menuId && data.detalle[menuId]) {
+                        const ingreso = data.detalle[menuId].ingreso;
+                        const obs = data.detalle[menuId].observaciones;
+
+                        // radios ingreso (0/1)
+                        const radios = $(this).find("input[type='radio'][name*='[ingreso]']");
+                        radios.each(function () {
+                            if ($(this).val() == ingreso) {
+                                $(this).prop("checked", true);
+                            }
+                        });
+
+                        // observaciones detalle
+                        $(this).find("input[type='text'][name*='[observaciones]']").val(obs);
+                    }
+                });
+            });
+        },
+        error: function () {
+            alert("Error al intentar mostrar el registro.");
+        }
+    });
 }
 
 function desactivar(id) {
-    let condicion = confirm("¿DESACTIVAR?");
-    if (condicion === true) {
-        $.ajax({
-            type: "POST",
-            url: link + "desactivar",
-            data: { id: id },
-            success: function (datos) {
-                alert(datos);
-                tabla.ajax.reload();
-            }
-        });
-    } else {
-        alert("CANCELADO");
-    }
+    $.ajax({
+        url: link + "desactivar",
+        type: "POST",
+        data: { id: id },
+        success: function (response) {
+            alert(response);
+            tabla.ajax.reload();
+        },
+        error: function () {
+            alert("Error al intentar desactivar.");
+        }
+    });
+}
+
+function activar(id) {
+    $.ajax({
+        url: link + "activar",
+        type: "POST",
+        data: { id: id },
+        success: function (response) {
+            alert(response);
+            tabla.ajax.reload();
+        },
+        error: function () {
+            alert("Error al intentar activar.");
+        }
+    });
 }
 
 init();

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-01-2026 a las 22:43:42
+-- Tiempo de generación: 06-01-2026 a las 07:38:36
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.3
 
@@ -1478,11 +1478,69 @@ CREATE TABLE `usuario_cargo` (
 
 INSERT INTO `usuario_cargo` (`id`, `nombre`, `observaciones`, `fechacreado`, `estado`) VALUES
 (1, 'DIRECTOR', '', '2025-12-27 07:13:32', 1),
-(2, 'ADMINISTRATIVO', '', '2025-12-27 07:13:41', 1),
-(3, 'DOCENTE', '', '2025-12-27 07:13:49', 1),
-(4, 'AUXILIAR', '', '2026-01-02 06:44:29', 1),
-(5, 'APODERADO', '', '2026-01-02 06:44:40', 1),
-(6, 'ALUMNO', '', '2026-01-02 06:46:44', 1);
+(2, 'SUB DIRECTOR', '', '2025-12-27 07:13:41', 1),
+(3, 'SECRETARIA', '', '2025-12-27 07:13:49', 1),
+(4, 'DOCENTE', '', '2026-01-02 06:44:29', 1),
+(5, 'APODERADO', '', '2026-01-02 06:44:40', 0),
+(6, 'ALUMNO', '', '2026-01-02 06:46:44', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario_cargo_menu`
+--
+
+CREATE TABLE `usuario_cargo_menu` (
+  `id` int(11) NOT NULL,
+  `id_usuario_cargo` int(11) NOT NULL,
+  `id_usuario_menu` int(11) NOT NULL,
+  `ingreso` tinyint(1) NOT NULL DEFAULT '0',
+  `observaciones` varchar(255) DEFAULT NULL,
+  `fechacreado` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `estado` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `usuario_cargo_menu`
+--
+
+INSERT INTO `usuario_cargo_menu` (`id`, `id_usuario_cargo`, `id_usuario_menu`, `ingreso`, `observaciones`, `fechacreado`, `estado`) VALUES
+(55, 1, 1, 1, '', '2026-01-06 01:30:44', 1),
+(56, 1, 2, 0, '', '2026-01-06 01:30:44', 1),
+(57, 1, 3, 0, '', '2026-01-06 01:30:44', 1),
+(58, 1, 4, 0, '', '2026-01-06 01:30:44', 1),
+(59, 1, 5, 0, '', '2026-01-06 01:30:44', 1),
+(60, 1, 6, 0, '', '2026-01-06 01:30:44', 1),
+(61, 1, 7, 0, '', '2026-01-06 01:30:44', 1),
+(62, 1, 8, 0, '', '2026-01-06 01:30:44', 1),
+(63, 1, 9, 0, '', '2026-01-06 01:30:44', 1),
+(73, 2, 1, 1, '', '2026-01-06 01:34:10', 1),
+(74, 2, 2, 0, '', '2026-01-06 01:34:10', 1),
+(75, 2, 3, 0, '', '2026-01-06 01:34:10', 1),
+(76, 2, 4, 0, '', '2026-01-06 01:34:10', 1),
+(77, 2, 5, 0, '', '2026-01-06 01:34:10', 1),
+(78, 2, 6, 0, '', '2026-01-06 01:34:10', 1),
+(79, 2, 7, 0, '', '2026-01-06 01:34:10', 1),
+(80, 2, 8, 0, '', '2026-01-06 01:34:10', 1),
+(81, 2, 9, 0, '', '2026-01-06 01:34:10', 1),
+(82, 3, 1, 1, '', '2026-01-06 01:34:32', 1),
+(83, 3, 2, 1, '', '2026-01-06 01:34:32', 1),
+(84, 3, 3, 1, '', '2026-01-06 01:34:32', 1),
+(85, 3, 4, 1, '', '2026-01-06 01:34:32', 1),
+(86, 3, 5, 1, '', '2026-01-06 01:34:32', 1),
+(87, 3, 6, 1, '', '2026-01-06 01:34:32', 1),
+(88, 3, 7, 1, '', '2026-01-06 01:34:32', 1),
+(89, 3, 8, 1, '', '2026-01-06 01:34:32', 1),
+(90, 3, 9, 1, '', '2026-01-06 01:34:32', 1),
+(91, 4, 1, 1, '', '2026-01-06 01:34:48', 1),
+(92, 4, 2, 0, '', '2026-01-06 01:34:48', 1),
+(93, 4, 3, 0, '', '2026-01-06 01:34:48', 1),
+(94, 4, 4, 0, '', '2026-01-06 01:34:48', 1),
+(95, 4, 5, 0, '', '2026-01-06 01:34:48', 1),
+(96, 4, 6, 0, '', '2026-01-06 01:34:48', 1),
+(97, 4, 7, 0, '', '2026-01-06 01:34:48', 1),
+(98, 4, 8, 0, '', '2026-01-06 01:34:48', 1),
+(99, 4, 9, 0, '', '2026-01-06 01:34:48', 1);
 
 -- --------------------------------------------------------
 
@@ -1523,7 +1581,8 @@ CREATE TABLE `usuario_docente` (
 --
 
 INSERT INTO `usuario_docente` (`id`, `id_documento`, `numerodocumento`, `nombreyapellido`, `nacimiento`, `id_estado_civil`, `id_sexo`, `direccion`, `telefono`, `correo`, `id_cargo`, `id_tipo_contrato`, `fechainicio`, `fechafin`, `sueldo`, `cuentabancaria`, `cuentainterbancaria`, `sunat_ruc`, `sunat_usuario`, `sunat_contraseña`, `usuario`, `clave`, `observaciones`, `fechacreado`, `estado`) VALUES
-(1, 1, '10509059', 'CECILIA ROSARIO MANRIQUE LOPEZ', '1977-01-16', 2, 2, 'PROLONG. LAS GLADIOLAS MZ.X LT.12 EL ERMITAÑO', '976300448', '', 1, 1, '2026-01-01', '2027-02-28', '0.00', '', '', '', '', '', '10509059', '10509059', '', '2026-01-05 16:43:51', 1);
+(1, 1, '10509059', 'CECILIA ROSARIO MANRIQUE LOPEZ', '1977-01-16', 2, 2, 'PROLONG. LAS GLADIOLAS MZ.X LT.12 EL ERMITAÑO', '976300448', '', 1, 1, '2026-01-01', '2027-02-28', '0.00', '', '', '', '', '', '10509059', '10509059', '', '2026-01-05 16:43:51', 1),
+(2, 1, '73937543', 'MARCO ANTONIO MANRIQUE VARILLAS', '1999-06-18', 1, 1, 'PROLONG. LAS GLADIOLAS MZ.X LT.12 EL ERMITAÑO', '', '', 3, 2, '2026-01-01', '2026-02-28', '0.00', '', '', '', '', '', '73937543', '73937543', '', '2026-01-05 22:06:21', 1);
 
 -- --------------------------------------------------------
 
@@ -1570,6 +1629,37 @@ INSERT INTO `usuario_estado_civil` (`id`, `nombre`, `observaciones`, `fechacread
 (1, 'SOLTERO', '', '2025-12-27 06:53:35', 1),
 (2, 'CASADO', '', '2025-12-27 06:53:42', 1),
 (3, 'DIVORCIADO', '', '2025-12-27 06:53:50', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario_menu`
+--
+
+CREATE TABLE `usuario_menu` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(150) NOT NULL,
+  `icono` varchar(100) DEFAULT NULL,
+  `ruta` varchar(200) DEFAULT NULL,
+  `observaciones` text,
+  `fechacreado` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `estado` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `usuario_menu`
+--
+
+INSERT INTO `usuario_menu` (`id`, `nombre`, `icono`, `ruta`, `observaciones`, `fechacreado`, `estado`) VALUES
+(1, 'INICIO', '', '../../Inicio/Vista/Escritorio.php', '', '2026-01-05 23:53:36', 1),
+(2, 'USUARIO', '', '../../Usuario/Vista/Escritorio.php', '', '2026-01-05 23:53:36', 1),
+(3, 'INSTITUCION', '', '../../Institucion/Vista/Escritorio.php', '', '2026-01-05 23:53:36', 1),
+(4, 'MATRICULA 2026', '', '../../Matricula/Vista/Escritorio.php', '', '2026-01-05 23:53:36', 1),
+(5, 'MENSUALIDAD', '', '../../Mensualidad/Vista/Escritorio.php', '', '2026-01-05 23:53:36', 1),
+(6, 'FACTURACION', '', '../../Facturacion/Vista/Escritorio.php', '', '2026-01-05 23:53:36', 1),
+(7, 'DOCUMENTO', '', '../../Documento/Vista/Escritorio.php', '', '2026-01-05 23:53:36', 1),
+(8, 'ALMACEN', '', '../../Almacen/Vista/Escritorio.php', '', '2026-01-05 23:53:36', 1),
+(9, 'BIBLIOTECA', '', '../../Biblioteca/Vista/Escritorio.php', '', '2026-01-05 23:53:36', 1);
 
 -- --------------------------------------------------------
 
@@ -1852,6 +1942,14 @@ ALTER TABLE `usuario_cargo`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `usuario_cargo_menu`
+--
+ALTER TABLE `usuario_cargo_menu`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_usuario_cargo_menu_cargo` (`id_usuario_cargo`),
+  ADD KEY `fk_usuario_cargo_menu_menu` (`id_usuario_menu`);
+
+--
 -- Indices de la tabla `usuario_docente`
 --
 ALTER TABLE `usuario_docente`
@@ -1872,6 +1970,12 @@ ALTER TABLE `usuario_documento`
 -- Indices de la tabla `usuario_estado_civil`
 --
 ALTER TABLE `usuario_estado_civil`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `usuario_menu`
+--
+ALTER TABLE `usuario_menu`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -2083,10 +2187,16 @@ ALTER TABLE `usuario_cargo`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT de la tabla `usuario_cargo_menu`
+--
+ALTER TABLE `usuario_cargo_menu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+
+--
 -- AUTO_INCREMENT de la tabla `usuario_docente`
 --
 ALTER TABLE `usuario_docente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_documento`
@@ -2099,6 +2209,12 @@ ALTER TABLE `usuario_documento`
 --
 ALTER TABLE `usuario_estado_civil`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `usuario_menu`
+--
+ALTER TABLE `usuario_menu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_sexo`
@@ -2260,6 +2376,13 @@ ALTER TABLE `usuario_alumno`
 ALTER TABLE `usuario_apoderado`
   ADD CONSTRAINT `usuario_apoderado_ibfk_1` FOREIGN KEY (`id_apoderado_tipo`) REFERENCES `usuario_apoderado_tipo` (`id`),
   ADD CONSTRAINT `usuario_apoderado_ibfk_2` FOREIGN KEY (`id_documento`) REFERENCES `usuario_documento` (`id`);
+
+--
+-- Filtros para la tabla `usuario_cargo_menu`
+--
+ALTER TABLE `usuario_cargo_menu`
+  ADD CONSTRAINT `fk_usuario_cargo_menu_cargo` FOREIGN KEY (`id_usuario_cargo`) REFERENCES `usuario_cargo` (`id`),
+  ADD CONSTRAINT `fk_usuario_cargo_menu_menu` FOREIGN KEY (`id_usuario_menu`) REFERENCES `usuario_menu` (`id`);
 
 --
 -- Filtros para la tabla `usuario_docente`

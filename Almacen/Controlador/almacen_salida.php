@@ -65,8 +65,8 @@ switch ($_GET["op"]) {
                 "5" => $reg->estado == 1 ?
                     '
                     <button class="btn btn-warning btn-sm" onclick="mostrar(' . $reg->id . ')">EDITAR</button>
-                    <button class="btn btn-danger btn-sm" onclick="desactivar(' . $reg->id . ')">DESAC.</button>
                     <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#' . $reg->numeracion . '">PDF</button>
+                    <button class="btn btn-danger btn-sm" onclick="desactivar(' . $reg->id . ')">DESAC.</button>
 
                     <!-- Modal -->
                     <div class="modal fade" id="' . $reg->numeracion . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
