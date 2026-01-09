@@ -10,11 +10,11 @@ var pending = {
 };
 
 function refreshPicker(selector) {
-    // Si usas bootstrap-select (selectpicker), refresca; si no, no hace nada
     if ($.fn.selectpicker) {
         try { $(selector).selectpicker("refresh"); } catch (e) {}
     }
 }
+
 // ==============================================================================
 
 function init() {

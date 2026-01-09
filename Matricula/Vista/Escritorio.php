@@ -18,8 +18,9 @@ if (!isset($_SESSION['nombre'])) {
                 <br>
                 <?php
                 $array = array(
-                    "1" => array("nombre" => "REGISTRO MATRICULA", "link" => "matricula_detalle.php"),
+                    "1" => array("nombre" => "NUEVA MATRICULA", "link" => "matricula_detalle.php"),
                     "2" => array("nombre" => "EDITAR MATRICULA", "link" => "matricula_editar.php"),
+                    //"3" => array("nombre" => "EDITAR MENSUALIDAD", "link" => "Matricula_mensualidad.php"),
                     "3" => array("nombre" => "PAGOS MATRICULA", "link" => "Matricula_pago.php"),
                 );
                 ?>
@@ -50,19 +51,19 @@ if (!isset($_SESSION['nombre'])) {
 
         <!-- CUERPO_INICIO -->
         <div class="my-3 p-3 bg-body rounded shadow-sm" id="listado">
-            <h5 class="border-bottom pb-2 mb-0"><b>REPORTES</b></h5>
+            <h5 class="border-bottom pb-2 mb-0"><b>REPORTE DE MATRICULA</b></h5>
             <div class="d-flex text-body-secondary pt-3">
                 <br>
                 <?php
                 $array = array(
-                    "1" => array("nombre" => "CANTIDAD DE ALUMNOS", "link" => "../../Reportes/Vista/Matriculados_cantidad.php"),
-                    "2" => array("nombre" => "LISTADO DE ALUMNOS", "link" => "../../Reportes/Vista/ReporteMatricula.php"),
-                    "3" => array("nombre" => "LISTADO DE ALUMNOS - TUTORES", "link" => "../../Reportes/Vista/ReporteAlumnosTutores.php"),
-                    "4" => array("nombre" => "LISTADO DE ALUMNOS - REUNIÓN", "link" => "../../Reportes/Vista/ReporteAlumnosTutoresReuniones.php"),
-                    "5" => array("nombre" => "LISTADO DETALLE MATRICULADOS", "link" => "../../Reportes/Vista/ReciboMatriculaTotal.php"),
-                    "6" => array("nombre" => "PAGOS AGRUPADOS POR FECHA", "link" => "../../Reportes/Vista/ReporteMatriculaXFecha.php"),
-                    "7" => array("nombre" => "PAGOS AGRUPADOS POR APODERADO", "link" => "../../Reportes/Vista/ReporteMatriculaXApoderado.php"),
-                    "8" => array("nombre" => "CUMPLEAÑOS", "link" => "../../Reportes/Vista/Nacimiento.php"),
+                    "1" => array("nombre" => "CANTIDAD DE ALUMNOS",             "link" => "../../Reportes/Vista/Matriculados_cantidad.php"),
+                    "2" => array("nombre" => "LISTADO DE ALUMNOS",              "link" => "../../Reportes/Vista/ReporteMatricula.php"),
+                    "3" => array("nombre" => "LISTADO DE ALUMNOS - TUTORES",    "link" => "../../Reportes/Vista/ReporteAlumnosTutores.php"),
+                    "4" => array("nombre" => "LISTADO DE ALUMNOS - REUNIÓN",    "link" => "../../Reportes/Vista/ReporteAlumnosTutoresReuniones.php"),
+                    "5" => array("nombre" => "LISTADO DETALLE MATRICULAS",      "link" => "../../Reportes/Vista/ReciboMatriculaTotal.php"),
+                    "6" => array("nombre" => "PAGOS AGRUPADOS POR FECHA",       "link" => "../../Reportes/Vista/ReporteMatriculaXFecha.php"),
+                    "7" => array("nombre" => "PAGOS AGRUPADOS POR APODERADO",   "link" => "../../Reportes/Vista/ReporteMatriculaXApoderado.php"),
+                    "8" => array("nombre" => "CUMPLEAÑOS",                      "link" => "../../Reportes/Vista/Nacimiento.php"),
                 );
                 ?>
                 <table class="table">

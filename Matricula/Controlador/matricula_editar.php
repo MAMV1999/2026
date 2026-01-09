@@ -151,11 +151,11 @@ switch ($_GET["op"]) {
             $rows .= "
             <tr>
                 <th style='width: 10%;'><input type='hidden' name='mensualidad_id[]' value='{$reg->id}'>{$cont}</th>
-                <td style='width: 20%;'><input type='text' class='form-control-plaintext' value='{$reg->nombre} {$reg->institucion_lectivo_nombre}' readonly></td>
-                <td style='width: 15%;'><input type='text' class='form-control-plaintext' value='{$reg->MENSUALIDAD}' readonly></td>
-                <td style='width: 15%;'><input type='text' class='form-control-plaintext' value='{$reg->MANTENIMIENTO}' readonly></td>
-                <td style='width: 15%;'><input type='text' class='form-control-plaintext' value='{$reg->IMPRESION}' readonly></td>
-                <td style='width: 15%;'><input type='text' required class='form-control-plaintext' name='total_precio[]' value='{$monto_guardado}'></td>
+                <td style='width: 45%;'><input type='text' class='form-control-plaintext' value='{$reg->nombre} {$reg->institucion_lectivo_nombre}' readonly></td>
+                <td style='width: 15%;' class='d-none'><input type='text' class='form-control-plaintext' value='{$reg->MENSUALIDAD}' readonly></td>
+                <td style='width: 15%;' class='d-none'><input type='text' class='form-control-plaintext' value='{$reg->MANTENIMIENTO}' readonly></td>
+                <td style='width: 15%;' class='d-none'><input type='text' class='form-control-plaintext' value='{$reg->IMPRESION}' readonly></td>
+                <td style='width: 45%;'><input type='text' required class='form-control-plaintext' name='total_precio[]' value='{$monto_guardado}'></td>
             </tr>";
             $cont++;
         }

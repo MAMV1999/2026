@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-01-2026 a las 02:17:01
+-- Tiempo de generación: 09-01-2026 a las 22:07:57
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.3
 
@@ -396,8 +396,8 @@ CREATE TABLE `almacen_categoria` (
 
 INSERT INTO `almacen_categoria` (`id`, `nombre`, `observaciones`, `fechacreado`, `estado`) VALUES
 (1, 'CITA PSICOLÓGICA', '', '2026-01-05 09:34:57', 1),
-(2, 'LIBRO PERSONALIZADO INICIAL', '', '2026-01-05 12:09:49', 1),
-(3, 'LIBRO PERSONALIZADO PRIMARIA', '', '2026-01-05 12:09:57', 1),
+(2, 'LIBRO ESCOLAR INICIAL', '', '2026-01-05 12:09:49', 1),
+(3, 'LIBRO ESCOLAR PRIMARIA', '', '2026-01-05 12:09:57', 1),
 (4, 'DOCUMENTOS', '', '2026-01-06 09:44:36', 1);
 
 -- --------------------------------------------------------
@@ -589,8 +589,8 @@ INSERT INTO `almacen_producto` (`id`, `nombre`, `descripcion`, `categoria_id`, `
 (14, 'LIBRO PRIMARIA INGLES', '', 3, '0.00', '110.00', 11, '2026-01-05 13:54:01', 1),
 (15, 'RAZ-KIDS', '', 3, '0.00', '100.00', 15, '2026-01-05 13:54:01', 1),
 (16, 'CONSTANCIA DE NO ADEUDO', '', 4, '0.00', '10.00', 20, '2026-01-06 09:47:18', 1),
-(17, 'CONSTANCIA DE MATRICULA', '', 4, '0.00', '10.00', 20, '2026-01-06 09:47:18', 1),
-(18, 'CERTIFICADO DE ESTUDIO', '', 4, '0.00', '80.00', 20, '2026-01-06 09:47:18', 1);
+(17, 'CONSTANCIA DE MATRICULA', '', 4, '0.00', '10.00', 19, '2026-01-06 09:47:18', 1),
+(18, 'CERTIFICADO DE ESTUDIO', '', 4, '0.00', '80.00', 19, '2026-01-06 09:47:18', 1);
 
 -- --------------------------------------------------------
 
@@ -630,7 +630,8 @@ INSERT INTO `almacen_salida` (`id`, `usuario_apoderado_id`, `almacen_comprobante
 (12, 14, 1, '000012', '2026-01-05', 2, '50.00', 'CITA PENDIENTE', '2026-01-06 12:13:48', 1),
 (13, 16, 1, '000013', '2025-12-29', 1, '30.00', 'LIBRO PRIMARIA 4 GRADO ADELANTO - 30 SOLES', '2026-01-07 09:30:43', 1),
 (14, 17, 1, '000014', '2025-12-18', 2, '10.00', 'LIBRO PRIMARIA 6 GRADO ADELANTO - 10 SOLES EFECTIVO', '2026-01-07 09:32:48', 1),
-(15, 20, 1, '000015', '2026-01-07', 1, '50.00', 'CITA PENDIENTE', '2026-01-07 15:56:56', 1);
+(15, 20, 1, '000015', '2026-01-07', 1, '50.00', 'CITA PENDIENTE', '2026-01-07 15:56:56', 1),
+(16, 21, 1, '000016', '2026-01-08', 2, '90.00', 'DOCUMENTACION PENDIENTE.\r\nLA APODERADA MENCIONA QUE LA DOCUMENTACION LO RECOGERA SU HIJO.', '2026-01-08 09:56:50', 1);
 
 --
 -- Disparadores `almacen_salida`
@@ -699,7 +700,9 @@ INSERT INTO `almacen_salida_detalle` (`id`, `almacen_salida_id`, `almacen_produc
 (22, 6, 12, 1, '20.00', '270.00'),
 (23, 13, 10, 1, '30.00', '250.00'),
 (24, 14, 12, 1, '10.00', '270.00'),
-(25, 15, 1, 1, '50.00', '');
+(25, 15, 1, 1, '50.00', ''),
+(26, 16, 17, 1, '10.00', ''),
+(27, 16, 18, 1, '80.00', '');
 
 --
 -- Disparadores `almacen_salida_detalle`
@@ -1303,7 +1306,7 @@ INSERT INTO `matricula_pago` (`id`, `id_matricula_detalle`, `numeracion`, `fecha
 (10, 10, '000010', '2025-12-15', 'MATRICULA 2026 - 06/01/2026\r\nNIVEL: PRIMARIA - GRADO: 4 GRADO - SECCION: A\r\n\r\nImpresion: S./10.00\r\nMantenimiento: S./30.00\r\nMatricula: S./280.00\r\nMensualidad: S./320.00\r\n\r\nObservaciones:', '220.00', 2, '', '2026-01-06 16:53:17', 1),
 (11, 11, '000011', '2025-12-15', 'MATRICULA 2026 - 06/01/2026\r\nNIVEL: PRIMARIA - GRADO: 5 GRADO - SECCION: A\r\n\r\nImpresion: S./10.00\r\nMantenimiento: S./30.00\r\nMatricula: S./280.00\r\nMensualidad: S./320.00\r\n\r\nObservaciones:', '220.00', 2, '', '2026-01-06 16:57:03', 1),
 (12, 12, '000012', '2025-12-16', 'MATRICULA 2026 - 06/01/2026\r\nNIVEL: PRIMARIA - GRADO: 6 GRADO - SECCION: A\r\n\r\nImpresion: S./10.00\r\nMantenimiento: S./30.00\r\nMatricula: S./280.00\r\nMensualidad: S./320.00\r\n\r\nObservaciones:', '220.00', 2, '', '2026-01-06 17:03:09', 1),
-(13, 13, '000013', '2025-12-16', 'MATRICULA 2026 - 06/01/2026\r\nNIVEL: PRIMARIA - GRADO: 3 GRADO - SECCION: A\r\n\r\nImpresion: S./10.00\r\nMantenimiento: S./30.00\r\nMatricula: S./280.00\r\nMensualidad: S./320.00\r\n\r\nObservaciones:', '220.00', 1, '', '2026-01-06 17:04:44', 1),
+(13, 13, '000013', '2025-12-16', 'MATRICULA 2026 - 06/01/2026\r\nNIVEL: PRIMARIA - GRADO: 3 GRADO - SECCION: A\r\n\r\nImpresion: S./10.00\r\nMantenimiento: S./30.00\r\nMatricula: S./280.00\r\nMensualidad: S./320.00\r\n\r\nObservaciones:', '220.00', 3, '', '2026-01-06 17:04:44', 1),
 (14, 14, '000014', '2025-12-29', 'MATRICULA 2026 - 06/01/2026\r\nNIVEL: PRIMARIA - GRADO: 6 GRADO - SECCION: A\r\n\r\nImpresion: S./10.00\r\nMantenimiento: S./30.00\r\nMatricula: S./280.00\r\nMensualidad: S./320.00\r\n\r\nObservaciones:', '220.00', 2, '', '2026-01-06 17:08:53', 1),
 (15, 15, '000015', '2025-01-16', 'MATRICULA 2026 - 06/01/2026\r\nNIVEL: PRIMARIA - GRADO: 1 GRADO - SECCION: A\r\n\r\nImpresion: S./10.00\r\nMantenimiento: S./30.00\r\nMatricula: S./280.00\r\nMensualidad: S./320.00\r\n\r\nObservaciones:', '220.00', 2, '', '2026-01-06 17:24:33', 1),
 (16, 16, '000016', '2025-12-17', 'MATRICULA 2026 - 07/01/2026\r\nNIVEL: INICIAL - GRADO: 4 AÑOS - SECCION: A\r\n\r\nImpresion: S./15.00\r\nMantenimiento: S./30.00\r\nMatricula: S./280.00\r\nMensualidad: S./300.00\r\n\r\nObservaciones:', '220.00', 2, '', '2026-01-07 14:39:06', 1),
@@ -1542,7 +1545,7 @@ INSERT INTO `usuario_alumno` (`id`, `id_apoderado`, `id_documento`, `numerodocum
 (10, 9, 1, '79928099', 'REGALADO TITO ANGELA NADESKA', '2016-11-04', '', 2, '79928099', '79928099', '', '2026-01-06 16:53:17', 1),
 (11, 10, 1, '79176666', 'OBREGON RISCO MIQUEAS SANTIAGO', '2015-06-27', '', 1, '79176666', '79176666', '', '2026-01-06 16:57:03', 1),
 (12, 11, 1, '79011209', 'CONDORI PALACIOS THIAGO GABRIEL', '2015-03-05', '', 1, '79011209', '79011209', '', '2026-01-06 17:03:09', 1),
-(13, 12, 1, '90495561', 'QUINTANA VARGAS MARIANO ESTIVEN', '2025-11-03', '', 1, '90495561', '90495561', '', '2026-01-06 17:04:44', 1),
+(13, 12, 1, '90495561', 'QUINTANA VARGAS MARIANO ESTIVEN', '2017-11-03', '', 1, '90495561', '90495561', '', '2026-01-06 17:04:44', 1),
 (14, 13, 1, '78911962', 'COTRINA TORIBIO ZOE LUCIANA', '2014-12-28', '', 2, '78911962', '78911962', '', '2026-01-06 17:08:52', 1),
 (15, 15, 1, '91521536', 'PACHECO TRUJILLO LIED MATHEO', '2019-09-17', '', 1, '91521536', '91521536', '', '2026-01-06 17:24:33', 1),
 (16, 18, 1, '92756809', 'ZURITA GONZALES DYLAN VALENTINO', '2022-02-14', '', 1, '92756809', '92756809', '', '2026-01-07 14:39:06', 1),
@@ -1586,13 +1589,14 @@ INSERT INTO `usuario_apoderado` (`id`, `id_apoderado_tipo`, `id_documento`, `num
 (11, 1, 1, '46936573', 'LISETH KATHERINE PALACIOS BERMUDEZ', '977164577', '46936573', '46936573', '', '2026-01-06 17:03:09', 1),
 (12, 1, 1, '09616813', 'JUVENAL QUINTANA ALVAREZ', '991179293', '09616813', '09616813', '', '2026-01-06 17:04:44', 1),
 (13, 1, 1, '41478915', 'DORIS TORIBIO DOMINGUEZ', '924609727', '41478915', '41478915', '', '2026-01-06 17:08:52', 1),
-(14, 1, 1, '00000001', 'ELIZABETH FRANCISCA JIMENEZ IJUMA', '972255710', '00000001', '00000001', '', '2026-01-06 17:13:02', 1),
+(14, 1, 1, '07125138', 'ELIZABETH FRANCISCA JIMENEZ IJUMA', '972255710', '07125138', '07125138', '', '2026-01-06 17:13:02', 1),
 (15, 1, 1, '72979729', 'JACKELIN LISSET TRUJILLO HURTADO', '914012987', '72979729', '72979729', '', '2026-01-06 17:24:33', 1),
 (16, 1, 1, '47708402', 'LAURA ANGELICA SANCHO ALCANTARA', '978673981', '47708402', '47708402', '', '2026-01-07 14:28:24', 1),
 (17, 1, 1, '10508169', 'GENOVEVA TORIBIO DOMINGUEZ', '930502729', '10508169', '10508169', '', '2026-01-07 14:31:47', 1),
 (18, 1, 1, '43184714', 'YURITSA ANTONIA GONZALES ALMIDON', '955188598', '43184714', '43184714', '', '2026-01-07 14:39:06', 1),
 (19, 1, 1, '10161788', 'INES SAYO ANAYA', '996627688', '10161788', '10161788', '', '2026-01-07 15:10:34', 1),
-(20, 1, 1, '47216577', 'CARLA REYDELINDA RIOS VILLACORTA', '966948275', '47216577', '47216577', '', '2026-01-07 20:55:46', 1);
+(20, 1, 1, '47216577', 'CARLA REYDELINDA RIOS VILLACORTA', '966948275', '47216577', '47216577', '', '2026-01-07 20:55:46', 1),
+(21, 1, 1, '42817048', 'MARIA ELENA TITO QUISPE', '984034603', '42817048', '42817048', '', '2026-01-08 14:55:15', 1);
 
 -- --------------------------------------------------------
 
@@ -1741,7 +1745,7 @@ CREATE TABLE `usuario_docente` (
 
 INSERT INTO `usuario_docente` (`id`, `id_documento`, `numerodocumento`, `nombreyapellido`, `nacimiento`, `id_estado_civil`, `id_sexo`, `direccion`, `telefono`, `correo`, `id_cargo`, `id_tipo_contrato`, `fechainicio`, `fechafin`, `sueldo`, `cuentabancaria`, `cuentainterbancaria`, `sunat_ruc`, `sunat_usuario`, `sunat_contraseña`, `usuario`, `clave`, `observaciones`, `fechacreado`, `estado`) VALUES
 (1, 1, '10509059', 'CECILIA ROSARIO MANRIQUE LOPEZ', '1977-01-16', 2, 2, 'PROLONG. LAS GLADIOLAS MZ.X LT.12 EL ERMITAÑO', '976300448', '', 1, 1, '2026-01-01', '2027-02-28', '0.00', '', '', '', '', '', '10509059', '10509059', '', '2026-01-05 16:43:51', 1),
-(2, 1, '73937543', 'MARCO ANTONIO MANRIQUE VARILLAS', '1999-06-18', 1, 1, 'PROLONG. LAS GLADIOLAS MZ.X LT.12 EL ERMITAÑO', '', '', 3, 2, '2026-01-01', '2026-02-28', '0.00', '', '', '', '', '', '73937543', '73937543', '', '2026-01-05 22:06:21', 1);
+(2, 1, '73937543', 'MARCO ANTONIO MANRIQUE VARILLAS', '1999-06-18', 1, 1, 'PROLONG. LAS GLADIOLAS MZ.X LT.12 EL ERMITAÑO', '994947452', '', 3, 2, '2026-01-01', '2026-02-28', '0.00', '', '', '', '', '', '73937543', '73937543', '', '2026-01-05 22:06:21', 1);
 
 -- --------------------------------------------------------
 
@@ -2193,13 +2197,13 @@ ALTER TABLE `almacen_producto`
 -- AUTO_INCREMENT de la tabla `almacen_salida`
 --
 ALTER TABLE `almacen_salida`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `almacen_salida_detalle`
 --
 ALTER TABLE `almacen_salida_detalle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `biblioteca_libro`
@@ -2331,7 +2335,7 @@ ALTER TABLE `usuario_alumno`
 -- AUTO_INCREMENT de la tabla `usuario_apoderado`
 --
 ALTER TABLE `usuario_apoderado`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_apoderado_tipo`

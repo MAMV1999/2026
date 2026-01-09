@@ -281,12 +281,12 @@ if (!isset($_SESSION['nombre'])) {
                                 <table class="table table-bordered table-hover" id="mensualidadTable">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
-                                            <th>MES</th>
-                                            <th>MENSUALIDAD</th>
-                                            <th>MANTENIMIENTO</th>
-                                            <th>IMPRESION</th>
-                                            <th>TOTAL</th>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">MES</th>
+                                            <th scope="col" class="d-none">MENSUALIDAD</th>
+                                            <th scope="col" class="d-none">MANTENIMIENTO</th>
+                                            <th scope="col" class="d-none">IMPRESION</th>
+                                            <th scope="col">TOTAL</th>
                                         </tr>
                                     </thead>
                                     <tbody>

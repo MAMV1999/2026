@@ -23,15 +23,11 @@ if (!isset($_SESSION['nombre'])) {
                         <?php
                         date_default_timezone_set("America/Lima");
                         $hora = date("H");
-                        if ($hora >= 6 && $hora < 12) {
-                            $saludo = "BUENOS DÍAS";
-                        } elseif ($hora >= 12 && $hora < 18) {
-                            $saludo = "BUENAS TARDES";
-                        } else {
-                            $saludo = "BUENAS NOCHES";
-                        }
+                            if ($hora >= 6 && $hora < 12) { $saludo = "BUENOS DÍAS"; }
+                            elseif ($hora >= 12 && $hora < 18) { $saludo = "BUENAS TARDES"; }
+                            else { $saludo = "BUENAS NOCHES"; }
                         ?>
-                        <h1 class="display-6"><?php echo $saludo . ", " . $_SESSION['nombre']; ?></h1>
+                        <h1 class="display-6"><strong><?php echo $saludo . ", " . $_SESSION['nombre']; ?></strong></h1>
                         <h1 class="display-6"><?php echo $_SESSION['docente_cargo']; ?></h1>
                     </div>
                     <div class="card-footer text-body-secondary">
