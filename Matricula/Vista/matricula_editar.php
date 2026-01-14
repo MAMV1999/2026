@@ -30,7 +30,7 @@ if (!isset($_SESSION['nombre'])) {
                 </table>
             </div>
             <small class="d-block text-end mt-3">
-                <button type="button" onclick="MostrarFormulario();cargarMensualidades();" class="btn btn-success">NUEVA MATRICULA</button>
+                <br>
             </small>
         </div>
 
@@ -287,6 +287,7 @@ if (!isset($_SESSION['nombre'])) {
                                             <th scope="col" class="d-none">MANTENIMIENTO</th>
                                             <th scope="col" class="d-none">IMPRESION</th>
                                             <th scope="col">TOTAL</th>
+                                            <th scope="col">OBSERVACIONES</th>
                                         </tr>
                                     </thead>
                                     <tbody>

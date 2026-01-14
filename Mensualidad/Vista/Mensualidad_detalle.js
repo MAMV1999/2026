@@ -115,19 +115,15 @@ function mostrar(id) {
                 $("#id").val(data.general.id_matricula_detalle);
 
                 $("#lectivo").text(data.general.lectivo);
-                $("#nivel").text(data.general.nivel);
-                $("#grado").text(data.general.grado);
-                $("#seccion").text(data.general.seccion);
+                $("#matricula").text(data.general.nivel + " / " + data.general.grado + " / " + data.general.seccion);
 
                 // Llenar datos del apoderado
-                $("#apoderado_tipo_documento").text(data.general.apoderado.tipo_documento);
-                $("#apoderado_numerodocumento").text(data.general.apoderado.numerodocumento);
+                $("#apoderado_tipo_documento").text(data.general.apoderado.tipo_documento + " " + data.general.apoderado.numerodocumento);
                 $("#apoderado_nombreyapellido").text(data.general.apoderado.nombreyapellido);
                 $("#apoderado_telefono").text(data.general.apoderado.telefono);
 
                 // Llenar datos del alumno
-                $("#alumno_tipo_documento").text(data.general.alumno.tipo_documento);
-                $("#alumno_numerodocumento").text(data.general.alumno.numerodocumento);
+                $("#alumno_tipo_documento").text(data.general.alumno.tipo_documento + " " + data.general.alumno.numerodocumento);
                 $("#alumno_nombreyapellido").text(data.general.alumno.nombreyapellido);
 
                 // Llenar detalles relacionados

@@ -5,92 +5,176 @@ class MatriculaDetalle
 {
     public function __construct() {}
 
-    public function guardar($apoderado_dni, $apoderado_nombreyapellido, $apoderado_telefono, $apoderado_tipo, $apoderado_documento, $apoderado_observaciones, $alumno_dni, $alumno_nombreyapellido, $alumno_nacimiento,
-    $alumno_sexo, $alumno_documento, $alumno_telefono, $alumno_observaciones, $detalle, $matricula_id, $matricula_categoria, $referido_id, $matricula_observaciones, $pago_numeracion, $pago_fecha, $pago_descripcion, $pago_monto, $pago_metodo_id, $pago_observaciones,
-
-        $mensualidad_id, // Array con los mensualidad_id de las mensualidades
-        $total_precio, // Array con los total_precio de las mensualidades
-        $apoderado_id = null, // ID de apoderado (si ya existe)
-        $alumno_id = null // ID de alumno (si ya existe)
+    public function guardar(
+        $apoderado_dni,
+        $apoderado_nombreyapellido,
+        $apoderado_telefono,
+        $apoderado_tipo,
+        $apoderado_documento,
+        $apoderado_observaciones,
+        $alumno_dni,
+        $alumno_nombreyapellido,
+        $alumno_nacimiento,
+        $alumno_sexo,
+        $alumno_documento,
+        $alumno_telefono,
+        $alumno_observaciones,
+        $detalle,
+        $matricula_id,
+        $matricula_categoria,
+        $referido_id,
+        $matricula_observaciones,
+        $pago_numeracion,
+        $pago_fecha,
+        $pago_descripcion,
+        $pago_monto,
+        $pago_metodo_id,
+        $pago_observaciones,
+        $mensualidad_id,
+        $total_precio,
+        $apoderado_id = null,
+        $alumno_id = null
     ) {
-        // Validar si ya existe el ID del apoderado
-        if (!$apoderado_id) {
-            $sql_apoderado = "INSERT INTO usuario_apoderado (numerodocumento, nombreyapellido, telefono, id_apoderado_tipo, id_documento, usuario, clave, observaciones, estado) VALUES ('$apoderado_dni', '$apoderado_nombreyapellido', '$apoderado_telefono', '$apoderado_tipo', '$apoderado_documento', '$apoderado_dni', '$apoderado_dni', '$apoderado_observaciones', '1')";
-            $apoderado_id = ejecutarConsulta_retornarID($sql_apoderado);
+        // Limpieza básica (opcional, pero recomendado)
+        $apoderado_dni = limpiarcadena($apoderado_dni);
+        $alumno_dni = limpiarcadena($alumno_dni);
 
-            if (!$apoderado_id) {
-                return false; // Falló al guardar apoderado
+        // =========================
+        // 1) APODERADO: si no llega ID, validar por DNI
+        // =========================
+        if (empty($apoderado_id)) {
+            $sql_buscar_ap = "SELECT id, estado FROM usuario_apoderado WHERE numerodocumento = '$apoderado_dni' LIMIT 1";
+            $ap = ejecutarConsultaSimpleFila($sql_buscar_ap);
+
+            if (!empty($ap) && !empty($ap['id'])) {
+                $apoderado_id = (int)$ap['id'];
+
+                // Si existe pero está inactivo, lo reactivamos
+                if ((int)$ap['estado'] === 0) {
+                    $sql_reactivar_ap = "UPDATE usuario_apoderado SET estado = 1 WHERE id = '$apoderado_id'";
+                    ejecutarConsulta($sql_reactivar_ap);
+                }
+
+                // (Opcional recomendado) Actualizar datos del apoderado con lo que ingresó el usuario
+                // para mantener la info al día (sin tocar usuario/clave)
+                $apoderado_nombreyapellido = limpiarcadena($apoderado_nombreyapellido);
+                $apoderado_telefono = limpiarcadena($apoderado_telefono);
+                $apoderado_tipo = limpiarcadena($apoderado_tipo);
+                $apoderado_documento = limpiarcadena($apoderado_documento);
+                $apoderado_observaciones = limpiarcadena($apoderado_observaciones);
+
+                $sql_update_ap = "UPDATE usuario_apoderado SET nombreyapellido = '$apoderado_nombreyapellido', telefono = '$apoderado_telefono', id_apoderado_tipo = '$apoderado_tipo', id_documento = '$apoderado_documento', observaciones = '$apoderado_observaciones' WHERE id = '$apoderado_id'";
+                ejecutarConsulta($sql_update_ap);
+            } else {
+                // No existe: creamos apoderado nuevo
+                $apoderado_nombreyapellido = limpiarcadena($apoderado_nombreyapellido);
+                $apoderado_telefono = limpiarcadena($apoderado_telefono);
+                $apoderado_tipo = limpiarcadena($apoderado_tipo);
+                $apoderado_documento = limpiarcadena($apoderado_documento);
+                $apoderado_observaciones = limpiarcadena($apoderado_observaciones);
+
+                $sql_apoderado = "INSERT INTO usuario_apoderado (numerodocumento, nombreyapellido, telefono, id_apoderado_tipo, id_documento, usuario, clave, observaciones, estado) VALUES ('$apoderado_dni', '$apoderado_nombreyapellido', '$apoderado_telefono', '$apoderado_tipo', '$apoderado_documento', '$apoderado_dni', '$apoderado_dni', '$apoderado_observaciones', '1')";
+                $apoderado_id = ejecutarConsulta_retornarID($sql_apoderado);
+
+                if (!$apoderado_id) return false;
             }
         }
 
-        // Validar si ya existe el ID del alumno
-        if (!$alumno_id) {
-            $sql_alumno = "INSERT INTO usuario_alumno (id_apoderado, numerodocumento, nombreyapellido, nacimiento, id_documento, id_sexo, telefono, usuario, clave, observaciones, estado) VALUES ('$apoderado_id', '$alumno_dni', '$alumno_nombreyapellido', '$alumno_nacimiento', '$alumno_documento', '$alumno_sexo', '$alumno_telefono', '$alumno_dni', '$alumno_dni', '$alumno_observaciones', '1')";
-            $alumno_id = ejecutarConsulta_retornarID($sql_alumno);
+        // =========================
+        // 2) ALUMNO: si no llega ID, validar por DNI
+        // =========================
+        if (empty($alumno_id)) {
+            $sql_buscar_al = "SELECT id, id_apoderado, estado FROM usuario_alumno WHERE numerodocumento = '$alumno_dni' LIMIT 1";
+            $al = ejecutarConsultaSimpleFila($sql_buscar_al);
 
-            if (!$alumno_id) {
-                // Eliminar apoderado si falla la creación del alumno
-                $sql_eliminar_apoderado = "DELETE FROM usuario_apoderado WHERE id = '$apoderado_id'";
-                ejecutarConsulta($sql_eliminar_apoderado);
+            if (!empty($al) && !empty($al['id'])) {
+                $alumno_id = (int)$al['id'];
+
+                // Validación importante: si el alumno ya existe, debe pertenecer al mismo apoderado
+                if (!empty($al['id_apoderado']) && (int)$al['id_apoderado'] !== (int)$apoderado_id) {
+                    // Si quieres, aquí puedes retornar un mensaje más específico usando echo en el controlador,
+                    // pero como tu guardar() retorna boolean, devolvemos false.
+                    return false;
+                }
+
+                // Si existe pero está inactivo, lo reactivamos
+                if ((int)$al['estado'] === 0) {
+                    $sql_reactivar_al = "UPDATE usuario_alumno SET estado = 1 WHERE id = '$alumno_id'";
+                    ejecutarConsulta($sql_reactivar_al);
+                }
+
+                // (Opcional recomendado) actualizar datos del alumno (sin tocar usuario/clave)
+                $alumno_nombreyapellido = limpiarcadena($alumno_nombreyapellido);
+                $alumno_nacimiento = limpiarcadena($alumno_nacimiento);
+                $alumno_sexo = limpiarcadena($alumno_sexo);
+                $alumno_documento = limpiarcadena($alumno_documento);
+                $alumno_telefono = limpiarcadena($alumno_telefono);
+                $alumno_observaciones = limpiarcadena($alumno_observaciones);
+
+                $sql_update_al = "UPDATE usuario_alumno SET nombreyapellido = '$alumno_nombreyapellido', nacimiento = '$alumno_nacimiento', id_documento = '$alumno_documento', id_sexo = '$alumno_sexo', telefono = '$alumno_telefono', observaciones = '$alumno_observaciones', id_apoderado = '$apoderado_id' WHERE id = '$alumno_id'";
+                ejecutarConsulta($sql_update_al);
+            } else {
+                // No existe: creamos alumno nuevo
+                $alumno_nombreyapellido = limpiarcadena($alumno_nombreyapellido);
+                $alumno_nacimiento = limpiarcadena($alumno_nacimiento);
+                $alumno_sexo = limpiarcadena($alumno_sexo);
+                $alumno_documento = limpiarcadena($alumno_documento);
+                $alumno_telefono = limpiarcadena($alumno_telefono);
+                $alumno_observaciones = limpiarcadena($alumno_observaciones);
+
+                $sql_alumno = "INSERT INTO usuario_alumno (id_apoderado, id_documento, numerodocumento, nombreyapellido, nacimiento, telefono, id_sexo, usuario, clave, observaciones, estado) VALUES  ('$apoderado_id', '$alumno_documento', '$alumno_dni', '$alumno_nombreyapellido', '$alumno_nacimiento', '$alumno_telefono', '$alumno_sexo', '$alumno_dni', '$alumno_dni', '$alumno_observaciones', '1')";
+                $alumno_id = ejecutarConsulta_retornarID($sql_alumno);
+
+                if (!$alumno_id) return false;
+            }
+        }
+
+        // =========================
+        // 3) Registrar MATRÍCULA DETALLE
+        // =========================
+        $detalle = limpiarcadena($detalle);
+        $matricula_id = limpiarcadena($matricula_id);
+        $matricula_categoria = limpiarcadena($matricula_categoria);
+        $matricula_observaciones = limpiarcadena($matricula_observaciones);
+
+        $referido_sql = (!empty($referido_id) && $referido_id != "0") ? "'" . limpiarcadena($referido_id) . "'" : "NULL";
+
+        $sql_matricula_detalle = "INSERT INTO matricula_detalle (id_usuario_apoderado, id_usuario_alumno, descripcion, id_matricula, id_matricula_categoria, id_usuario_apoderado_referido, observaciones, estado) VALUES ('$apoderado_id', '$alumno_id', '$detalle', '$matricula_id', '$matricula_categoria', $referido_sql, '$matricula_observaciones', '1')";
+        $matricula_detalle_id = ejecutarConsulta_retornarID($sql_matricula_detalle);
+
+        if (!$matricula_detalle_id) return false;
+
+        // =========================
+        // 4) Registrar PAGO
+        // =========================
+        $pago_numeracion = limpiarcadena($pago_numeracion);
+        $pago_fecha = limpiarcadena($pago_fecha);
+        $pago_descripcion = limpiarcadena($pago_descripcion);
+        $pago_monto = limpiarcadena($pago_monto);
+        $pago_metodo_id = limpiarcadena($pago_metodo_id);
+        $pago_observaciones = limpiarcadena($pago_observaciones);
+
+        $sql_matricula_pago = "INSERT INTO matricula_pago (id_matricula_detalle, numeracion, fecha, descripcion, monto, id_matricula_metodo_pago, observaciones, estado) VALUES ('$matricula_detalle_id', '$pago_numeracion', '$pago_fecha', '$pago_descripcion', '$pago_monto', '$pago_metodo_id', '$pago_observaciones', '1')";
+        $pago_id = ejecutarConsulta_retornarID($sql_matricula_pago);
+
+        if (!$pago_id) return false;
+
+        // =========================
+        // 5) Registrar MENSUALIDADES
+        // =========================
+        foreach ($mensualidad_id as $index => $matricula_mes_id) {
+            $matricula_mes_id = limpiarcadena($matricula_mes_id);
+            $precio = limpiarcadena($total_precio[$index]);
+            $sql_mensualidad_detalle = "INSERT INTO mensualidad_detalle (matricula_mes_id, id_matricula_detalle, monto, pagado, observaciones, estado) VALUES ('$matricula_mes_id', '$matricula_detalle_id', '$precio', '0', '', '1')";
+
+            if (!ejecutarConsulta($sql_mensualidad_detalle)) {
                 return false;
             }
         }
 
-        $sql_matricula_detalle = "INSERT INTO matricula_detalle (id_usuario_apoderado, id_usuario_alumno, descripcion, id_matricula, id_matricula_categoria, id_usuario_apoderado_referido, observaciones, estado) VALUES ('$apoderado_id', '$alumno_id', '$detalle', '$matricula_id', '$matricula_categoria', " . ($referido_id ? "'$referido_id'" : "NULL") . ", '$matricula_observaciones', '1')";
-        $matricula_detalle_id = ejecutarConsulta_retornarID($sql_matricula_detalle);
-
-        if ($matricula_detalle_id) {
-            // Guardar matricula_pago
-            $sql_matricula_pago = "INSERT INTO matricula_pago (id_matricula_detalle, numeracion, fecha, descripcion, monto, id_matricula_metodo_pago, observaciones, estado) VALUES ('$matricula_detalle_id', '$pago_numeracion', '$pago_fecha', '$pago_descripcion', '$pago_monto', '$pago_metodo_id', '$pago_observaciones', '1')";
-            $pago_id = ejecutarConsulta_retornarID($sql_matricula_pago);
-
-            if ($pago_id) {
-                // Guardar varias filas en mensualidad_detalle
-                foreach ($mensualidad_id as $index => $matricula_mes_id) {
-                    $precio = $total_precio[$index];
-                    $sql_mensualidad_detalle = "INSERT INTO mensualidad_detalle (matricula_mes_id, id_matricula_detalle, monto, pagado, observaciones, estado) VALUES ('$matricula_mes_id', '$matricula_detalle_id', '$precio', '0', '', '1')";
-
-                    if (!ejecutarConsulta($sql_mensualidad_detalle)) {
-                        // Si falla, eliminar todos los registros creados
-                        $sql_eliminar_pago = "DELETE FROM matricula_pago WHERE id = '$pago_id'";
-                        ejecutarConsulta($sql_eliminar_pago);
-
-                        $sql_eliminar_matricula_detalle = "DELETE FROM matricula_detalle WHERE id = '$matricula_detalle_id'";
-                        ejecutarConsulta($sql_eliminar_matricula_detalle);
-
-                        $sql_eliminar_alumno = "DELETE FROM usuario_alumno WHERE id = '$alumno_id'";
-                        ejecutarConsulta($sql_eliminar_alumno);
-
-                        $sql_eliminar_apoderado = "DELETE FROM usuario_apoderado WHERE id = '$apoderado_id'";
-                        ejecutarConsulta($sql_eliminar_apoderado);
-
-                        return false;
-                    }
-                }
-
-                return true; // Todo se guardó correctamente
-            } else {
-                // Eliminar matricula_detalle si falla matricula_pago
-                $sql_eliminar_matricula_detalle = "DELETE FROM matricula_detalle WHERE id = '$matricula_detalle_id'";
-                ejecutarConsulta($sql_eliminar_matricula_detalle);
-
-                $sql_eliminar_alumno = "DELETE FROM usuario_alumno WHERE id = '$alumno_id'";
-                ejecutarConsulta($sql_eliminar_alumno);
-
-                $sql_eliminar_apoderado = "DELETE FROM usuario_apoderado WHERE id = '$apoderado_id'";
-                ejecutarConsulta($sql_eliminar_apoderado);
-            }
-        } else {
-            // Eliminar usuario_alumno si falla matricula_detalle
-            $sql_eliminar_alumno = "DELETE FROM usuario_alumno WHERE id = '$alumno_id'";
-            ejecutarConsulta($sql_eliminar_alumno);
-
-            $sql_eliminar_apoderado = "DELETE FROM usuario_apoderado WHERE id = '$apoderado_id'";
-            ejecutarConsulta($sql_eliminar_apoderado);
-        }
-
-        return false; // Falló en algún punto
+        return true;
     }
+
 
 
     public function buscarApoderadoPorDNI($dni)

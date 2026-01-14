@@ -38,9 +38,8 @@ if (!isset($_SESSION['nombre'])) {
         <div class="my-3 p-3 bg-body rounded shadow-sm" id="formulario">
             <h5 class="border-bottom pb-2 mb-0"><b>LIBROS - FORMULARIO</b></h5>
             <form id="frm_form" name="frm_form" method="post">
-                <div class="p-3">
-                    <button type="button" class="btn btn-info" onclick="agregarFila();">Agregar Fila</button>
-                </div>
+                
+                <div class="p-3"><button type="button" class="btn btn-info" onclick="agregarFila();">Agregar Fila</button></div>
 
                 <table class="table table-bordered" id="tabla_dinamica">
                     <thead>

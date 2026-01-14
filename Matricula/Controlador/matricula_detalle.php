@@ -220,20 +220,20 @@ switch ($_GET["op"]) {
                 "4" => $reg->categoria,
                 "5" => '
                         <div class="btn-group">
-                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#' . $reg->numeracion_pago . '">DATOS</button>
-                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span class="visually-hidden">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="../../Reportes/Vista/ReciboMatricula.php?id=' . $reg->matricula_detalle_id . '" Target="_blank">RECIBO ' . $reg->numeracion_pago . ' - ' . $reg->fecha_pago . '</a></li>
-                            <li><a class="dropdown-item" href="../../Reportes/Vista/ReciboMatricula_copy.php?id=' . $reg->matricula_detalle_id . '" Target="_blank">FIRMA CONTRATO</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="../../Reportes/Vista/Constancia_vacante.php?id=' . $reg->matricula_detalle_id . '" Target="_blank">CONST. DE VACANTE</a></li>
-                            <li><a class="dropdown-item" href="../../Reportes/Vista/Constancia_Matricula.php?id=' . $reg->matricula_detalle_id . '" Target="_blank">CONST. DE MATRICULA</a></li>
-                            <li><a class="dropdown-item" href="../../Reportes/Vista/Constancia_Estudios.php?id=' . $reg->matricula_detalle_id . '" Target="_blank">CONST. DE ESTUDIOS</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="../../Reportes/Vista/Documentacion_Completa.php?id=' . $reg->matricula_detalle_id . '" Target="_blank">DOCUMENTOS</a></li>
-                        </ul>
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#' . $reg->numeracion_pago . '">DATOS</button>
+                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="visually-hidden">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="../../Reportes/Vista/ReciboMatricula.php?id=' . $reg->matricula_detalle_id . '" Target="_blank">RECIBO ' . $reg->numeracion_pago . ' - ' . $reg->fecha_pago . '</a></li>
+                                <li><a class="dropdown-item" href="../../Reportes/Vista/ReciboMatricula_copy.php?id=' . $reg->matricula_detalle_id . '" Target="_blank">FIRMA CONTRATO</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="../../Reportes/Vista/Constancia_vacante.php?id=' . $reg->matricula_detalle_id . '" Target="_blank">CONST. DE VACANTE</a></li>
+                                <li><a class="dropdown-item" href="../../Reportes/Vista/Constancia_Matricula.php?id=' . $reg->matricula_detalle_id . '" Target="_blank">CONST. DE MATRICULA</a></li>
+                                <li><a class="dropdown-item" href="../../Reportes/Vista/Constancia_Estudios.php?id=' . $reg->matricula_detalle_id . '" Target="_blank">CONST. DE ESTUDIOS</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="../../Reportes/Vista/Documentacion_Completa.php?id=' . $reg->matricula_detalle_id . '" Target="_blank">DOCUMENTOS</a></li>
+                            </ul>
                         </div>
                         
                         <!-- Modal -->
@@ -246,102 +246,49 @@ switch ($_GET["op"]) {
                             </div>
                             <div class="modal-body">
                             <!-- body -->
-                                <nav>
-                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                        <button class="nav-link active" id="0001-tab" data-bs-toggle="tab" data-bs-target="#0001" type="button" role="tab" aria-controls="0001" aria-selected="true">INFORMACION</button>
-                                    </div>
-                                </nav>
-                                <div class="tab-content" id="nav-tabContent">
-                                    <div class="tab-pane fade show active" id="0001" role="tabpanel" aria-labelledby="0001-tab">
-                                        <div class="p-3">
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col" colspan="2" class="table-secondary">MATRICULA</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>INSTITUCION</td><td>' . $reg->institucion . '</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>MATRICULA</td><td>' . $reg->lectivo . ' - ' . $reg->nivel . ' - ' . $reg->grado . ' - ' . $reg->seccion . '</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>TIPO DE MATRICULA</td><td>' . $reg->categoria . '</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <hr>
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col" colspan="2" class="table-secondary">APODERADO(A)</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>DOCUMENTO</td><td>' . $reg->documento_apoderado . ' - ' . $reg->numero_documento_apoderado . '</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>NOMBRE</td><td>' . $reg->tipo_apoderado . ' - ' . $reg->nombre_apoderado . '</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>TELEFONO</td><td>' . $reg->telefono_apoderado . '</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <hr>
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col" colspan="2" class="table-secondary">ALUMNO(A)</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>DOCUMENTO</td><td>' . $reg->documento_alumno . ' - ' . $reg->numero_documento_alumno . '</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>NOMBRE</td><td>' . $reg->nombre_alumno . '</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>NACIMIENTO</td><td>' . $reg->fecha_nacimiento . ' - ' . $reg->edad_alumno . ' AÑOS</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <hr>
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col" colspan="2" class="table-secondary">PAGO</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>N° RECIBO</td><td>N° ' . $reg->numeracion_pago . '</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>FECHA</td><td>' . $reg->fecha_pago . '</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>MONTO</td><td>S/. ' . $reg->monto_pago . ' - ' . $reg->metodo_pago . '</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <hr>
-                                            <center>
-                                                <button type="button" onclick="eliminarConValidacion(' . $reg->matricula_detalle_id . ')" class="btn btn-danger  btn-sm">ELIMINAR</button>
-                                                <button type="button" onclick="desactivarConValidacion(' . $reg->matricula_detalle_id . ')" class="btn btn-warning  btn-sm">DESACTIVAR</button>
-                                            </center>
-                                        </div>
-                                    </div>
+                                <div class="p-3">
+                                    <table class="table table-bordered">
+                                        
+                                        <tr class="table-secondary"><td colspan="2">INSTITUCION</td></tr>
+                                        
+                                        <tr>    <td>INSTITUCION</td>            <td>' . $reg->institucion . '</td>                                                      </tr>
+                                        <tr>    <td>LECTIVO</td>                <td>' . $reg->lectivo . '</td>                                                          </tr>
+                                        <tr>    <td>MATRICULA</td>              <td>' . $reg->nivel . ' / ' . $reg->grado . ' / ' . $reg->seccion . '</td>              </tr>
+                                        <tr>    <td>TIPO DE MATRICULA</td>      <td>' . $reg->categoria . '</td>                                                        </tr>
+
+                                        <tr class="table-secondary"><td colspan="2">APODERADO(A)</td></tr>
+
+                                        <tr>    <td>PARENTESCO</td>             <td>' . $reg->tipo_apoderado . '</td>                                                   </tr>
+                                        <tr>    <td>DOCUMENTO</td>              <td>' . $reg->documento_apoderado . ' ' . $reg->numero_documento_apoderado . '</td>     </tr>
+                                        <tr>    <td>NOMBRE</td>                 <td>' . $reg->nombre_apoderado . '</td>                                                 </tr>
+                                        <tr>    <td>TELEFONO</td>               <td>' . $reg->telefono_apoderado . '</td>                                               </tr>
+
+                                        <tr class="table-secondary"><td colspan="2">ALUMNO(A)</td></tr>
+
+                                        <tr>    <td>DOCUMENTO</td>              <td>' . $reg->documento_alumno . ' ' . $reg->numero_documento_alumno . '</td>           </tr>
+                                        <tr>    <td>NOMBRE</td>                 <td>' . $reg->nombre_alumno . '</td>                                                    </tr>
+                                        <tr>    <td>NACIMIENTO</td>             <td>' . $reg->fecha_nacimiento . '</td>                                                 </tr>
+                                        <tr>    <td>EDAD</td>                   <td>' . $reg->edad_alumno . ' AÑOS</td>                                                 </tr>
+
+                                        <tr class="table-secondary"><td colspan="2">MATRICULA</td></tr>
+
+                                        <tr>    <td>FECHA</td>                  <td>' . $reg->fecha_pago . '</td>                                                       </tr>
+                                        <tr>    <td>NUMERACION</td>             <td>' . $reg->numeracion_pago . '</td>                                                  </tr>
+                                        <tr>    <td>MONTO</td>                  <td>' . $reg->monto_pago . '</td>                                                       </tr>
+                                        <tr>    <td>METODO DE PAGO</td>         <td>' . $reg->metodo_pago . '</td>                                                      </tr>
+
+                                    </table>
+                                    <br>
+                                    <center>
+                                        <button type="button" onclick="eliminarConValidacion(' . $reg->matricula_detalle_id . ')" class="btn btn-danger  btn-sm">ELIMINAR</button>
+                                        <button type="button" onclick="desactivarConValidacion(' . $reg->matricula_detalle_id . ')" class="btn btn-warning  btn-sm">DESACTIVAR</button>
+                                    </center>
                                 </div>
                             <!-- fin-body -->
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">SALIR</button>
-                            </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">SALIR</button>
+                                </div>
                             </div>
                         </div>
                         </div>'

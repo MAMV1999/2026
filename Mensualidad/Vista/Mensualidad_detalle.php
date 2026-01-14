@@ -39,65 +39,22 @@ if (!isset($_SESSION['nombre'])) {
                 <div class="p-3">
                     <label for="detallesRelacionados" class="form-label"><b>DETALLES GENERALES</b></label>
                     <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th colspan="4" class="" scope="col">MATRICULA</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>LECTIVO</td>
-                                <td>NIVEL</td>
-                                <td>GRADO</td>
-                                <td>SECCION</td>
-                            </tr>
-                            <tr>
-                                <td><span id="lectivo"></span></td>
-                                <td><span id="nivel"></span></td>
-                                <td><span id="grado"></span></td>
-                                <td><span id="seccion"></span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th colspan="4" class="" scope="col">APODERADO</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>DOCUMENTO</td>
-                                <td>NUMERO DOCUMENTO</td>
-                                <td>NOMBRE Y APELLIDO</td>
-                                <td>TELÉFONO</td>
-                            </tr>
-                            <tr>
-                                <td><span id="apoderado_tipo_documento"></span></td>
-                                <td><span id="apoderado_numerodocumento"></span></td>
-                                <td><span id="apoderado_nombreyapellido"></span></td>
-                                <td><span id="apoderado_telefono"></span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th colspan="3" class="" scope="col">ALUMNO</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>DOCUMENTO</td>
-                                <td>NUMERO DOCUMENTO</td>
-                                <td>NOMBRE Y APELLIDO</td>
-                            </tr>
-                            <tr>
-                                <td><span id="alumno_tipo_documento"></span></td>
-                                <td><span id="alumno_numerodocumento"></span></td>
-                                <td><span id="alumno_nombreyapellido"></span></td>
-                            </tr>
-                        </tbody>
+
+                        <tr class="fw-bold table-secondary"><td colspan="2">INSTITUCION</td></tr>
+
+                        <tr>        <td>LECTIVO</td>                <td><span id="lectivo"></td>                        </tr>
+                        <tr>        <td>MATRICULA</td>                <td><span id="matricula"></td>                    </tr>
+
+                        <tr class="fw-bold table-secondary"><td colspan="2">APODERADO</td></tr>
+
+                        <tr>        <td>DOCUMENTO</td>              <td><span id="apoderado_tipo_documento"></td>       </tr>
+                        <tr>        <td>NOMBRE</td>                 <td><span id="apoderado_nombreyapellido"></td>      </tr>
+                        <tr>        <td>TELÉFONO</td>               <td><span id="apoderado_telefono"></td>             </tr>
+
+                        <tr class="fw-bold table-secondary"><td colspan="2">ALUMNO</td></tr>
+
+                        <tr>        <td>DOCUMENTO</td>              <td><span id="alumno_tipo_documento"></td>          </tr>
+                        <tr>        <td>NOMBRE</td>                 <td><span id="alumno_nombreyapellido"></td>         </tr>
                     </table>
                 </div>
 

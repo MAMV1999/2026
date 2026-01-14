@@ -47,66 +47,22 @@ switch ($_GET["op"]) {
             // EDITAR
             $rspta = $matriculaDetalle->editar(
                 $matricula_detalle_id,
-                $apoderado_id,
-                $apoderado_dni,
-                $apoderado_nombreyapellido,
-                $apoderado_telefono,
-                $apoderado_tipo,
-                $apoderado_documento,
-                $apoderado_observaciones,
-                $alumno_id,
-                $alumno_dni,
-                $alumno_nombreyapellido,
-                $alumno_nacimiento,
-                $alumno_sexo,
-                $alumno_documento,
-                $alumno_telefono,
-                $alumno_observaciones,
-                $detalle,
-                $matricula_id,
-                $matricula_categoria,
-                $referido_id,
-                $matricula_observaciones,
-                $pago_numeracion,
-                $pago_fecha,
-                $pago_descripcion,
-                $pago_monto,
-                $pago_metodo_id,
-                $pago_observaciones,
-                $_POST["mensualidad_id"],
-                $_POST["total_precio"]
+                $apoderado_id, $apoderado_dni, $apoderado_nombreyapellido, $apoderado_telefono, $apoderado_tipo, $apoderado_documento, $apoderado_observaciones,
+                $alumno_id, $alumno_dni, $alumno_nombreyapellido, $alumno_nacimiento, $alumno_sexo, $alumno_documento, $alumno_telefono, $alumno_observaciones,
+                $detalle, $matricula_id, $matricula_categoria, $referido_id, $matricula_observaciones,
+                $pago_numeracion, $pago_fecha, $pago_descripcion, $pago_monto, $pago_metodo_id, $pago_observaciones,
+                $_POST["mensualidad_id"], $_POST["total_precio"], $_POST["observaciones_guardado"]
             );
 
             echo $rspta ? "Matrícula editada correctamente" : "No se pudo editar la matrícula";
         } else {
             // GUARDAR
             $rspta = $matriculaDetalle->guardar(
-                $apoderado_dni,
-                $apoderado_nombreyapellido,
-                $apoderado_telefono,
-                $apoderado_tipo,
-                $apoderado_documento,
-                $apoderado_observaciones,
-                $alumno_dni,
-                $alumno_nombreyapellido,
-                $alumno_nacimiento,
-                $alumno_sexo,
-                $alumno_documento,
-                $alumno_telefono,
-                $alumno_observaciones,
-                $detalle,
-                $matricula_id,
-                $matricula_categoria,
-                $referido_id,
-                $matricula_observaciones,
-                $pago_numeracion,
-                $pago_fecha,
-                $pago_descripcion,
-                $pago_monto,
-                $pago_metodo_id,
-                $pago_observaciones,
-                $_POST["mensualidad_id"],
-                $_POST["total_precio"],
+                $apoderado_dni, $apoderado_nombreyapellido, $apoderado_telefono, $apoderado_tipo, $apoderado_documento, $apoderado_observaciones,
+                $alumno_dni, $alumno_nombreyapellido, $alumno_nacimiento, $alumno_sexo, $alumno_documento, $alumno_telefono, $alumno_observaciones,
+                $detalle, $matricula_id, $matricula_categoria, $referido_id, $matricula_observaciones,
+                $pago_numeracion, $pago_fecha, $pago_descripcion, $pago_monto, $pago_metodo_id, $pago_observaciones,
+                $_POST["mensualidad_id"], $_POST["total_precio"],
                 $apoderado_id,
                 $alumno_id
             );
@@ -148,14 +104,19 @@ switch ($_GET["op"]) {
 
             $monto_guardado = isset($map[$reg->id]) ? $map[$reg->id] : "0.00";
 
+            $mensualidad_datos = explode('/', $monto_guardado);
+            $mensualidad_datos_monto = $mensualidad_datos[0];
+            $mensualidad_datos_observaciones = isset($mensualidad_datos[1]) ? $mensualidad_datos[1] : '';
+
             $rows .= "
             <tr>
                 <th style='width: 10%;'><input type='hidden' name='mensualidad_id[]' value='{$reg->id}'>{$cont}</th>
-                <td style='width: 45%;'><input type='text' class='form-control-plaintext' value='{$reg->nombre} {$reg->institucion_lectivo_nombre}' readonly></td>
+                <td style='width: 20%;'><input type='text' class='form-control-plaintext' value='{$reg->nombre} {$reg->institucion_lectivo_nombre}' readonly></td>
                 <td style='width: 15%;' class='d-none'><input type='text' class='form-control-plaintext' value='{$reg->MENSUALIDAD}' readonly></td>
                 <td style='width: 15%;' class='d-none'><input type='text' class='form-control-plaintext' value='{$reg->MANTENIMIENTO}' readonly></td>
                 <td style='width: 15%;' class='d-none'><input type='text' class='form-control-plaintext' value='{$reg->IMPRESION}' readonly></td>
-                <td style='width: 45%;'><input type='text' required class='form-control-plaintext' name='total_precio[]' value='{$monto_guardado}'></td>
+                <td style='width: 20%;'><input type='text' required class='form-control-plaintext' name='total_precio[]' value='{$mensualidad_datos_monto}'></td>
+                <td style='width: 50%;'><input type='text' class='form-control-plaintext' name='observaciones_guardado[]' value='{$mensualidad_datos_observaciones}'></td>
             </tr>";
             $cont++;
         }

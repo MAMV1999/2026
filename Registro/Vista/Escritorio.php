@@ -13,12 +13,12 @@ if (!isset($_SESSION['nombre'])) {
 
         <!-- CUERPO_INICIO -->
         <div class="my-3 p-3 bg-body rounded shadow-sm" id="listado">
-            <h5 class="border-bottom pb-2 mb-0"><b>BIBLIOTECA</b></h5>
+            <h5 class="border-bottom pb-2 mb-0"><b>REGISTRO</b></h5>
             <div class="d-flex text-body-secondary pt-3">
                 <br>
                 <?php
                 $array = array(
-                    "1" => array("nombre" => "REGISTRO LIBROS", "link" => "biblioteca_libro.php"),
+                    "1" => array("nombre" => "REGISTRO UTILES ESCOLARES", "link" => "registro_utiles_detalle.php"),
                 );
                 ?>
                 <table class="table">
@@ -34,10 +34,10 @@ if (!isset($_SESSION['nombre'])) {
                         $a = 1;
                         while ($a <= count($array)) {
                             echo '<tr>
-                                <th scope="row">' . $a . '</th>
-                                <td>' . $array[$a]["nombre"] . '</td>
-                                <td><a class="btn btn-primary" href="' . $array[$a]["link"] . '" role="button">Ir a ' . $array[$a]["nombre"] . '</a></td>
-                            </tr>';
+                                    <th scope="row">' . $a . '</th>
+                                    <td>' . $array[$a]["nombre"] . '</td>
+                                    <td><a class="btn btn-primary" href="' . $array[$a]["link"] . '" role="button">Ir a ' . $array[$a]["nombre"] . '</a></td>
+                                </tr>';
                             $a++;
                         }
                         ?>
@@ -49,19 +49,19 @@ if (!isset($_SESSION['nombre'])) {
         <hr>
 
         <p class="d-inline-flex gap-1">
-            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">AJUSTES BIBLIOTECA</a>
+            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">AJUSTES</a>
         </p>
         <div class="collapse" id="collapseExample">
             <div class="card card-body">
 
                 <!-- CUERPO_INICIO -->
                 <div class="my-3 p-3 bg-body rounded shadow-sm" id="listado">
-                    <h5 class="border-bottom pb-2 mb-0"><b>AJUSTES DE BIBLIOTECA</b></h5>
+                    <h5 class="border-bottom pb-2 mb-0"><b>AJUSTES</b></h5>
                     <div class="d-flex text-body-secondary pt-3">
                         <br>
                         <?php
                         $array = array(
-                            "1" => array("nombre" => "REGISTRO LIBROS", "link" => "biblioteca_libro.php"),
+                            "1" => array("nombre" => "REGISTRO UTILES ESCOLARES", "link" => "registro_utiles.php"),
                         );
                         ?>
                         <table class="table">
@@ -77,10 +77,10 @@ if (!isset($_SESSION['nombre'])) {
                                 $a = 1;
                                 while ($a <= count($array)) {
                                     echo '<tr>
-                                <th scope="row">' . $a . '</th>
-                                <td>' . $array[$a]["nombre"] . '</td>
-                                <td><a class="btn btn-primary" href="' . $array[$a]["link"] . '" role="button">Ir a ' . $array[$a]["nombre"] . '</a></td>
-                            </tr>';
+                                            <th scope="row">' . $a . '</th>
+                                            <td>' . $array[$a]["nombre"] . '</td>
+                                            <td><a class="btn btn-primary" href="' . $array[$a]["link"] . '" role="button">Ir a ' . $array[$a]["nombre"] . '</a></td>
+                                        </tr>';
                                     $a++;
                                 }
                                 ?>

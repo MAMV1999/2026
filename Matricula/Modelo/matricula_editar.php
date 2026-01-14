@@ -118,43 +118,43 @@ class MatriculaDetalle
     public function mostrar($id_matricula_detalle)
     {
         $sql = "SELECT
-                md.id AS matricula_detalle_id,
-                md.descripcion AS detalle,
-                md.id_matricula AS matricula_id,
-                md.id_matricula_categoria AS matricula_categoria_id,
-                IFNULL(md.id_usuario_apoderado_referido, 0) AS referido_id,
-                md.observaciones AS matricula_observaciones,
+                    md.id AS matricula_detalle_id,
+                    md.descripcion AS detalle,
+                    md.id_matricula AS matricula_id,
+                    md.id_matricula_categoria AS matricula_categoria_id,
+                    IFNULL(md.id_usuario_apoderado_referido, 0) AS referido_id,
+                    md.observaciones AS matricula_observaciones,
 
-                ua.id AS apoderado_id,
-                ua.numerodocumento AS apoderado_dni,
-                ua.nombreyapellido AS apoderado_nombre,
-                ua.telefono AS apoderado_telefono,
-                ua.id_apoderado_tipo AS apoderado_tipo,
-                ua.id_documento AS apoderado_documento,
-                ua.observaciones AS apoderado_observaciones,
+                    ua.id AS apoderado_id,
+                    ua.numerodocumento AS apoderado_dni,
+                    ua.nombreyapellido AS apoderado_nombre,
+                    ua.telefono AS apoderado_telefono,
+                    ua.id_apoderado_tipo AS apoderado_tipo,
+                    ua.id_documento AS apoderado_documento,
+                    ua.observaciones AS apoderado_observaciones,
 
-                ual.id AS alumno_id,
-                ual.numerodocumento AS alumno_dni,
-                ual.nombreyapellido AS alumno_nombre,
-                ual.nacimiento AS alumno_nacimiento,
-                ual.id_sexo AS alumno_sexo,
-                ual.id_documento AS alumno_documento,
-                ual.telefono AS alumno_telefono,
-                ual.observaciones AS alumno_observaciones,
+                    ual.id AS alumno_id,
+                    ual.numerodocumento AS alumno_dni,
+                    ual.nombreyapellido AS alumno_nombre,
+                    ual.nacimiento AS alumno_nacimiento,
+                    ual.id_sexo AS alumno_sexo,
+                    ual.id_documento AS alumno_documento,
+                    ual.telefono AS alumno_telefono,
+                    ual.observaciones AS alumno_observaciones,
 
-                mp.numeracion AS pago_numeracion,
-                mp.fecha AS pago_fecha,
-                mp.descripcion AS pago_descripcion,
-                mp.monto AS pago_monto,
-                mp.id_matricula_metodo_pago AS pago_metodo_id,
-                mp.observaciones AS pago_observaciones
+                    mp.numeracion AS pago_numeracion,
+                    mp.fecha AS pago_fecha,
+                    mp.descripcion AS pago_descripcion,
+                    mp.monto AS pago_monto,
+                    mp.id_matricula_metodo_pago AS pago_metodo_id,
+                    mp.observaciones AS pago_observaciones
 
-            FROM matricula_detalle md
-            INNER JOIN usuario_apoderado ua ON md.id_usuario_apoderado = ua.id
-            INNER JOIN usuario_alumno ual ON md.id_usuario_alumno = ual.id
-            LEFT JOIN matricula_pago mp ON md.id = mp.id_matricula_detalle AND mp.estado = 1
-            WHERE md.id = '$id_matricula_detalle'
-            LIMIT 1";
+                FROM matricula_detalle md
+                INNER JOIN usuario_apoderado ua ON md.id_usuario_apoderado = ua.id
+                INNER JOIN usuario_alumno ual ON md.id_usuario_alumno = ual.id
+                LEFT JOIN matricula_pago mp ON md.id = mp.id_matricula_detalle AND mp.estado = 1
+                WHERE md.id = '$id_matricula_detalle'
+                LIMIT 1";
         return ejecutarConsultaSimpleFila($sql);
     }
 
@@ -187,41 +187,21 @@ class MatriculaDetalle
         $pago_metodo_id,
         $pago_observaciones,
         $mensualidad_id,
-        $total_precio
+        $total_precio,
+        $observaciones_guardado
     ) {
         try {
 
             // 1) APODERADO
-            $sql_ap = "UPDATE usuario_apoderado SET
-                        numerodocumento = '$apoderado_dni',
-                        nombreyapellido = '$apoderado_nombreyapellido',
-                        telefono = '$apoderado_telefono',
-                        id_apoderado_tipo = '$apoderado_tipo',
-                        id_documento = '$apoderado_documento',
-                        observaciones = '$apoderado_observaciones'
-                    WHERE id = '$apoderado_id'";
+            $sql_ap = "UPDATE usuario_apoderado SET numerodocumento = '$apoderado_dni', nombreyapellido = '$apoderado_nombreyapellido', telefono = '$apoderado_telefono', id_apoderado_tipo = '$apoderado_tipo', id_documento = '$apoderado_documento', observaciones = '$apoderado_observaciones' WHERE id = '$apoderado_id'";
             if (!ejecutarConsulta($sql_ap)) return false;
 
             // 2) ALUMNO
-            $sql_al = "UPDATE usuario_alumno SET
-                        numerodocumento = '$alumno_dni',
-                        nombreyapellido = '$alumno_nombreyapellido',
-                        nacimiento = '$alumno_nacimiento',
-                        id_sexo = '$alumno_sexo',
-                        id_documento = '$alumno_documento',
-                        telefono = '$alumno_telefono',
-                        observaciones = '$alumno_observaciones'
-                    WHERE id = '$alumno_id'";
+            $sql_al = "UPDATE usuario_alumno SET numerodocumento = '$alumno_dni', nombreyapellido = '$alumno_nombreyapellido', nacimiento = '$alumno_nacimiento', id_sexo = '$alumno_sexo', id_documento = '$alumno_documento', telefono = '$alumno_telefono', observaciones = '$alumno_observaciones' WHERE id = '$alumno_id'";
             if (!ejecutarConsulta($sql_al)) return false;
 
             // 3) MATRICULA_DETALLE
-            $sql_md = "UPDATE matricula_detalle SET
-                        descripcion = '$detalle',
-                        id_matricula = '$matricula_id',
-                        id_matricula_categoria = '$matricula_categoria',
-                        id_usuario_apoderado_referido = " . ($referido_id && $referido_id != "0" ? "'$referido_id'" : "NULL") . ",
-                        observaciones = '$matricula_observaciones'
-                    WHERE id = '$matricula_detalle_id'";
+            $sql_md = "UPDATE matricula_detalle SET descripcion = '$detalle', id_matricula = '$matricula_id', id_matricula_categoria = '$matricula_categoria', id_usuario_apoderado_referido = " . ($referido_id && $referido_id != "0" ? "'$referido_id'" : "NULL") . ", observaciones = '$matricula_observaciones' WHERE id = '$matricula_detalle_id'";
             if (!ejecutarConsulta($sql_md)) return false;
 
             // 4) MATRICULA_PAGO (si existe, actualiza; si no existe, inserta)
@@ -230,43 +210,50 @@ class MatriculaDetalle
 
             if ($pago && !empty($pago["id"])) {
                 $pago_id = $pago["id"];
-                $sql_pago = "UPDATE matricula_pago SET
-                            numeracion = '$pago_numeracion',
-                            fecha = '$pago_fecha',
-                            descripcion = '$pago_descripcion',
-                            monto = '$pago_monto',
-                            id_matricula_metodo_pago = '$pago_metodo_id',
-                            observaciones = '$pago_observaciones'
-                        WHERE id = '$pago_id'";
+                $sql_pago = "UPDATE matricula_pago SET numeracion = '$pago_numeracion', fecha = '$pago_fecha', descripcion = '$pago_descripcion', monto = '$pago_monto', id_matricula_metodo_pago = '$pago_metodo_id', observaciones = '$pago_observaciones' WHERE id = '$pago_id'";
                 if (!ejecutarConsulta($sql_pago)) return false;
             } else {
-                $sql_pago = "INSERT INTO matricula_pago
-                            (id_matricula_detalle, numeracion, fecha, descripcion, monto, id_matricula_metodo_pago, observaciones, estado)
-                        VALUES
-                            ('$matricula_detalle_id', '$pago_numeracion', '$pago_fecha', '$pago_descripcion', '$pago_monto', '$pago_metodo_id', '$pago_observaciones', 1)";
+                $sql_pago = "INSERT INTO matricula_pago (id_matricula_detalle, numeracion, fecha, descripcion, monto, id_matricula_metodo_pago, observaciones, estado) VALUES ('$matricula_detalle_id', '$pago_numeracion', '$pago_fecha', '$pago_descripcion', '$pago_monto', '$pago_metodo_id', '$pago_observaciones', 1)";
                 if (!ejecutarConsulta($sql_pago)) return false;
             }
 
-            // 5) MENSUALIDAD_DETALLE
-            // Recomendación para tu caso: eliminar y reinsertar (solo si NO manejas pagos parciales por mensualidad)
-            $sql_del = "DELETE FROM mensualidad_detalle WHERE id_matricula_detalle = '$matricula_detalle_id'";
-            if (!ejecutarConsulta($sql_del)) return false;
+            // 5) MENSUALIDAD_DETALLE (editar existentes / insertar nuevos / desactivar faltantes)
 
-            foreach ($mensualidad_id as $index => $matricula_mes_id) {
-                $precio = $total_precio[$index];
+            // 5.1) Traer los existentes para esta matrícula_detalle
+            $sql_exist = "SELECT id, matricula_mes_id FROM mensualidad_detalle WHERE id_matricula_detalle = '$matricula_detalle_id'";
+            $rs_exist = ejecutarConsulta($sql_exist);
+            if (!$rs_exist) return false;
 
-                $sql_ins = "INSERT INTO mensualidad_detalle
-                            (matricula_mes_id, id_matricula_detalle, monto, pagado, recibo, observaciones, estado)
-                        VALUES
-                            ('$matricula_mes_id', '$matricula_detalle_id', '$precio', 0, 0, '', 1)";
-
-                if (!ejecutarConsulta($sql_ins)) return false;
+            $existentes = []; // [matricula_mes_id => id]
+            while ($row = $rs_exist->fetch_assoc()) {
+                $existentes[$row['matricula_mes_id']] = $row['id'];
             }
 
+            // 5.2) Recorrer lo que llega del formulario: UPDATE si existe, INSERT si no existe
+            $ids_form = []; // para saber qué meses quedaron activos en el form
+
+            foreach ($mensualidad_id as $index => $matricula_mes_id) {
+
+                $matricula_mes_id = limpiarcadena($matricula_mes_id);
+                $precio = limpiarcadena($total_precio[$index]);
+                $observaciones = limpiarcadena($observaciones_guardado[$index]);
+
+                $ids_form[] = $matricula_mes_id;
+
+                if (isset($existentes[$matricula_mes_id])) {
+                    // Existe: UPDATE
+                    $md_id = $existentes[$matricula_mes_id];
+                    $sql_up = "UPDATE mensualidad_detalle SET monto = '$precio', observaciones = '$observaciones', estado = 1 WHERE id = '$md_id'";
+                    if (!ejecutarConsulta($sql_up)) return false;
+                } else {
+                    // No existe: INSERT
+                    $sql_ins = "INSERT INTO mensualidad_detalle (matricula_mes_id, id_matricula_detalle, monto, observaciones, estado) VALUES ('$matricula_mes_id', '$matricula_detalle_id', '$precio', '$observaciones', 1)";
+                    if (!ejecutarConsulta($sql_ins)) return false;
+                }
+            }
+            
             return true;
-        } catch (Exception $e) {
-            return false;
-        }
+        } catch (Exception $e) { return false; }
     }
 
 
@@ -278,20 +265,10 @@ class MatriculaDetalle
         $matricula_id = $row ? $row["id_matricula"] : 0;
 
         // Traer meses/cobros (SP) + monto guardado de mensualidad_detalle
-        $sql = "SELECT 
-                p.id AS matricula_mes_id,
-                CONCAT(p.nombre, ' ', p.institucion_lectivo_nombre) AS nombre_mes,
-                p.MENSUALIDAD AS mensualidad,
-                p.MANTENIMIENTO AS mantenimiento,
-                p.IMPRESION AS impresion,
-                IFNULL(md.monto, 0) AS monto_guardado
-            FROM (
-                CALL sp_pivot_matricula_mes_cobros($matricula_id)
-            ) p
-            LEFT JOIN mensualidad_detalle md 
-                ON md.matricula_mes_id = p.id
-                AND md.id_matricula_detalle = '$id_matricula_detalle'
-                AND md.estado = 1";
+        $sql = "SELECT  p.id AS matricula_mes_id, CONCAT(p.nombre, ' ', p.institucion_lectivo_nombre) AS nombre_mes, p.MENSUALIDAD AS mensualidad, p.MANTENIMIENTO AS mantenimiento, p.IMPRESION AS impresion, IFNULL(md.monto, 0) AS monto_guardado
+        FROM ( CALL sp_pivot_matricula_mes_cobros($matricula_id) ) p
+        LEFT JOIN mensualidad_detalle md  ON md.matricula_mes_id = p.id
+        AND md.id_matricula_detalle = '$id_matricula_detalle' AND md.estado = 1";
 
         // OJO: MySQL no permite subquery directo de CALL así.
         // Por eso: forma simple: vuelves a llamar al SP y en el while haces match por PHP.
@@ -306,9 +283,7 @@ class MatriculaDetalle
         $rspta = $this->listarMensualidadesActivas($matricula_id);
 
         // 2) Montos guardados
-        $sql = "SELECT matricula_mes_id, monto
-            FROM mensualidad_detalle
-            WHERE id_matricula_detalle = '$id_matricula_detalle' AND estado = 1";
+        $sql = "SELECT matricula_mes_id, monto, observaciones FROM mensualidad_detalle WHERE id_matricula_detalle = '$id_matricula_detalle' AND estado = 1";
         $montos_rs = ejecutarConsulta($sql);
 
         $map = [];
@@ -329,10 +304,7 @@ class MatriculaDetalle
 
     public function getMontosMensualidadDetalleMap($id_matricula_detalle)
     {
-        $sql = "SELECT matricula_mes_id, monto
-            FROM mensualidad_detalle
-            WHERE id_matricula_detalle = '$id_matricula_detalle' AND estado = 1";
-
+        $sql = "SELECT matricula_mes_id, monto, observaciones FROM mensualidad_detalle WHERE id_matricula_detalle = '$id_matricula_detalle' AND estado = 1";
         $rs = ejecutarConsulta($sql);
 
         // Si la consulta falla, evitar fatal y devolver vacío
@@ -342,12 +314,10 @@ class MatriculaDetalle
 
         $map = [];
         while ($m = $rs->fetch_object()) {
-            $map[$m->matricula_mes_id] = $m->monto;
+            $map[$m->matricula_mes_id] = $m->monto . '/' . $m->observaciones;
         }
         return $map;
     }
-
-
 
     public function buscarApoderadoPorDNI($dni)
     {
