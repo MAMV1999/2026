@@ -55,6 +55,7 @@ class Recibomatricula
                 mp.numeracion AS pago_numeracion,
                 DATE_FORMAT(mp.fecha, '%d/%m/%Y') AS pago_fecha,
                 mp.descripcion AS pago_descripcion,
+                mp.observaciones AS pago_observaciones,
                 mp.monto AS pago_monto,
                 mmp.nombre AS metodo_pago_nombre,
 

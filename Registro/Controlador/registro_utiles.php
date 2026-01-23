@@ -16,7 +16,9 @@ switch ($_GET["op"]) {
             $data[] = array(
                 "0" => count($data) + 1,
                 "1" => $matricula_txt,
-                "2" => '<button class="btn btn-warning btn-sm" onclick="mostrar(' . $reg->id . ')">EDITAR</button>'
+                "2" =>
+                    '<button class="btn btn-warning btn-sm me-1" onclick="mostrar(' . $reg->id . ')">EDITAR</button>' .
+                    '<button class="btn btn-primary btn-sm" onclick="abrirModalBloque(' . $reg->id . ')">BLOQUE</button>'
             );
         }
 
@@ -65,6 +67,5 @@ switch ($_GET["op"]) {
         $rspta = $utiles->guardarEditarMasivo($id_matricula, $detalles);
         echo $rspta ? "Útiles guardados/actualizados correctamente" : "Error al guardar/actualizar útiles";
         break;
-        
 }
 ?>

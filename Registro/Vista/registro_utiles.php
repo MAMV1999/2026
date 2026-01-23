@@ -40,7 +40,14 @@ if (!isset($_SESSION['nombre'])) {
             <form id="frm_form" name="frm_form" method="post">
                 <input type="hidden" name="id_matricula" id="id_matricula">
 
-                <div class="p-3"><button type="button" class="btn btn-info" onclick="agregarFila();">Agregar Fila</button></div>
+                <div class="p-3 d-flex gap-2">
+                    <button type="button" class="btn btn-info" onclick="agregarFila();">Agregar Fila</button>
+
+                    <!-- Botón para abrir modal (opcional dentro del formulario también) -->
+                    <button type="button" class="btn btn-primary" onclick="abrirModalBloque($('#id_matricula').val());">
+                        Agregar en Bloque
+                    </button>
+                </div>
 
                 <table class="table table-bordered" id="tabla_dinamica">
                     <thead>
@@ -54,7 +61,12 @@ if (!isset($_SESSION['nombre'])) {
                     <tbody></tbody>
                 </table>
 
-                <div class="p-3"><button type="button" class="btn btn-info" onclick="agregarFila();">Agregar Fila</button></div>
+                <div class="p-3 d-flex gap-2">
+                    <button type="button" class="btn btn-info" onclick="agregarFila();">Agregar Fila</button>
+                    <button type="button" class="btn btn-primary" onclick="abrirModalBloque($('#id_matricula').val());">
+                        Agregar en Bloque
+                    </button>
+                </div>
 
                 <div class="p-3">
                     <button type="submit" class="btn btn-primary">Guardar</button>
@@ -62,6 +74,49 @@ if (!isset($_SESSION['nombre'])) {
                 </div>
             </form>
         </div>
+
+        <!-- MODAL: AGREGAR EN BLOQUE -->
+        <div class="modal fade" id="modalBloque" tabindex="-1" aria-labelledby="modalBloqueLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalBloqueLabel">Agregar útiles en bloque</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="alert alert-info py-2" id="bloque_info">
+                            Pega tu lista: cada línea será un útil distinto.
+                        </div>
+
+                        <label class="form-label"><b>Lista (una línea = un útil)</b></label>
+                        <textarea id="txt_bloque" class="form-control" rows="10" placeholder="Ejemplo:
+Cuaderno A4
+Lápiz 2B
+Borrador
+Regla 30 cm"></textarea>
+
+                        <div class="form-check mt-3">
+                            <input class="form-check-input" type="checkbox" id="chk_reemplazar">
+                            <label class="form-check-label" for="chk_reemplazar">
+                                Reemplazar la lista actual (borra la tabla y agrega solo lo pegado)
+                            </label>
+                        </div>
+
+                        <small class="text-muted d-block mt-2">
+                            Tip: si pegas con viñetas (•) o numeración (1.), el sistema lo limpia automáticamente.
+                        </small>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" id="btn_aplicar_bloque">Agregar a la tabla</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /MODAL -->
+
     </main>
 
     <?php include "../../General/Include/2_footer.php"; ?>

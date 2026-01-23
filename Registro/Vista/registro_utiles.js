@@ -7,6 +7,11 @@ function init() {
     });
 
     MostrarListado();
+
+    // Botón del modal: Agregar en bloque
+    $("#btn_aplicar_bloque").on("click", function () {
+        aplicarBloqueATabla();
+    });
 }
 
 $(document).ready(function () {
@@ -19,6 +24,11 @@ function limpiar() {
     $("#id_matricula").val("");
     $("#titulo_matricula").html("MATRÍCULAS - FORMULARIO");
     $("#tabla_dinamica tbody").empty();
+
+    // limpiar modal
+    $("#txt_bloque").val("");
+    $("#chk_reemplazar").prop("checked", false);
+    $("#bloque_info").html("");
 }
 
 function MostrarListado() {
@@ -35,8 +45,8 @@ function MostrarFormulario() {
 function agregarFila(id = "", nombre = "", observaciones = "") {
     let fila = `<tr>
                     <td style="width:5%;"><input type="hidden" name="ids[]" value="${id}"></td>
-                    <td style="width:70%;"><input type="text" name="nombres[]" class="form-control" value="${nombre}" required></td>
-                    <td style="width:20%;"><input type="text" name="observaciones[]" class="form-control" value="${observaciones}"></td>
+                    <td style="width:70%;"><input type="text" name="nombres[]" class="form-control" value="${escapeHtml(nombre)}" required></td>
+                    <td style="width:20%;"><input type="text" name="observaciones[]" class="form-control" value="${escapeHtml(observaciones)}"></td>
                     <td style="width:5%;"><button type="button" class="btn btn-danger btn-sm" onclick="eliminarFila(this)">ELIMINAR</button></td>
                 </tr>`;
     $("#tabla_dinamica tbody").append(fila);
@@ -44,6 +54,33 @@ function agregarFila(id = "", nombre = "", observaciones = "") {
 
 function eliminarFila(btn) {
     $(btn).closest("tr").remove();
+}
+
+// Escape básico para evitar romper HTML al pegar texto con caracteres especiales
+function escapeHtml(text) {
+    if (text === null || text === undefined) return "";
+    return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+// Quitar viñetas / numeración comunes al inicio (•, -, *, 1., 1), etc.)
+function normalizarLinea(linea) {
+    if (!linea) return "";
+    let x = String(linea).trim();
+
+    // elimina BOM o caracteres raros iniciales
+    x = x.replace(/^\uFEFF/, "");
+
+    // elimina viñetas / numeración
+    // ejemplos: "• Lapiz", "- Lapiz", "* Lapiz", "1. Lapiz", "1) Lapiz"
+    x = x.replace(/^(\•|\-|\*|\—|\–)\s+/, "");
+    x = x.replace(/^\d+\s*[\.\)]\s+/, "");
+
+    return x.trim();
 }
 
 // CARGAR FORMULARIO POR MATRÍCULA
@@ -85,12 +122,85 @@ function mostrar(id_matricula) {
     });
 }
 
+/**
+ * ABRIR MODAL "BLOQUE"
+ * - Carga la matrícula (igual que EDITAR)
+ * - Abre el modal para pegar lista
+ */
+function abrirModalBloque(id_matricula) {
+    // Cargar formulario de esa matrícula
+    mostrar(id_matricula);
+
+    // Reset modal
+    $("#txt_bloque").val("");
+    $("#chk_reemplazar").prop("checked", false);
+    $("#bloque_info").html("Pega tu lista: cada línea será un útil distinto.");
+
+    // Abrir modal (Bootstrap 5)
+    var modalEl = document.getElementById("modalBloque");
+    var modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    modal.show();
+}
+
+/**
+ * Toma el textarea, separa por saltos de línea y crea filas.
+ * Si "Reemplazar" está activo, borra la tabla actual y vuelve a cargar solo lo pegado.
+ */
+function aplicarBloqueATabla() {
+    let id_matricula = $("#id_matricula").val();
+    if (!id_matricula) {
+        alert("Primero selecciona una matrícula (EDITAR o BLOQUE).");
+        return;
+    }
+
+    let texto = $("#txt_bloque").val() || "";
+    // soporta saltos \r\n (Windows) y \n (Linux)
+    let lineas = texto.split(/\r?\n/).map(normalizarLinea).filter(l => l !== "");
+
+    if (lineas.length === 0) {
+        alert("No hay ítems válidos. Pega al menos una línea con texto.");
+        return;
+    }
+
+    let reemplazar = $("#chk_reemplazar").is(":checked");
+
+    if (reemplazar) {
+        $("#tabla_dinamica tbody").empty();
+    } else {
+        // Si la tabla solo tenía la fila vacía inicial (sin nombre), la limpiamos para no duplicar
+        let filas = $("#tabla_dinamica tbody tr");
+        if (filas.length === 1) {
+            let nombre0 = $(filas[0]).find("input[name='nombres[]']").val() || "";
+            let obs0 = $(filas[0]).find("input[name='observaciones[]']").val() || "";
+            let id0 = $(filas[0]).find("input[name='ids[]']").val() || "";
+            if (id0 === "" && nombre0.trim() === "" && obs0.trim() === "") {
+                $("#tabla_dinamica tbody").empty();
+            }
+        }
+    }
+
+    // Agregar líneas como filas
+    lineas.forEach(function (nombre) {
+        agregarFila("", nombre, "");
+    });
+
+    // Cerrar modal
+    var modalEl = document.getElementById("modalBloque");
+    var modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    modal.hide();
+
+    // limpiar textarea para próximo uso
+    $("#txt_bloque").val("");
+
+    alert("Se agregaron " + lineas.length + " ítems a la tabla.");
+}
+
 function guardaryeditar(e) {
     e.preventDefault();
 
     let id_matricula = $("#id_matricula").val();
     if (!id_matricula) {
-        alert("Primero debes seleccionar una matrícula (botón EDITAR).");
+        alert("Primero debes seleccionar una matrícula (botón EDITAR o BLOQUE).");
         return;
     }
 
@@ -124,7 +234,7 @@ function guardaryeditar(e) {
         },
         success: function (response) {
             alert(response);
-            if (response.toLowerCase().includes("correctamente")) {
+            if (String(response).toLowerCase().includes("correctamente")) {
                 tabla.ajax.reload();
                 MostrarListado();
             }

@@ -100,7 +100,7 @@ class PDF extends FPDF
         $obs = $data['salida_observaciones'];
         if ($obs === null) { $obs = ''; }
 
-        $this->MultiCell(0, 8, $this->txt($obs), 1);
+        $this->MultiCell(0, 6, $this->txt($obs), 1);
         $this->Ln(5);
     }
 

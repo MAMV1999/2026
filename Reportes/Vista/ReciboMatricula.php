@@ -85,6 +85,12 @@ class PDF extends FPDF
         $this->Cell(160, 8, 'TOTAL S/  ', 1, 0, 'R');
         $this->Cell(30, 8, 'S/ ' . number_format($data['pago_monto'], 2), 1, 1, 'C');
         $this->Ln(5);
+
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell(0, 8, 'OBSERVACIONES', 0, 1, 'L');
+        $this->SetFont('Arial', '', 11);
+        $this->MultiCell(0, 6, utf8_decode($data['pago_observaciones']), 0, 'L');
+        
     }
 }
 
