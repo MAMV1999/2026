@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-02-2026 a las 02:25:03
+-- Tiempo de generación: 15-02-2026 a las 22:40:02
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.3
 
@@ -652,7 +652,7 @@ INSERT INTO `almacen_producto` (`id`, `nombre`, `descripcion`, `categoria_id`, `
 (12, 'LIBRO PRIMARIA 6 GRADO', '', 3, '0.00', '290.00', 6, '2026-01-05 12:14:57', 1),
 (13, 'LIBRO PRIMARIA COMPUTACION', '', 3, '0.00', '120.00', 13, '2026-01-05 13:54:01', 1),
 (14, 'LIBRO PRIMARIA INGLES', '', 3, '0.00', '110.00', 13, '2026-01-05 13:54:01', 1),
-(15, 'RAZ-KIDS', '', 3, '0.00', '100.00', 13, '2026-01-05 13:54:01', 1),
+(15, 'RAZ-KIDS', '', 3, '0.00', '100.00', 12, '2026-01-05 13:54:01', 1),
 (16, 'CONSTANCIA DE NO ADEUDO', '', 4, '0.00', '10.00', 11, '2026-01-06 09:47:18', 1),
 (17, 'CONSTANCIA DE MATRICULA', '', 4, '0.00', '10.00', 10, '2026-01-06 09:47:18', 1),
 (18, 'CERTIFICADO DE ESTUDIO', '', 4, '0.00', '80.00', 10, '2026-01-06 09:47:18', 1),
@@ -742,7 +742,7 @@ INSERT INTO `almacen_salida` (`id`, `usuario_apoderado_id`, `almacen_comprobante
 (7, 7, 1, '000007', '2025-12-15', 1, '30.00', 'ADELANTO LIBRO PRIMARIA 3 GRADO 30 SOLES', '2026-01-05 15:05:45', 1),
 (8, 8, 1, '000008', '2025-12-15', 1, '50.00', 'LIBRO PRIMARIA 4 GRADO - 30 SOLES\r\nPROMOCION - LIBRO PRIMARIA INGLES Y COMPUTACION - 20 SOLES', '2026-01-06 11:51:36', 1),
 (9, 9, 1, '000009', '2025-12-15', 1, '60.00', 'LIBRO PRIMARIA 4 GRADO - 30 SOLES\r\nPROMOCION - LIBRO PRIMARIA INGLES Y COMPUTACION - 30 SOLES', '2026-01-06 11:55:29', 1),
-(10, 12, 1, '000010', '2025-12-16', 3, '30.00', 'LIBRO PRIMARIA 3 GRADO ADELANTO - 30 SOLES TRANSFERENCIA', '2026-01-06 12:06:17', 1),
+(10, 12, 1, '000010', '2025-12-16', 3, '250.00', 'PAGO COMPLETO - PENDIENTE DE ENTREGA', '2026-01-06 12:06:17', 1),
 (11, 13, 1, '000011', '2025-12-29', 1, '30.00', 'LIBRO PRIMARIA 6 GRADO ADELANTO - 30 SOLES', '2026-01-06 12:10:08', 1),
 (12, 14, 1, '000012', '2026-01-05', 2, '50.00', 'LAUANA GUANIÑO\r\n2 GRADO\r\nHORA DE EVALUACIÓN\r\nJUEVES 22 - 10 AM A 11 AM\r\nPUNTUALIDAD, SI LLEGA TARDE LA EVALUACIÓN DURARÁ SOLO EL TIEMPO RESTANTE', '2026-01-06 12:13:48', 1),
 (13, 16, 1, '000013', '2025-12-29', 1, '30.00', 'LIBRO PRIMARIA 4 GRADO ADELANTO - 30 SOLES', '2026-01-07 09:30:43', 1),
@@ -787,7 +787,8 @@ INSERT INTO `almacen_salida` (`id`, `usuario_apoderado_id`, `almacen_comprobante
 (52, 36, 1, '000052', '2026-01-01', 1, '30.00', 'ADELANTO DE PAGO\r\nPROMOCION - LIBRO PRIMARIA INGLES Y COMPUTACION\r\nPAGO TOTAL 220 SOLES', '2026-02-11 08:48:45', 0),
 (53, 55, 1, '000053', '2026-02-11', 1, '50.00', 'CITA PENDIENTE\r\nWENDY JULIANA SUAREZ TERRONES\r\nMANCO SUAREZ ARIANNA MASSIEL\r\n915150897\r\n3 AÑOS\r\nPENDIENTE FECHA Y HORA', '2026-02-11 11:12:37', 1),
 (54, 34, 1, '000054', '2026-02-11', 1, '300.00', 'PAGO COMPLETO - PENDINETE DE ENTREGA', '2026-02-11 11:14:27', 1),
-(55, 6, 1, '000055', '2026-02-11', 2, '300.00', 'PAGO COMPLETO - PENDIENTE DE ENTREGA', '2026-02-11 15:22:55', 1);
+(55, 6, 1, '000055', '2026-02-11', 2, '300.00', 'PAGO COMPLETO - PENDIENTE DE ENTREGA', '2026-02-11 15:22:55', 1),
+(56, 10, 1, '000056', '2026-02-12', 1, '100.00', '', '2026-02-12 16:54:08', 1);
 
 --
 -- Disparadores `almacen_salida`
@@ -842,7 +843,7 @@ INSERT INTO `almacen_salida_detalle` (`id`, `almacen_salida_id`, `almacen_produc
 (12, 7, 9, 1, '30.00', '250.00'),
 (13, 8, 10, 1, '30.00', '250.00'),
 (16, 9, 10, 1, '30.00', '250.00'),
-(19, 10, 9, 1, '30.00', '250.00'),
+(19, 10, 9, 1, '250.00', ''),
 (20, 11, 12, 1, '30.00', '270.00'),
 (21, 12, 1, 1, '50.00', ''),
 (22, 6, 12, 1, '20.00', '270.00'),
@@ -919,7 +920,8 @@ INSERT INTO `almacen_salida_detalle` (`id`, `almacen_salida_id`, `almacen_produc
 (93, 52, 19, 1, '30.00', '220.00'),
 (94, 53, 1, 1, '50.00', ''),
 (95, 54, 4, 1, '300.00', ''),
-(96, 55, 5, 1, '300.00', '');
+(96, 55, 5, 1, '300.00', ''),
+(97, 56, 15, 1, '100.00', '');
 
 --
 -- Disparadores `almacen_salida_detalle`
@@ -3192,13 +3194,13 @@ ALTER TABLE `almacen_producto`
 -- AUTO_INCREMENT de la tabla `almacen_salida`
 --
 ALTER TABLE `almacen_salida`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT de la tabla `almacen_salida_detalle`
 --
 ALTER TABLE `almacen_salida_detalle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- AUTO_INCREMENT de la tabla `biblioteca_libro`
