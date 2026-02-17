@@ -53,12 +53,11 @@ class PDF extends FPDF {
 
         // Ajusta columnas según tu contenido
         $this->Cell(10,  8, utf8_decode('N°'), 1, 0, 'C', true);
-        $this->Cell(22,  8, utf8_decode('MATRICULA'), 1, 0, 'C', true);
+        $this->Cell(28,  8, utf8_decode('MATRICULA'), 1, 0, 'C', true);
         $this->Cell(70,  8, utf8_decode('ALUMNO'), 1, 0, 'C', true);
-        $this->Cell(22,  8, utf8_decode('GENERO'), 1, 0, 'C', true);
-        $this->Cell(22,  8, utf8_decode('NACIMIENTO'), 1, 0, 'C', true);
-        $this->Cell(22,  8, utf8_decode('EDAD'), 1, 0, 'C', true);
-        $this->Cell(22,  8, utf8_decode('PARENTESCO'), 1, 0, 'C', true);
+        $this->Cell(28,  8, utf8_decode('GENERO'), 1, 0, 'C', true);
+        $this->Cell(28,  8, utf8_decode('NACIMIENTO'), 1, 0, 'C', true);
+        $this->Cell(28,  8, utf8_decode('PARENTESCO'), 1, 0, 'C', true);
         $this->Cell(70,  8, utf8_decode('APODERADO'), 1, 0, 'C', true);
         $this->Cell(0,  8, utf8_decode('TELEFONO'), 1, 1, 'C', true);
     }
@@ -68,12 +67,11 @@ class PDF extends FPDF {
         $this->SetFont('Arial', '', 7);
 
         $this->Cell(10,  6, $contador, 1, 0, 'C');
-        $this->Cell(22,  6, utf8_decode($row['categoria']), 1, 0, 'C');
+        $this->Cell(28,  6, utf8_decode($row['categoria_matricula']), 1, 0, 'C');
         $this->Cell(70,  6, utf8_decode($row['alumno']), 1, 0, 'C');
-        $this->Cell(22,  6, utf8_decode($row['sexo_alumno']), 1, 0, 'C');
-        $this->Cell(22,  6, utf8_decode($row['fecha_nacimiento_alumno']), 1, 0, 'C');
-        $this->Cell(22,  6, utf8_decode($row['edad_actual_alumno'].' AÑOS'), 1, 0, 'C');
-        $this->Cell(22,  6, utf8_decode($row['tipo_apoderado']), 1, 0, 'C');
+        $this->Cell(28,  6, utf8_decode($row['sexo_alumno']), 1, 0, 'C');
+        $this->Cell(28,  6, utf8_decode($row['fecha_nacimiento']), 1, 0, 'C');
+        $this->Cell(28,  6, utf8_decode($row['tipo_apoderado']), 1, 0, 'C');
         $this->Cell(70,  6, utf8_decode($row['apoderado']), 1, 0, 'C');
         $this->Cell(0,  6, utf8_decode($row['telefono_apoderado']), 1, 1, 'C');
     }
@@ -94,8 +92,8 @@ while ($fila = $result->fetch_assoc()) {
 
 // 2. Ordenar por la combinación (lectivo, nivel, grado, seccion, docente)
 usort($rows, function($a, $b) {
-    $grupoA = $a['nombre_lectivo'].'|'.$a['nombre_nivel'].'|'.$a['nombre_grado'].'|'.$a['nombre_seccion'].'|'.$a['docente'];
-    $grupoB = $b['nombre_lectivo'].'|'.$b['nombre_nivel'].'|'.$b['nombre_grado'].'|'.$b['nombre_seccion'].'|'.$b['docente'];
+    $grupoA = $a['lectivo'].'|'.$a['nivel'].'|'.$a['grado'].'|'.$a['seccion'].'|'.$a['docente'];
+    $grupoB = $b['lectivo'].'|'.$b['nivel'].'|'.$b['grado'].'|'.$b['seccion'].'|'.$b['docente'];
     return strcmp($grupoA, $grupoB);
 });
 
@@ -112,17 +110,17 @@ $contador  = 1;
 
 foreach ($rows as $row) {
     // Determinamos la clave del grupo actual
-    $currentGroup = $row['nombre_lectivo'].'|'.$row['nombre_nivel'].'|'.$row['nombre_grado'].'|'.$row['nombre_seccion'].'|'.$row['docente'];
+    $currentGroup = $row['lectivo'].'|'.$row['nivel'].'|'.$row['grado'].'|'.$row['seccion'].'|'.$row['docente'].'|'.$row['telefono_docente'];
 
     // ¿Es la primera vez o cambió el grupo?
     if ($lastGroup === null || $currentGroup !== $lastGroup) {
         // Construir el subtítulo con los datos del grupo
         $subtitulo = 
-            "LECTIVO: ".$row['nombre_lectivo']."\n".
-            "NIVEL: ".$row['nombre_nivel']."\n".
-            "GRADO: ".$row['nombre_grado']."\n".
-            "SECCIÓN: ".$row['nombre_seccion']."\n".
-            "DOCENTE: ".$row['docente'];
+            "NIVEL: ".$row['nivel']."\n".
+            "GRADO: ".$row['grado']." ".$row['lectivo']."\n".
+            "SECCIÓN: ".$row['seccion']."\n".
+            "DOCENTE: ".$row['docente']."\n".
+            "TELÉFONO: ".$row['telefono_docente'];
 
         // Lo configuramos en la clase
         $pdf->setCurrentSubTitle($subtitulo);
