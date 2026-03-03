@@ -8,56 +8,65 @@ class Mensualidad_detalle_deudores
     public function listar_mensualidad_detalle_deudores()
     {
         $sql = "SELECT 
-                    institucion_lectivo.nombre AS lectivo_nombre,
-                    institucion_nivel.nombre AS nivel_nombre,
-                    institucion_grado.nombre AS grado_nombre,
-                    institucion_seccion.nombre AS seccion_nombre,
-                    usuario_apoderado.nombreyapellido AS apoderado_nombre,
-                    usuario_apoderado.telefono AS apoderado_telefono,
-                    usuario_alumno.numerodocumento AS alumno_codigo,
-                    usuario_alumno.nombreyapellido AS alumno_nombre,
-                    mensualidad_mes.nombre AS mensualidad_mes_nombre,
-                    mensualidad_detalle.monto AS detalle_monto,
+                    il.nombre AS lectivo_nombre,
+                    iniv.nombre AS nivel_nombre,
+                    ig.nombre AS grado_nombre,
+                    isec.nombre AS seccion_nombre,
+                    ua.nombreyapellido AS apoderado_nombre,
+                    ua.telefono AS apoderado_telefono,
+                    ual.numerodocumento AS alumno_codigo,
+                    ual.nombreyapellido AS alumno_nombre,
+                    mm.nombre AS mensualidad_mes_nombre,
+                    md.monto AS detalle_monto,
                     CASE 
-                        WHEN mensualidad_detalle.pagado = 1 THEN 'PAGADO'
-                        WHEN mensualidad_detalle.pagado = 0 THEN 'PENDIENTE'
+                        WHEN md.pagado = 1 THEN 'PAGADO'
+                        WHEN md.pagado = 0 THEN 'PENDIENTE'
                         ELSE 'DESCONOCIDO'
                     END AS detalle_estado_pago,
-                    mensualidad_detalle.observaciones AS detalle_observaciones,
+                    md.observaciones AS detalle_observaciones,
                     CASE 
-                        WHEN mensualidad_detalle.estado = 1 THEN 'ACTIVO'
-                        WHEN mensualidad_detalle.estado = 0 THEN 'INACTIVO'
-                        ELSE 'desconocido'
+                        WHEN md.estado = 1 THEN 'ACTIVO'
+                        WHEN md.estado = 0 THEN 'INACTIVO'
+                        ELSE 'DESCONOCIDO'
                     END AS detalle_estado
-                FROM mensualidad_detalle
-                LEFT JOIN mensualidad_mes ON mensualidad_detalle.id_mensualidad_mes = mensualidad_mes.id
-                LEFT JOIN matricula_detalle ON mensualidad_detalle.id_matricula_detalle = matricula_detalle.id
-                LEFT JOIN usuario_apoderado ON matricula_detalle.id_usuario_apoderado = usuario_apoderado.id
-                LEFT JOIN usuario_alumno ON matricula_detalle.id_usuario_alumno = usuario_alumno.id
-                LEFT JOIN matricula ON matricula_detalle.id_matricula = matricula.id
-                LEFT JOIN institucion_seccion ON matricula.id_institucion_seccion = institucion_seccion.id
-                LEFT JOIN institucion_grado ON institucion_seccion.id_institucion_grado = institucion_grado.id
-                LEFT JOIN institucion_nivel ON institucion_grado.id_institucion_nivel = institucion_nivel.id
-                LEFT JOIN institucion_lectivo ON institucion_nivel.id_institucion_lectivo = institucion_lectivo.id
+                FROM mensualidad_detalle md
+                LEFT JOIN matricula_mes mm 
+                    ON md.matricula_mes_id = mm.id
+                LEFT JOIN matricula_detalle mde 
+                    ON md.id_matricula_detalle = mde.id
+                LEFT JOIN usuario_apoderado ua 
+                    ON mde.id_usuario_apoderado = ua.id
+                LEFT JOIN usuario_alumno ual 
+                    ON mde.id_usuario_alumno = ual.id
+                LEFT JOIN matricula m 
+                    ON mde.id_matricula = m.id
+                LEFT JOIN institucion_seccion isec 
+                    ON m.id_institucion_seccion = isec.id
+                LEFT JOIN institucion_grado ig 
+                    ON isec.id_institucion_grado = ig.id
+                LEFT JOIN institucion_nivel iniv 
+                    ON ig.id_institucion_nivel = iniv.id
+                LEFT JOIN institucion_lectivo il 
+                    ON iniv.id_institucion_lectivo = il.id
                 WHERE 
-                    mensualidad_detalle.estado = 1 AND
-                    mensualidad_mes.estado = 1 AND
-                    matricula_detalle.estado = 1 AND
-                    usuario_apoderado.estado = 1 AND
-                    usuario_alumno.estado = 1 AND
-                    matricula.estado = 1 AND
-                    institucion_seccion.estado = 1 AND
-                    institucion_grado.estado = 1 AND
-                    institucion_nivel.estado = 1 AND
-                    institucion_lectivo.estado = 1 AND
-                    mensualidad_detalle.pagado = 0
+                    md.estado = 1
+                    AND mm.estado = 1
+                    AND mde.estado = 1
+                    AND ua.estado = 1
+                    AND ual.estado = 1
+                    AND m.estado = 1
+                    AND isec.estado = 1
+                    AND ig.estado = 1
+                    AND iniv.estado = 1
+                    AND il.estado = 1
+                    AND md.pagado = 0
                 ORDER BY 
-                    mensualidad_detalle.id_mensualidad_mes ASC,
-                    institucion_lectivo.nombre ASC,
-                    institucion_nivel.nombre ASC,
-                    institucion_grado.nombre ASC,
-                    institucion_seccion.nombre ASC,
-                    usuario_alumno.nombreyapellido ASC";
+                    md.matricula_mes_id ASC,
+                    il.nombre ASC,
+                    iniv.nombre ASC,
+                    ig.nombre ASC,
+                    isec.nombre ASC,
+                    ual.nombreyapellido ASC";
         return ejecutarConsulta($sql);
     }
 }

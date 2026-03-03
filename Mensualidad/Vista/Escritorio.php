@@ -65,7 +65,8 @@ if (!isset($_SESSION['nombre'])) {
                     "5" => array("nombre" => "DETALLE DE MENSUALIDADES PAGADAS", "link" => "../../Reportes/Vista/mensualidad_detalle_pagado.php"),
                     "6" => array("nombre" => "DETALLE DE MENSUALIDADES PENDIENTES", "link" => "../../Reportes/Vista/mensualidad_detalle_deudores.php"),
                     "7" => array("nombre" => "DETALLE DE MENSUALIDADES PENDIENTES MONTOS", "link" => "../../Reportes/Vista/mensualidad_detalle_deudores_montos.php"),
-                    "8" => array("nombre" => "LISTADO DE MENSUALIDADES BCP", "link" => "../../Reportes/Vista/Mensualidad_reporte_bcp.php"),
+                    "8" => array("nombre" => "DETALLE DE MENSUALIDADES PENDIENTES X NIVEL", "link" => "../../Reportes/Vista/mensualidad_detalle_deudores_nivel.php"),
+                    "9" => array("nombre" => "LISTADO DE MENSUALIDADES BCP", "link" => "../../Reportes/Vista/Mensualidad_reporte_bcp.php"),
                 );
                 ?>
                 <table class="table">

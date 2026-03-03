@@ -47,7 +47,7 @@ class Reportemensualidadxgrado
                     ) AS estados_pago_legibles,
                     GROUP_CONCAT(md.observaciones ORDER BY mm.id ASC SEPARATOR ', ') AS observaciones
                 FROM mensualidad_detalle md
-                LEFT JOIN mensualidad_mes mm ON md.id_mensualidad_mes = mm.id AND mm.estado = 1
+                LEFT JOIN matricula_mes mm ON md.matricula_mes_id = mm.id AND mm.estado = 1
                 LEFT JOIN matricula_detalle mdd ON md.id_matricula_detalle = mdd.id AND mdd.estado = 1
                 LEFT JOIN usuario_alumno ma ON mdd.id_usuario_alumno = ma.id AND ma.estado = 1
                 LEFT JOIN usuario_documento ud_alumno ON ma.id_documento = ud_alumno.id AND ud_alumno.estado = 1
