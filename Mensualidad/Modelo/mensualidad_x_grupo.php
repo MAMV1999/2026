@@ -52,24 +52,24 @@ class Mensualidadxapoderado
     public function listar_frm($id)
     {
         $sql = "SELECT 
-                uat.nombre AS tipo_apoderado,
-                ud.nombre AS tipo_documento,
-                ua.numerodocumento AS numerodocumento,
-                ua.nombreyapellido AS nombre_apoderado,
-                ua.telefono AS telefono,
-                il.id AS id_lectivo,
-                il.nombre AS lectivo,
-                iniv.nombre AS nivel,
-                ig.nombre AS grado,
-                isec.nombre AS seccion,
-                ual.numerodocumento AS codigo,
-                ual.nombreyapellido AS nombre_alumno,
-                GROUP_CONCAT(md.id ORDER BY mm.id ASC SEPARATOR ', ') AS ids_mensualidad_detalle,
-                GROUP_CONCAT(mm.id ORDER BY mm.id ASC SEPARATOR ', ') AS ids_mes,
-                GROUP_CONCAT(mm.nombre ORDER BY mm.id ASC SEPARATOR ', ') AS meses,
-                GROUP_CONCAT(md.monto ORDER BY mm.id ASC SEPARATOR ', ') AS montos,
-                GROUP_CONCAT(md.pagado ORDER BY mm.id ASC SEPARATOR ', ') AS estados_pago,
-                GROUP_CONCAT(md.observaciones ORDER BY mm.id ASC SEPARATOR ', ') AS observaciones
+                    uat.nombre AS tipo_apoderado,
+                    ud.nombre AS tipo_documento,
+                    ua.numerodocumento AS numerodocumento,
+                    ua.nombreyapellido AS nombre_apoderado,
+                    ua.telefono AS telefono,
+                    il.id AS id_lectivo,
+                    il.nombre AS lectivo,
+                    iniv.nombre AS nivel,
+                    ig.nombre AS grado,
+                    isec.nombre AS seccion,
+                    ual.numerodocumento AS codigo,
+                    ual.nombreyapellido AS nombre_alumno,
+                    GROUP_CONCAT(md.id ORDER BY mm.id ASC SEPARATOR ', ') AS ids_mensualidad_detalle,
+                    GROUP_CONCAT(mm.id ORDER BY mm.id ASC SEPARATOR ', ') AS ids_mes,
+                    GROUP_CONCAT(mm.nombre ORDER BY mm.id ASC SEPARATOR ', ') AS meses,
+                    GROUP_CONCAT(md.monto ORDER BY mm.id ASC SEPARATOR ', ') AS montos,
+                    GROUP_CONCAT(md.pagado ORDER BY mm.id ASC SEPARATOR ', ') AS estados_pago,
+                    GROUP_CONCAT(md.observaciones ORDER BY mm.id ASC SEPARATOR ', ') AS observaciones
                 FROM mensualidad_detalle md
                 JOIN matricula_detalle mtd ON md.id_matricula_detalle = mtd.id
                 JOIN usuario_alumno ual ON mtd.id_usuario_alumno = ual.id
@@ -78,13 +78,28 @@ class Mensualidadxapoderado
                 JOIN institucion_grado ig ON isec.id_institucion_grado = ig.id
                 JOIN institucion_nivel iniv ON ig.id_institucion_nivel = iniv.id
                 JOIN institucion_lectivo il ON iniv.id_institucion_lectivo = il.id
-                JOIN mensualidad_mes mm ON md.id_mensualidad_mes = mm.id
+                JOIN matricula_mes mm ON md.matricula_mes_id = mm.id
                 JOIN usuario_apoderado ua ON mtd.id_usuario_apoderado = ua.id
                 JOIN usuario_apoderado_tipo uat ON ua.id_apoderado_tipo = uat.id
                 JOIN usuario_documento ud ON ua.id_documento = ud.id
-                WHERE il.id = '$id' AND ua.estado = 1 AND md.estado = 1 AND mtd.estado = 1 AND ual.estado = 1 AND m.estado = 1 AND isec.estado = 1 AND ig.estado = 1 AND iniv.estado = 1 AND il.estado = 1 AND mm.estado = 1
-                GROUP BY ua.id, ua.nombreyapellido, ua.numerodocumento, ua.telefono, uat.nombre, ud.nombre, il.nombre, iniv.nombre, ig.nombre, isec.nombre, ual.nombreyapellido
-                ORDER BY il.nombre ASC, iniv.nombre ASC, ig.nombre ASC, isec.nombre ASC, ual.nombreyapellido ASC";
+                WHERE il.id = '$id'
+                AND ua.estado = 1
+                AND md.estado = 1
+                AND mtd.estado = 1
+                AND ual.estado = 1
+                AND m.estado = 1
+                AND isec.estado = 1
+                AND ig.estado = 1
+                AND iniv.estado = 1
+                AND il.estado = 1
+                AND mm.estado = 1
+                GROUP BY 
+                    ua.id, ua.nombreyapellido, ua.numerodocumento, ua.telefono, 
+                    uat.nombre, ud.nombre, 
+                    il.id, il.nombre, iniv.nombre, ig.nombre, isec.nombre, 
+                    ual.numerodocumento, ual.nombreyapellido
+                ORDER BY 
+                    il.nombre ASC, iniv.nombre ASC, ig.nombre ASC, isec.nombre ASC, ual.nombreyapellido ASC";
         return ejecutarConsulta($sql);
     }
 }
