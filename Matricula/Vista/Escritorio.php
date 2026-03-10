@@ -58,12 +58,17 @@ if (!isset($_SESSION['nombre'])) {
                 $array = array(
                     "1" => array("nombre" => "CANTIDAD DE ALUMNOS",             "link" => "../../Reportes/Vista/Matriculados_cantidad.php"),
                     "2" => array("nombre" => "LISTADO DE ALUMNOS",              "link" => "../../Reportes/Vista/ReporteMatricula.php"),
+
                     "3" => array("nombre" => "LISTADO DE ALUMNOS - TUTORES",    "link" => "../../Reportes/Vista/ReporteAlumnosTutores.php"),
                     "4" => array("nombre" => "LISTADO DE ALUMNOS - REUNIÓN",    "link" => "../../Reportes/Vista/ReporteAlumnosTutoresReuniones.php"),
+
                     "5" => array("nombre" => "LISTADO DETALLE MATRICULAS",      "link" => "../../Reportes/Vista/ReciboMatriculaTotal.php"),
+
                     "6" => array("nombre" => "PAGOS AGRUPADOS POR FECHA",       "link" => "../../Reportes/Vista/ReporteMatriculaXFecha.php"),
                     "7" => array("nombre" => "PAGOS AGRUPADOS POR APODERADO",   "link" => "../../Reportes/Vista/ReporteMatriculaXApoderado.php"),
-                    "8" => array("nombre" => "CUMPLEAÑOS",                      "link" => "../../Reportes/Vista/Nacimiento.php"),
+
+                    "8" => array("nombre" => "CUMPLEAÑOS X LECTIVO",            "link" => "../../Reportes/Vista/Nacimiento.php"),
+                    "9" => array("nombre" => "CUMPLEAÑOS X GRADO",              "link" => "../../Reportes/Vista/Nacimiento.php"),
                 );
                 ?>
                 <table class="table">
