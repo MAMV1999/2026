@@ -115,7 +115,7 @@ while ($row = $resultDetalle->fetch_assoc()) {
 // Agrupar por mes
 $meses = [];
 foreach ($rowsDetalle as $row) {
-    $mes = $row['mensualidad_mes_nombre'];
+    $mes = $row['matricula_mes_nombre'];
     if (!isset($meses[$mes])) {
         $meses[$mes] = [];
     }
