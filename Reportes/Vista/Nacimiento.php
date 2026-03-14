@@ -2,10 +2,8 @@
 require('../../General/fpdf/fpdf.php');
 require_once("../Modelo/Nacimiento.php");
 
-// Clase personalizada para el PDF
 class PDFNacimiento extends FPDF
 {
-    // Encabezado de la página
     function Header()
     {
         $this->SetFont('Arial', 'BU', 15);
@@ -13,66 +11,128 @@ class PDFNacimiento extends FPDF
         $this->Ln(2);
     }
 
-    // Pie de página
     function Footer()
     {
         $this->SetY(-15);
         $this->SetFont('Arial', 'I', 8);
-        $this->Cell(0, 10, 'PAGINA ' . $this->PageNo(), 0, 0, 'C');
+        $this->Cell(0, 10, utf8_decode('PÁGINA ') . $this->PageNo(), 0, 0, 'C');
+    }
+
+    function mesEspanol($numeroMes)
+    {
+        $meses = [
+            1 => 'ENERO',
+            2 => 'FEBRERO',
+            3 => 'MARZO',
+            4 => 'ABRIL',
+            5 => 'MAYO',
+            6 => 'JUNIO',
+            7 => 'JULIO',
+            8 => 'AGOSTO',
+            9 => 'SETIEMBRE',
+            10 => 'OCTUBRE',
+            11 => 'NOVIEMBRE',
+            12 => 'DICIEMBRE'
+        ];
+
+        return isset($meses[(int)$numeroMes]) ? $meses[(int)$numeroMes] : 'SIN MES';
+    }
+
+    function encabezadoGrupo($row)
+    {
+        $this->SetFont('Arial', 'B', 10);
+        $this->Cell(30, 5, 'NIVEL:', 0, 0, 'L');
+        $this->SetFont('Arial', '', 10);
+        $this->Cell(0, 5, utf8_decode($row['nivel']), 0, 1, 'L');
+
+        $this->SetFont('Arial', 'B', 10);
+        $this->Cell(30, 5, 'GRADO:', 0, 0, 'L');
+        $this->SetFont('Arial', '', 10);
+        $this->Cell(0, 5, utf8_decode($row['grado']), 0, 1, 'L');
+
+        $this->SetFont('Arial', 'B', 10);
+        $this->Cell(30, 5, utf8_decode('SECCIÓN:'), 0, 0, 'L');
+        $this->SetFont('Arial', '', 10);
+        $this->Cell(0, 5, utf8_decode($row['seccion']), 0, 1, 'L');
+
+        $this->SetFont('Arial', 'B', 10);
+        $this->Cell(30, 5, 'TUTOR:', 0, 0, 'L');
+        $this->SetFont('Arial', '', 10);
+        $this->MultiCell(0, 5, utf8_decode($row['tutor']), 0, 'L');
+
+        $this->Ln(3);
+    }
+
+    function encabezadoTabla()
+    {
+        $this->SetFont('Arial', 'B', 9);
+        $this->SetFillColor(188, 188, 188);
+
+        $this->Cell(90, 8, utf8_decode('ALUMNO(A)'), 1, 0, 'C', true);
+        $this->Cell(28, 8, utf8_decode('CUMPLEAÑOS'), 1, 0, 'C', true);
+        $this->Cell(25, 8, utf8_decode('EDAD'), 1, 0, 'C', true);
+        $this->Cell(0, 8, utf8_decode('EDAD DETALLADA'), 1, 1, 'C', true);
+    }
+
+    function verificarSalto($alto = 8)
+    {
+        if ($this->GetY() + $alto > 270) {
+            $this->AddPage();
+        }
     }
 }
 
-// Instancia de la clase Nacimiento
 $nacimiento = new Nacimiento();
 $data = $nacimiento->listarNacimiento();
 
-// Crear una instancia de FPDF
-$pdf = new PDFNacimiento();
-$pdf->SetMargins(5, 10, 5);
-$pdf->AddPage();
-$pdf->SetFont('Arial', '', 10);
+$pdf = new PDFNacimiento('P', 'mm', 'A4');
+$pdf->SetMargins(8, 10, 8);
+$pdf->SetAutoPageBreak(true, 15);
 
+$grupoActual = '';
+$mesActual = null;
 
-// Variable para controlar el mes actual en el PDF
-$currentMonth = null;
-
-// Recorrer los resultados
 while ($row = $data->fetch_assoc()) {
-    // Configurar localización en español
-    setlocale(LC_TIME, 'es_ES.UTF-8');
 
-    // Obtener el mes en español y convertirlo a mayúsculas
-    $birthMonth = strtoupper(strftime('%B', strtotime($row['nacimiento'])));
+    $grupoNuevo = $row['institucion'] . '|' .
+                  $row['nivel'] . '|' .
+                  $row['grado'] . '|' .
+                  $row['seccion'] . '|' .
+                  $row['tutor'];
 
+    // Si cambia el grupo, crear nueva página
+    if ($grupoNuevo !== $grupoActual) {
+        $pdf->AddPage();
+        $pdf->encabezadoGrupo($row);
 
-
-    // Si es un nuevo mes, agregar una nueva página con el encabezado del mes
-    if ($birthMonth !== $currentMonth) {
-        if ($currentMonth !== null) {
-            $pdf->AddPage();
-        }
-        $currentMonth = $birthMonth;
-        $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Cell(0, 10,$currentMonth, 0, 1, 'C', false);
-        $pdf->Ln(5);
-        // Encabezados de la tabla
-        $pdf->SetFont('Arial', 'B', 10);
-        $pdf->SetFillColor(188, 188, 188);
-        $pdf->Cell(25, 10, 'NIVEL', 1, 0, 'C', true);
-        $pdf->Cell(25, 10, 'GRADO', 1, 0, 'C', true);
-        $pdf->Cell(100, 10, 'ALUMNO(A)', 1, 0, 'C', true);
-        $pdf->Cell(25, 10, 'FECHA', 1, 0, 'C', true);
-        $pdf->Cell(25, 10, 'EDAD', 1, 1, 'C', true);
+        $grupoActual = $grupoNuevo;
+        $mesActual = null;
     }
 
-    // Filas de datos
-    $pdf->SetFont('Arial', '', 10);
-    $pdf->Cell(25, 10, utf8_decode($row['nivel']), 0, 0, 'C');
-    $pdf->Cell(25, 10, utf8_decode($row['grado']), 0, 0, 'C');
-    $pdf->Cell(100, 10, utf8_decode($row['nombre_alumno']), 0, 0, 'C');
-    $pdf->Cell(25, 10, date('d / m', strtotime($row['nacimiento'])), 0, 0, 'C');
-    $pdf->Cell(25, 10, utf8_decode($row['edad'] . ' AÑOS'), 0, 1, 'C');
+    // Obtener nombre del mes en español desde el número
+    $nombreMes = $pdf->mesEspanol($row['mes_nacimiento']);
+
+    // Si cambia el mes dentro del mismo grupo
+    if ($nombreMes !== $mesActual) {
+        $pdf->verificarSalto(15);
+
+        $mesActual = $nombreMes;
+
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->SetFillColor(220, 230, 241);
+        $pdf->Cell(0, 8, utf8_decode($mesActual), 1, 1, 'C', true);
+        $pdf->encabezadoTabla();
+    }
+
+    $pdf->SetFont('Arial', '', 9);
+
+    $pdf->verificarSalto(8);
+
+    $pdf->Cell(90, 8, utf8_decode($row['alumno']), 1, 0, 'C');
+    $pdf->Cell(28, 8, utf8_decode($row['cumpleanios']), 1, 0, 'C');
+    $pdf->Cell(25, 8, utf8_decode($row['edad']), 1, 0, 'C');
+    $pdf->Cell(0, 8, utf8_decode($row['edad_detallada']), 1, 1, 'C');
 }
 
-// Salida del PDF
-$pdf->Output('I', 'Nacimientos_Por_Mes.pdf');
+$pdf->Output('I', 'Lista_Cumpleanios.pdf');
+?>

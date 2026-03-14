@@ -67,8 +67,8 @@ if (!isset($_SESSION['nombre'])) {
                     "6" => array("nombre" => "PAGOS AGRUPADOS POR FECHA",       "link" => "../../Reportes/Vista/ReporteMatriculaXFecha.php"),
                     "7" => array("nombre" => "PAGOS AGRUPADOS POR APODERADO",   "link" => "../../Reportes/Vista/ReporteMatriculaXApoderado.php"),
 
-                    "8" => array("nombre" => "CUMPLEAÑOS X LECTIVO",            "link" => "../../Reportes/Vista/Nacimiento.php"),
-                    "9" => array("nombre" => "CUMPLEAÑOS X GRADO",              "link" => "../../Reportes/Vista/Nacimiento.php"),
+                    "8" => array("nombre" => "CUMPLEAÑOS X GRADO",              "link" => "../../Reportes/Vista/Nacimiento.php"),
+                    "9" => array("nombre" => "ASISTENCIA X GRADO",              "link" => "../../Reportes/Vista/Reporte_asistencia_blanco.php"),
                 );
                 ?>
                 <table class="table">

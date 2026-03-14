@@ -7,51 +7,77 @@ class Nacimiento
 
     public function listarNacimiento()
     {
-        $sql = "SELECT 
-                    il.nombre AS lectivo,
-                    iniv.nombre AS nivel,
-                    ig.nombre AS grado,
-                    isec.nombre AS seccion,
-                    ua.nombreyapellido AS nombre_alumno,
-                    ua.nacimiento,
-                    TIMESTAMPDIFF(YEAR, ua.nacimiento, CURDATE()) AS edad,
-                    CASE 
-                        WHEN STR_TO_DATE(CONCAT(YEAR(CURDATE()), '-', DATE_FORMAT(ua.nacimiento, '%m-%d')), '%Y-%m-%d') < CURDATE() THEN 
-                            'YA PASÓ'
-                        ELSE 
-                            CONCAT(
-                                DATEDIFF(
-                                    STR_TO_DATE(CONCAT(YEAR(CURDATE()), '-', DATE_FORMAT(ua.nacimiento, '%m-%d')), '%Y-%m-%d'),
+        $sql = "SELECT
+                    i.nombre AS institucion,
+                    niv.nombre AS nivel,
+                    g.nombre AS grado,
+                    s.nombre AS seccion,
+                
+                    CONCAT(d.nombreyapellido, ' - ', IFNULL(d.telefono, 'SIN TELÉFONO')) AS tutor,
+                
+                    a.nombreyapellido AS alumno,
+                
+                    DATE_FORMAT(a.nacimiento, '%d/%m/%Y') AS cumpleanios,
+                
+                    MONTH(a.nacimiento) AS mes_nacimiento,
+                
+                    CONCAT(TIMESTAMPDIFF(YEAR, a.nacimiento, CURDATE()), ' años') AS edad,
+                
+                    CONCAT(
+                        TIMESTAMPDIFF(YEAR, a.nacimiento, CURDATE()), ' años, ',
+                        TIMESTAMPDIFF(
+                            MONTH,
+                            DATE_ADD(a.nacimiento, INTERVAL TIMESTAMPDIFF(YEAR, a.nacimiento, CURDATE()) YEAR),
+                            CURDATE()
+                        ), ' meses, ',
+                        DATEDIFF(
+                            CURDATE(),
+                            DATE_ADD(
+                                DATE_ADD(a.nacimiento, INTERVAL TIMESTAMPDIFF(YEAR, a.nacimiento, CURDATE()) YEAR),
+                                INTERVAL TIMESTAMPDIFF(
+                                    MONTH,
+                                    DATE_ADD(a.nacimiento, INTERVAL TIMESTAMPDIFF(YEAR, a.nacimiento, CURDATE()) YEAR),
                                     CURDATE()
-                                ),
-                                ' DÍAS'
+                                ) MONTH
                             )
-                    END AS dias_para_cumple
-                FROM 
-                    matricula_detalle md
-                JOIN 
-                    matricula m ON md.id_matricula = m.id
-                JOIN 
-                    institucion_seccion isec ON m.id_institucion_seccion = isec.id
-                JOIN 
-                    institucion_grado ig ON isec.id_institucion_grado = ig.id
-                JOIN 
-                    institucion_nivel iniv ON ig.id_institucion_nivel = iniv.id
-                JOIN 
-                    institucion_lectivo il ON iniv.id_institucion_lectivo = il.id
-                JOIN 
-                    usuario_alumno ua ON md.id_usuario_alumno = ua.id
-                WHERE 
-                    md.estado = 1 
-                    AND m.estado = 1 
-                    AND isec.estado = 1 
-                    AND ig.estado = 1 
-                    AND iniv.estado = 1 
-                    AND il.estado = 1 
-                    AND ua.estado = 1
-                ORDER BY 
-                    MONTH(ua.nacimiento) ASC, 
-                    DAY(ua.nacimiento) ASC";
+                        ), ' días'
+                    ) AS edad_detallada
+                
+                FROM matricula_detalle md
+                INNER JOIN matricula m
+                    ON md.id_matricula = m.id
+                INNER JOIN institucion_seccion s
+                    ON m.id_institucion_seccion = s.id
+                INNER JOIN institucion_grado g
+                    ON s.id_institucion_grado = g.id
+                INNER JOIN institucion_nivel niv
+                    ON g.id_institucion_nivel = niv.id
+                INNER JOIN institucion_lectivo il
+                    ON niv.id_institucion_lectivo = il.id
+                INNER JOIN institucion i
+                    ON il.id_institucion = i.id
+                INNER JOIN usuario_docente d
+                    ON m.id_usuario_docente = d.id
+                INNER JOIN usuario_alumno a
+                    ON md.id_usuario_alumno = a.id
+                
+                WHERE
+                    md.estado = 1
+                    AND m.estado = 1
+                    AND s.estado = 1
+                    AND g.estado = 1
+                    AND niv.estado = 1
+                    AND il.estado = 1
+                    AND i.estado = 1
+                    AND d.estado = 1
+                    AND a.estado = 1
+                
+                ORDER BY
+                    niv.nombre ASC,
+                    g.nombre ASC,
+                    s.nombre ASC,
+                    MONTH(a.nacimiento) ASC,
+                    a.nombreyapellido ASC";
         return ejecutarConsulta($sql);
     }
 }
