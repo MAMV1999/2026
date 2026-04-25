@@ -233,6 +233,7 @@ switch ($_GET["op"]) {
                                 <li><a class="dropdown-item" href="../../Reportes/Vista/Constancia_Estudios.php?id=' . $reg->matricula_detalle_id . '" Target="_blank">CONST. DE ESTUDIOS</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="../../Reportes/Vista/Documentacion_Completa.php?id=' . $reg->matricula_detalle_id . '" Target="_blank">DOCUMENTOS</a></li>
+                                <li><a class="dropdown-item" href="../../Reportes/Vista/reporte_completo_matricula.php?id=' . $reg->matricula_detalle_id . '" Target="_blank">INFORMACIÓN GENERAL</a></li>
                             </ul>
                         </div>
                         
