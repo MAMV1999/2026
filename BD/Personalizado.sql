@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-04-2026 a las 08:14:48
+-- Tiempo de generación: 10-05-2026 a las 07:21:59
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.3
 
@@ -549,6 +549,72 @@ CREATE TABLE `mensualidad_detalle` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `registro_encuesta_alumno`
+--
+
+CREATE TABLE `registro_encuesta_alumno` (
+  `id` int(11) NOT NULL,
+  `encuesta_general_id` int(11) DEFAULT NULL,
+  `matricula_detalle_id` int(11) DEFAULT NULL,
+  `observaciones` text,
+  `fechacreado` datetime DEFAULT CURRENT_TIMESTAMP,
+  `estado` tinyint(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `registro_encuesta_docentes`
+--
+
+CREATE TABLE `registro_encuesta_docentes` (
+  `id` int(11) NOT NULL,
+  `encuesta_general_id` int(11) DEFAULT NULL,
+  `usuario_docente_id` int(11) DEFAULT NULL,
+  `observaciones` text,
+  `fechacreado` datetime DEFAULT CURRENT_TIMESTAMP,
+  `estado` tinyint(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `registro_encuesta_general`
+--
+
+CREATE TABLE `registro_encuesta_general` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `fecha_inicio` date DEFAULT NULL,
+  `fecha_fin` date DEFAULT NULL,
+  `calificacion_menor` int(11) DEFAULT NULL,
+  `calificacion_mayor` int(11) DEFAULT NULL,
+  `observaciones` text,
+  `fechacreado` datetime DEFAULT CURRENT_TIMESTAMP,
+  `estado` tinyint(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `registro_encuesta_registro`
+--
+
+CREATE TABLE `registro_encuesta_registro` (
+  `id` int(11) NOT NULL,
+  `encuesta_general_id` int(11) DEFAULT NULL,
+  `encuesta_docente_id` int(11) DEFAULT NULL,
+  `encuesta_alumno_id` int(11) DEFAULT NULL,
+  `numero_calificacion` int(11) DEFAULT NULL,
+  `comentario` text,
+  `observaciones` text,
+  `fechacreado` datetime DEFAULT CURRENT_TIMESTAMP,
+  `estado` tinyint(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `registro_utiles`
 --
 
@@ -977,6 +1043,37 @@ ALTER TABLE `mensualidad_detalle`
   ADD KEY `matricula_mes_id` (`matricula_mes_id`);
 
 --
+-- Indices de la tabla `registro_encuesta_alumno`
+--
+ALTER TABLE `registro_encuesta_alumno`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `encuesta_general_id` (`encuesta_general_id`),
+  ADD KEY `matricula_detalle_id` (`matricula_detalle_id`);
+
+--
+-- Indices de la tabla `registro_encuesta_docentes`
+--
+ALTER TABLE `registro_encuesta_docentes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `encuesta_general_id` (`encuesta_general_id`),
+  ADD KEY `usuario_docente_id` (`usuario_docente_id`);
+
+--
+-- Indices de la tabla `registro_encuesta_general`
+--
+ALTER TABLE `registro_encuesta_general`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `registro_encuesta_registro`
+--
+ALTER TABLE `registro_encuesta_registro`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `encuesta_general_id` (`encuesta_general_id`),
+  ADD KEY `encuesta_docente_id` (`encuesta_docente_id`),
+  ADD KEY `encuesta_alumno_id` (`encuesta_alumno_id`);
+
+--
 -- Indices de la tabla `registro_utiles`
 --
 ALTER TABLE `registro_utiles`
@@ -1113,13 +1210,13 @@ ALTER TABLE `almacen_producto`
 -- AUTO_INCREMENT de la tabla `almacen_salida`
 --
 ALTER TABLE `almacen_salida`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=202;
 
 --
 -- AUTO_INCREMENT de la tabla `almacen_salida_detalle`
 --
 ALTER TABLE `almacen_salida_detalle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=352;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=354;
 
 --
 -- AUTO_INCREMENT de la tabla `biblioteca_libro`
@@ -1209,7 +1306,7 @@ ALTER TABLE `matricula_cobro_detalle`
 -- AUTO_INCREMENT de la tabla `matricula_detalle`
 --
 ALTER TABLE `matricula_detalle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT de la tabla `matricula_mes`
@@ -1233,13 +1330,37 @@ ALTER TABLE `matricula_monto`
 -- AUTO_INCREMENT de la tabla `matricula_pago`
 --
 ALTER TABLE `matricula_pago`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT de la tabla `mensualidad_detalle`
 --
 ALTER TABLE `mensualidad_detalle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=921;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=941;
+
+--
+-- AUTO_INCREMENT de la tabla `registro_encuesta_alumno`
+--
+ALTER TABLE `registro_encuesta_alumno`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
+-- AUTO_INCREMENT de la tabla `registro_encuesta_docentes`
+--
+ALTER TABLE `registro_encuesta_docentes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT de la tabla `registro_encuesta_general`
+--
+ALTER TABLE `registro_encuesta_general`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `registro_encuesta_registro`
+--
+ALTER TABLE `registro_encuesta_registro`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_utiles`
@@ -1257,13 +1378,13 @@ ALTER TABLE `registro_utiles_detalle`
 -- AUTO_INCREMENT de la tabla `usuario_alumno`
 --
 ALTER TABLE `usuario_alumno`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_apoderado`
 --
 ALTER TABLE `usuario_apoderado`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_apoderado_tipo`
@@ -1281,7 +1402,7 @@ ALTER TABLE `usuario_cargo`
 -- AUTO_INCREMENT de la tabla `usuario_cargo_menu`
 --
 ALTER TABLE `usuario_cargo_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=257;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_docente`
@@ -1452,6 +1573,28 @@ ALTER TABLE `matricula_pago`
 ALTER TABLE `mensualidad_detalle`
   ADD CONSTRAINT `fk_mensualidad_detalle_matricula_mes` FOREIGN KEY (`matricula_mes_id`) REFERENCES `matricula_mes` (`id`),
   ADD CONSTRAINT `mensualidad_detalle_ibfk_2` FOREIGN KEY (`id_matricula_detalle`) REFERENCES `matricula_detalle` (`id`);
+
+--
+-- Filtros para la tabla `registro_encuesta_alumno`
+--
+ALTER TABLE `registro_encuesta_alumno`
+  ADD CONSTRAINT `registro_encuesta_alumno_ibfk_1` FOREIGN KEY (`encuesta_general_id`) REFERENCES `registro_encuesta_general` (`id`),
+  ADD CONSTRAINT `registro_encuesta_alumno_ibfk_2` FOREIGN KEY (`matricula_detalle_id`) REFERENCES `matricula_detalle` (`id`);
+
+--
+-- Filtros para la tabla `registro_encuesta_docentes`
+--
+ALTER TABLE `registro_encuesta_docentes`
+  ADD CONSTRAINT `registro_encuesta_docentes_ibfk_1` FOREIGN KEY (`encuesta_general_id`) REFERENCES `registro_encuesta_general` (`id`),
+  ADD CONSTRAINT `registro_encuesta_docentes_ibfk_2` FOREIGN KEY (`usuario_docente_id`) REFERENCES `usuario_docente` (`id`);
+
+--
+-- Filtros para la tabla `registro_encuesta_registro`
+--
+ALTER TABLE `registro_encuesta_registro`
+  ADD CONSTRAINT `registro_encuesta_registro_ibfk_1` FOREIGN KEY (`encuesta_general_id`) REFERENCES `registro_encuesta_general` (`id`),
+  ADD CONSTRAINT `registro_encuesta_registro_ibfk_2` FOREIGN KEY (`encuesta_docente_id`) REFERENCES `registro_encuesta_docentes` (`id`),
+  ADD CONSTRAINT `registro_encuesta_registro_ibfk_3` FOREIGN KEY (`encuesta_alumno_id`) REFERENCES `registro_encuesta_alumno` (`id`);
 
 --
 -- Filtros para la tabla `registro_utiles`

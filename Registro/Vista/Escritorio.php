@@ -63,7 +63,7 @@ if (!isset($_SESSION['nombre'])) {
                         <?php
                         $array = array(
                             "1" => array("nombre" => "REGISTRO UTILES ESCOLARES", "link" => "registro_utiles.php"),
-                            "2" => array("nombre" => "REGISTRO ENCUESTAS", "link" => "registro_encuestas.php"),
+                            "2" => array("nombre" => "REGISTRO ENCUESTAS", "link" => "registro_encuesta_general.php"),
                         );
                         ?>
                         <table class="table">
