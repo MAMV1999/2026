@@ -1,71 +1,101 @@
 <?php
 session_start();
+
 include_once("../Modelo/registro_encuesta_registro.php");
 
-$registro = new RegistroEncuestaAlumnoResponder();
+$registro = new RegistroEncuestaAlumno();
 
-$usuario_alumno_id = $_SESSION["docente_id"] ?? "";
+/*
+    IMPORTANTE:
+    Aquí debes colocar el ID del alumno que guardas en sesión.
+
+    Si en tu login guardas:
+    $_SESSION["alumno_id"]
+    úsalo así.
+
+    Si tu login guarda el id del usuario como:
+    $_SESSION["docente_id"]
+    porque reutilizaste el login general, usa esa variable.
+*/
+
+$usuario_alumno_id = $_SESSION["alumno_id"] ?? $_SESSION["docente_id"] ?? $_SESSION["id"] ?? "";
+
+if ($usuario_alumno_id == "") {
+    echo "Sesión de alumno no encontrada";
+    exit;
+}
 
 switch ($_GET["op"]) {
 
     case 'listar':
 
-        if ($usuario_alumno_id == "") {
-            echo json_encode(array("aaData" => array()));
-            exit;
-        }
-
-        $rspta = $registro->listarEncuestas($usuario_alumno_id);
+        $rspta = $registro->listarEncuestasAlumno($usuario_alumno_id);
         $data = array();
 
         while ($reg = $rspta->fetch_object()) {
-
-            $estado_respuesta = ($reg->total_respondidos >= $reg->total_docentes)
-                ? '<span class="badge bg-success">Completado</span>'
-                : '<span class="badge bg-warning text-dark">Pendiente</span>';
 
             $data[] = array(
                 "0" => count($data) + 1,
                 "1" => $reg->nombre,
                 "2" => $reg->fecha_inicio . " - " . $reg->fecha_fin,
                 "3" => $reg->calificacion_menor . " - " . $reg->calificacion_mayor . " estrellas",
-                "4" => $estado_respuesta,
-                "5" => '<button class="btn btn-primary btn-sm" onclick="responder('.$reg->id.')">RESPONDER</button>'
+                "4" => '<button class="btn btn-primary btn-sm" onclick="responder('.$reg->encuesta_general_id.', '.$reg->encuesta_alumno_id.')">
+                            RESPONDER
+                        </button>'
             );
         }
 
-        echo json_encode(array(
+        $results = array(
             "sEcho" => 1,
             "iTotalRecords" => count($data),
             "iTotalDisplayRecords" => count($data),
             "aaData" => $data
-        ));
+        );
+
+        echo json_encode($results);
 
         break;
 
     case 'mostrar':
 
-        $encuesta_id = $_POST["id"] ?? "";
+        $encuesta_general_id = $_POST["encuesta_general_id"] ?? "";
+        $encuesta_alumno_id = $_POST["encuesta_alumno_id"] ?? "";
 
-        $cabecera = $registro->mostrarEncuesta($encuesta_id, $usuario_alumno_id);
+        $cabecera = $registro->mostrarEncuesta(
+            $encuesta_general_id,
+            $encuesta_alumno_id,
+            $usuario_alumno_id
+        );
 
         if (!$cabecera) {
             echo json_encode(array(
-                "status" => "error",
-                "message" => "La encuesta no está disponible para este alumno."
+                "estado" => false,
+                "mensaje" => "La encuesta no está disponible."
+            ));
+            exit;
+        }
+
+        if ($registro->yaRespondio($encuesta_general_id, $encuesta_alumno_id)) {
+            echo json_encode(array(
+                "estado" => false,
+                "mensaje" => "Usted ya respondió esta encuesta."
             ));
             exit;
         }
 
         $docentes = array();
-        $rspta = $registro->listarDocentesEncuesta($encuesta_id, $cabecera->encuesta_alumno_id);
 
-        while ($reg = $rspta->fetch_object()) {
-            $docentes[] = $reg;
+        $rsptaDocentes = $registro->listarDocentesEncuesta($encuesta_general_id);
+
+        while ($reg = $rsptaDocentes->fetch_object()) {
+            $docentes[] = array(
+                "encuesta_docente_id" => $reg->encuesta_docente_id,
+                "docente" => $reg->docente
+            );
         }
 
         echo json_encode(array(
-            "status" => "success",
+            "estado" => true,
             "cabecera" => $cabecera,
             "docentes" => $docentes
         ));
@@ -74,52 +104,26 @@ switch ($_GET["op"]) {
 
     case 'guardar':
 
-        $encuesta_id = $_POST["encuesta_id"] ?? "";
+        $encuesta_general_id = $_POST["encuesta_general_id"] ?? "";
         $encuesta_alumno_id = $_POST["encuesta_alumno_id"] ?? "";
+
         $calificaciones = $_POST["calificacion"] ?? array();
         $comentarios = $_POST["comentario"] ?? array();
 
-        if ($usuario_alumno_id == "") {
-            echo "Sesión no válida.";
+        if ($encuesta_general_id == "" || $encuesta_alumno_id == "" || empty($calificaciones)) {
+            echo "Datos incompletos";
             exit;
         }
 
-        $cabecera = $registro->mostrarEncuesta($encuesta_id, $usuario_alumno_id);
+        $rspta = $registro->guardarRespuestas(
+            $encuesta_general_id,
+            $encuesta_alumno_id,
+            $usuario_alumno_id,
+            $calificaciones,
+            $comentarios
+        );
 
-        if (!$cabecera) {
-            echo "La encuesta no está habilitada o no corresponde al alumno.";
-            exit;
-        }
-
-        $respuestas = array();
-
-        foreach ($calificaciones as $encuesta_docente_id => $calificacion) {
-
-            if ($calificacion == "") {
-                echo "Debe calificar a todos los docentes.";
-                exit;
-            }
-
-            if ($calificacion < $cabecera->calificacion_menor || $calificacion > $cabecera->calificacion_mayor) {
-                echo "La calificación está fuera del rango permitido.";
-                exit;
-            }
-
-            $respuestas[$encuesta_docente_id] = array(
-                "calificacion" => $calificacion,
-                "comentario" => $comentarios[$encuesta_docente_id] ?? ""
-            );
-        }
-
-        if (empty($respuestas)) {
-            echo "No hay respuestas para guardar.";
-            exit;
-        }
-
-        $rspta = $registro->guardarRespuestas($encuesta_id, $encuesta_alumno_id, $respuestas);
-
-        echo $rspta ? "Encuesta enviada correctamente" : "Error al guardar la encuesta";
+        echo $rspta;
 
         break;
 }
-?>

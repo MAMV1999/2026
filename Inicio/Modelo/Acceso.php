@@ -3,9 +3,7 @@ require_once("../../database.php");
 
 class Acceso
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     // Función para verificar usuario y contraseña
     public function verificar($usuario, $clave)
@@ -61,16 +59,11 @@ class Acceso
                         END AS docente_estado,
                         1 AS orden_tipo
                     FROM usuario_docente d
-                    INNER JOIN usuario_documento ud 
-                        ON ud.id = d.id_documento AND ud.estado = 1
-                    LEFT JOIN usuario_estado_civil uec 
-                        ON uec.id = d.id_estado_civil AND uec.estado = 1
-                    LEFT JOIN usuario_sexo us 
-                        ON us.id = d.id_sexo AND us.estado = 1
-                    LEFT JOIN usuario_cargo uc 
-                        ON uc.id = d.id_cargo AND uc.estado = 1
-                    LEFT JOIN usuario_tipo_contrato utc 
-                        ON utc.id = d.id_tipo_contrato AND utc.estado = 1
+                    INNER JOIN usuario_documento ud ON ud.id = d.id_documento AND ud.estado = 1
+                    LEFT JOIN usuario_estado_civil uec ON uec.id = d.id_estado_civil AND uec.estado = 1
+                    LEFT JOIN usuario_sexo us ON us.id = d.id_sexo AND us.estado = 1
+                    LEFT JOIN usuario_cargo uc ON uc.id = d.id_cargo AND uc.estado = 1
+                    LEFT JOIN usuario_tipo_contrato utc ON utc.id = d.id_tipo_contrato AND utc.estado = 1
                     WHERE 
                         d.usuario = '$usuario'
                         AND d.clave = '$clave'
@@ -116,10 +109,8 @@ class Acceso
                         END AS docente_estado,
                         2 AS orden_tipo
                     FROM usuario_alumno a
-                    INNER JOIN usuario_documento ud 
-                        ON ud.id = a.id_documento AND ud.estado = 1
-                    LEFT JOIN usuario_sexo us 
-                        ON us.id = a.id_sexo AND us.estado = 1
+                    INNER JOIN usuario_documento ud ON ud.id = a.id_documento AND ud.estado = 1
+                    LEFT JOIN usuario_sexo us ON us.id = a.id_sexo AND us.estado = 1
                     WHERE 
                         a.usuario = '$usuario'
                         AND a.clave = '$clave'
