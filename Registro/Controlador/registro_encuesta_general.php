@@ -17,8 +17,8 @@ switch ($_GET["op"]) {
         $calificacion_mayor = $_POST["calificacion_mayor"] ?? "";
         $observaciones = $_POST["observaciones"] ?? "";
 
-        $docentes = $_POST["docentes"] ?? [];
-        $alumnos = $_POST["alumnos"] ?? [];
+        $docentes = $_POST["docentes"] ?? array();
+        $alumnos = $_POST["alumnos"] ?? array();
 
         if ($nombre != "" && $fecha_inicio != "" && $fecha_fin != "" && !empty($docentes) && !empty($alumnos)) {
 
@@ -34,7 +34,7 @@ switch ($_GET["op"]) {
                     $alumnos
                 );
 
-                echo $rspta ? "Encuesta registrada correctamente" : "Error al guardar la encuesta";
+                echo $rspta;
 
             } else {
                 $rspta = $registro->editar(
@@ -49,7 +49,7 @@ switch ($_GET["op"]) {
                     $alumnos
                 );
 
-                echo $rspta ? "Encuesta actualizada correctamente" : "Error al actualizar la encuesta";
+                echo $rspta;
             }
 
         } else {
@@ -72,7 +72,7 @@ switch ($_GET["op"]) {
             } else {
                 $estado_fecha = "Finalizó hace " . abs($reg->dias_restantes) . " días";
             }
-        
+
             $data[] = array(
                 "0" => count($data) + 1,
                 "1" => $reg->nombre,

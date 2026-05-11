@@ -11,7 +11,7 @@ class RegistroEncuestaAlumno
 
         $sql = "SELECT 
                     eg.id AS encuesta_general_id,
-                    rea.id AS encuesta_alumno_id,
+                    MIN(rea.id) AS encuesta_alumno_id,
                     eg.nombre,
                     DATE_FORMAT(eg.fecha_inicio, '%d/%m/%Y') AS fecha_inicio,
                     DATE_FORMAT(eg.fecha_fin, '%d/%m/%Y') AS fecha_fin,
@@ -19,17 +19,26 @@ class RegistroEncuestaAlumno
                     eg.calificacion_mayor,
                     COUNT(rer.id) AS total_respondido
                 FROM registro_encuesta_general eg
-                INNER JOIN registro_encuesta_alumno rea ON rea.encuesta_general_id = eg.id
-                INNER JOIN matricula_detalle md ON md.id = rea.matricula_detalle_id
-                LEFT JOIN registro_encuesta_registro rer ON rer.encuesta_general_id = eg.id
-                AND rer.encuesta_alumno_id = rea.id
-                AND rer.estado = 1
+                INNER JOIN registro_encuesta_alumno rea 
+                    ON rea.encuesta_general_id = eg.id
+                INNER JOIN matricula_detalle md 
+                    ON md.id = rea.matricula_detalle_id
+                LEFT JOIN registro_encuesta_registro rer 
+                    ON rer.encuesta_general_id = eg.id
+                    AND rer.encuesta_alumno_id = rea.id
+                    AND rer.estado = 1
                 WHERE md.id_usuario_alumno = '$usuario_alumno_id'
                   AND eg.estado = 1
                   AND rea.estado = 1
                   AND md.estado = 1
                   AND CURDATE() BETWEEN eg.fecha_inicio AND eg.fecha_fin
-                GROUP BY eg.id, rea.id
+                GROUP BY 
+                    eg.id,
+                    eg.nombre,
+                    eg.fecha_inicio,
+                    eg.fecha_fin,
+                    eg.calificacion_menor,
+                    eg.calificacion_mayor
                 HAVING total_respondido = 0
                 ORDER BY eg.id DESC";
 
@@ -51,15 +60,18 @@ class RegistroEncuestaAlumno
                     eg.calificacion_menor,
                     eg.calificacion_mayor
                 FROM registro_encuesta_general eg
-                INNER JOIN registro_encuesta_alumno rea ON rea.encuesta_general_id = eg.id
-                INNER JOIN matricula_detalle md ON md.id = rea.matricula_detalle_id
+                INNER JOIN registro_encuesta_alumno rea 
+                    ON rea.encuesta_general_id = eg.id
+                INNER JOIN matricula_detalle md 
+                    ON md.id = rea.matricula_detalle_id
                 WHERE eg.id = '$encuesta_general_id'
                   AND rea.id = '$encuesta_alumno_id'
                   AND md.id_usuario_alumno = '$usuario_alumno_id'
                   AND eg.estado = 1
                   AND rea.estado = 1
                   AND md.estado = 1
-                  AND CURDATE() BETWEEN eg.fecha_inicio AND eg.fecha_fin";
+                  AND CURDATE() BETWEEN eg.fecha_inicio AND eg.fecha_fin
+                LIMIT 1";
 
         return ejecutarConsultaSimpleFila($sql);
     }
@@ -68,14 +80,21 @@ class RegistroEncuestaAlumno
     {
         $encuesta_general_id = limpiarcadena($encuesta_general_id);
 
+        /*
+            GROUP BY ud.id evita que el mismo docente salga 2 o 3 veces
+            si por registros anteriores quedó duplicado en registro_encuesta_docentes.
+        */
         $sql = "SELECT 
-                    red.id AS encuesta_docente_id,
+                    MIN(red.id) AS encuesta_docente_id,
+                    ud.id AS usuario_docente_id,
                     ud.nombreyapellido AS docente
                 FROM registro_encuesta_docentes red
-                INNER JOIN usuario_docente ud ON ud.id = red.usuario_docente_id
+                INNER JOIN usuario_docente ud 
+                    ON ud.id = red.usuario_docente_id
                 WHERE red.encuesta_general_id = '$encuesta_general_id'
                   AND red.estado = 1
                   AND ud.estado = 1
+                GROUP BY ud.id, ud.nombreyapellido
                 ORDER BY ud.nombreyapellido ASC";
 
         return ejecutarConsulta($sql);
@@ -131,7 +150,8 @@ class RegistroEncuestaAlumno
                                       FROM registro_encuesta_docentes
                                       WHERE id = '$encuesta_docente_id'
                                         AND encuesta_general_id = '$encuesta_general_id'
-                                        AND estado = 1";
+                                        AND estado = 1
+                                      LIMIT 1";
 
                 $docenteValido = ejecutarConsultaSimpleFila($sqlValidarDocente);
 
@@ -139,24 +159,38 @@ class RegistroEncuestaAlumno
                     return "Uno de los docentes no pertenece a esta encuesta.";
                 }
 
-                $sql = "INSERT INTO registro_encuesta_registro
-                        (
-                            encuesta_general_id,
-                            encuesta_docente_id,
-                            encuesta_alumno_id,
-                            numero_calificacion,
-                            comentario
-                        )
-                        VALUES
-                        (
-                            '$encuesta_general_id',
-                            '$encuesta_docente_id',
-                            '$encuesta_alumno_id',
-                            '$numero_calificacion',
-                            '$comentario'
-                        )";
+                $sqlExisteRespuesta = "SELECT id 
+                                       FROM registro_encuesta_registro
+                                       WHERE encuesta_general_id = '$encuesta_general_id'
+                                         AND encuesta_docente_id = '$encuesta_docente_id'
+                                         AND encuesta_alumno_id = '$encuesta_alumno_id'
+                                         AND estado = 1
+                                       LIMIT 1";
 
-                ejecutarConsulta($sql);
+                $respuestaExiste = ejecutarConsultaSimpleFila($sqlExisteRespuesta);
+
+                if (!$respuestaExiste) {
+                    $sql = "INSERT INTO registro_encuesta_registro
+                            (
+                                encuesta_general_id,
+                                encuesta_docente_id,
+                                encuesta_alumno_id,
+                                numero_calificacion,
+                                comentario,
+                                estado
+                            )
+                            VALUES
+                            (
+                                '$encuesta_general_id',
+                                '$encuesta_docente_id',
+                                '$encuesta_alumno_id',
+                                '$numero_calificacion',
+                                '$comentario',
+                                1
+                            )";
+
+                    ejecutarConsulta($sql);
+                }
             }
 
             return "Encuesta enviada correctamente";

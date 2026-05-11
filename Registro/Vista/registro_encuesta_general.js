@@ -28,6 +28,8 @@ function limpiar() {
 
     $(".check_docente").prop("checked", false);
     $(".check_alumno").prop("checked", false);
+
+    $("#btn_guardar").html("Guardar");
 }
 
 function MostrarListado() {
@@ -63,6 +65,18 @@ function cargar_alumnos(callback) {
 
 function guardaryeditar(e) {
     e.preventDefault();
+
+    let id = $("#id").val();
+
+    if (id == "") {
+        if (!confirm("Está creando una NUEVA encuesta. ¿Desea continuar?")) {
+            return;
+        }
+    } else {
+        if (!confirm("Está EDITANDO la encuesta seleccionada. ¿Desea guardar los cambios?")) {
+            return;
+        }
+    }
 
     let formData = new FormData(document.getElementById("frm_form"));
 
@@ -100,6 +114,8 @@ function mostrar(id) {
         $("#calificacion_menor").val(data.cabecera.calificacion_menor);
         $("#calificacion_mayor").val(data.cabecera.calificacion_mayor);
         $("#observaciones").val(data.cabecera.observaciones);
+
+        $("#btn_guardar").html("Actualizar");
 
         cargar_docentes(function () {
             $(".check_docente").prop("checked", false);

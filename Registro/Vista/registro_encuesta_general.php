@@ -111,7 +111,7 @@ if (!isset($_SESSION['nombre'])) {
             </div>
 
             <div class="p-3">
-                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="submit" id="btn_guardar" class="btn btn-primary">Guardar</button>
                 <button type="button" onclick="MostrarListado();" class="btn btn-secondary">Cancelar</button>
             </div>
 

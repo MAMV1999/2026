@@ -5,19 +5,6 @@ include_once("../Modelo/registro_encuesta_registro.php");
 
 $registro = new RegistroEncuestaAlumno();
 
-/*
-    IMPORTANTE:
-    Aquí debes colocar el ID del alumno que guardas en sesión.
-
-    Si en tu login guardas:
-    $_SESSION["alumno_id"]
-    úsalo así.
-
-    Si tu login guarda el id del usuario como:
-    $_SESSION["docente_id"]
-    porque reutilizaste el login general, usa esa variable.
-*/
-
 $usuario_alumno_id = $_SESSION["alumno_id"] ?? $_SESSION["docente_id"] ?? $_SESSION["id"] ?? "";
 
 if ($usuario_alumno_id == "") {

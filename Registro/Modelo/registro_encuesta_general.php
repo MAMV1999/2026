@@ -15,37 +15,51 @@ class RegistroEncuesta
             $calificacion_mayor = limpiarcadena($calificacion_mayor);
             $observaciones = limpiarcadena($observaciones);
 
+            $docentes = array_unique($docentes);
+            $alumnos = array_unique($alumnos);
+
+            $sqlDuplicado = "SELECT id 
+                             FROM registro_encuesta_general
+                             WHERE nombre = '$nombre'
+                               AND fecha_inicio = '$fecha_inicio'
+                               AND fecha_fin = '$fecha_fin'
+                               AND estado = 1
+                             LIMIT 1";
+
+            $duplicado = ejecutarConsultaSimpleFila($sqlDuplicado);
+
+            if ($duplicado) {
+                return "Ya existe una encuesta activa con el mismo nombre y fechas. Use EDITAR, no AGREGAR.";
+            }
+
             $sql = "INSERT INTO registro_encuesta_general 
-                    (nombre, fecha_inicio, fecha_fin, calificacion_menor, calificacion_mayor, observaciones)
+                    (
+                        nombre, 
+                        fecha_inicio, 
+                        fecha_fin, 
+                        calificacion_menor, 
+                        calificacion_mayor, 
+                        observaciones
+                    )
                     VALUES 
-                    ('$nombre', '$fecha_inicio', '$fecha_fin', '$calificacion_menor', '$calificacion_mayor', '$observaciones')";
+                    (
+                        '$nombre', 
+                        '$fecha_inicio', 
+                        '$fecha_fin', 
+                        '$calificacion_menor', 
+                        '$calificacion_mayor', 
+                        '$observaciones'
+                    )";
 
             $encuesta_id = ejecutarConsulta_retornarID($sql);
 
-            foreach ($docentes as $docente_id) {
-                $docente_id = limpiarcadena($docente_id);
+            $this->actualizarDocentesEncuesta($encuesta_id, $docentes);
+            $this->actualizarAlumnosEncuesta($encuesta_id, $alumnos);
 
-                $sqlDocente = "INSERT INTO registro_encuesta_docentes
-                               (encuesta_general_id, usuario_docente_id)
-                               VALUES
-                               ('$encuesta_id', '$docente_id')";
-                ejecutarConsulta($sqlDocente);
-            }
-
-            foreach ($alumnos as $matricula_detalle_id) {
-                $matricula_detalle_id = limpiarcadena($matricula_detalle_id);
-
-                $sqlAlumno = "INSERT INTO registro_encuesta_alumno
-                              (encuesta_general_id, matricula_detalle_id)
-                              VALUES
-                              ('$encuesta_id', '$matricula_detalle_id')";
-                ejecutarConsulta($sqlAlumno);
-            }
-
-            return true;
+            return "Encuesta registrada correctamente";
 
         } catch (Exception $e) {
-            return false;
+            return "Error al guardar la encuesta";
         }
     }
 
@@ -60,6 +74,9 @@ class RegistroEncuesta
             $calificacion_mayor = limpiarcadena($calificacion_mayor);
             $observaciones = limpiarcadena($observaciones);
 
+            $docentes = array_unique($docentes);
+            $alumnos = array_unique($alumnos);
+
             $sql = "UPDATE registro_encuesta_general SET
                         nombre = '$nombre',
                         fecha_inicio = '$fecha_inicio',
@@ -71,33 +88,122 @@ class RegistroEncuesta
 
             ejecutarConsulta($sql);
 
-            ejecutarConsulta("DELETE FROM registro_encuesta_docentes WHERE encuesta_general_id = '$id'");
-            ejecutarConsulta("DELETE FROM registro_encuesta_alumno WHERE encuesta_general_id = '$id'");
+            /*
+                IMPORTANTE:
+                Ya no se usa DELETE porque registro_encuesta_registro
+                puede tener respuestas que dependen de estas filas.
 
-            foreach ($docentes as $docente_id) {
-                $docente_id = limpiarcadena($docente_id);
+                Ahora se desactiva/reactiva para no romper las respuestas.
+            */
+            $this->actualizarDocentesEncuesta($id, $docentes);
+            $this->actualizarAlumnosEncuesta($id, $alumnos);
 
-                $sqlDocente = "INSERT INTO registro_encuesta_docentes
-                               (encuesta_general_id, usuario_docente_id)
-                               VALUES
-                               ('$id', '$docente_id')";
-                ejecutarConsulta($sqlDocente);
-            }
-
-            foreach ($alumnos as $matricula_detalle_id) {
-                $matricula_detalle_id = limpiarcadena($matricula_detalle_id);
-
-                $sqlAlumno = "INSERT INTO registro_encuesta_alumno
-                              (encuesta_general_id, matricula_detalle_id)
-                              VALUES
-                              ('$id', '$matricula_detalle_id')";
-                ejecutarConsulta($sqlAlumno);
-            }
-
-            return true;
+            return "Encuesta actualizada correctamente";
 
         } catch (Exception $e) {
-            return false;
+            return "Error al actualizar la encuesta";
+        }
+    }
+
+    private function actualizarDocentesEncuesta($encuesta_id, $docentes)
+    {
+        $encuesta_id = limpiarcadena($encuesta_id);
+
+        ejecutarConsulta("UPDATE registro_encuesta_docentes 
+                          SET estado = 0 
+                          WHERE encuesta_general_id = '$encuesta_id'");
+
+        foreach ($docentes as $docente_id) {
+            $docente_id = limpiarcadena($docente_id);
+
+            $sqlExiste = "SELECT id 
+                          FROM registro_encuesta_docentes
+                          WHERE encuesta_general_id = '$encuesta_id'
+                            AND usuario_docente_id = '$docente_id'
+                          ORDER BY id ASC
+                          LIMIT 1";
+
+            $existe = ejecutarConsultaSimpleFila($sqlExiste);
+
+            if ($existe) {
+                $id_relacion = $existe["id"];
+
+                ejecutarConsulta("UPDATE registro_encuesta_docentes
+                                  SET estado = 1
+                                  WHERE id = '$id_relacion'");
+
+                ejecutarConsulta("UPDATE registro_encuesta_docentes
+                                  SET estado = 0
+                                  WHERE encuesta_general_id = '$encuesta_id'
+                                    AND usuario_docente_id = '$docente_id'
+                                    AND id <> '$id_relacion'");
+            } else {
+                $sqlInsert = "INSERT INTO registro_encuesta_docentes
+                              (
+                                  encuesta_general_id, 
+                                  usuario_docente_id,
+                                  estado
+                              )
+                              VALUES
+                              (
+                                  '$encuesta_id', 
+                                  '$docente_id',
+                                  1
+                              )";
+
+                ejecutarConsulta($sqlInsert);
+            }
+        }
+    }
+
+    private function actualizarAlumnosEncuesta($encuesta_id, $alumnos)
+    {
+        $encuesta_id = limpiarcadena($encuesta_id);
+
+        ejecutarConsulta("UPDATE registro_encuesta_alumno 
+                          SET estado = 0 
+                          WHERE encuesta_general_id = '$encuesta_id'");
+
+        foreach ($alumnos as $matricula_detalle_id) {
+            $matricula_detalle_id = limpiarcadena($matricula_detalle_id);
+
+            $sqlExiste = "SELECT id 
+                          FROM registro_encuesta_alumno
+                          WHERE encuesta_general_id = '$encuesta_id'
+                            AND matricula_detalle_id = '$matricula_detalle_id'
+                          ORDER BY id ASC
+                          LIMIT 1";
+
+            $existe = ejecutarConsultaSimpleFila($sqlExiste);
+
+            if ($existe) {
+                $id_relacion = $existe["id"];
+
+                ejecutarConsulta("UPDATE registro_encuesta_alumno
+                                  SET estado = 1
+                                  WHERE id = '$id_relacion'");
+
+                ejecutarConsulta("UPDATE registro_encuesta_alumno
+                                  SET estado = 0
+                                  WHERE encuesta_general_id = '$encuesta_id'
+                                    AND matricula_detalle_id = '$matricula_detalle_id'
+                                    AND id <> '$id_relacion'");
+            } else {
+                $sqlInsert = "INSERT INTO registro_encuesta_alumno
+                              (
+                                  encuesta_general_id, 
+                                  matricula_detalle_id,
+                                  estado
+                              )
+                              VALUES
+                              (
+                                  '$encuesta_id', 
+                                  '$matricula_detalle_id',
+                                  1
+                              )";
+
+                ejecutarConsulta($sqlInsert);
+            }
         }
     }
 
@@ -116,6 +222,7 @@ class RegistroEncuesta
                     eg.fechacreado
                 FROM registro_encuesta_general eg
                 ORDER BY eg.id DESC";
+
         return ejecutarConsulta($sql);
     }
 
@@ -123,7 +230,9 @@ class RegistroEncuesta
     {
         $id = limpiarcadena($id);
 
-        $sql = "SELECT * FROM registro_encuesta_general WHERE id = '$id'";
+        $sql = "SELECT * 
+                FROM registro_encuesta_general 
+                WHERE id = '$id'";
 
         return ejecutarConsultaSimpleFila($sql);
     }
@@ -134,7 +243,7 @@ class RegistroEncuesta
                     id,
                     nombreyapellido
                 FROM usuario_docente
-                WHERE estado = '1'
+                WHERE estado = 1
                 ORDER BY nombreyapellido ASC";
 
         return ejecutarConsulta($sql);
@@ -154,9 +263,9 @@ class RegistroEncuesta
                 INNER JOIN institucion_seccion sec ON m.id_institucion_seccion = sec.id
                 INNER JOIN institucion_grado gra ON sec.id_institucion_grado = gra.id
                 INNER JOIN institucion_nivel niv ON gra.id_institucion_nivel = niv.id
-                WHERE md.estado = '1'
-                  AND alu.estado = '1'
-                  AND m.estado = '1'
+                WHERE md.estado = 1
+                  AND alu.estado = 1
+                  AND m.estado = 1
                 ORDER BY niv.id ASC, gra.id ASC, sec.id ASC, alu.nombreyapellido ASC";
 
         return ejecutarConsulta($sql);
@@ -168,7 +277,9 @@ class RegistroEncuesta
 
         $sql = "SELECT usuario_docente_id 
                 FROM registro_encuesta_docentes
-                WHERE encuesta_general_id = '$id'";
+                WHERE encuesta_general_id = '$id'
+                  AND estado = 1
+                GROUP BY usuario_docente_id";
 
         return ejecutarConsulta($sql);
     }
@@ -179,7 +290,9 @@ class RegistroEncuesta
 
         $sql = "SELECT matricula_detalle_id 
                 FROM registro_encuesta_alumno
-                WHERE encuesta_general_id = '$id'";
+                WHERE encuesta_general_id = '$id'
+                  AND estado = 1
+                GROUP BY matricula_detalle_id";
 
         return ejecutarConsulta($sql);
     }
@@ -188,9 +301,9 @@ class RegistroEncuesta
     {
         $id = limpiarcadena($id);
 
-        ejecutarConsulta("UPDATE registro_encuesta_general SET estado = '1' WHERE id = '$id'");
-        ejecutarConsulta("UPDATE registro_encuesta_docentes SET estado = '1' WHERE encuesta_general_id = '$id'");
-        ejecutarConsulta("UPDATE registro_encuesta_alumno SET estado = '1' WHERE encuesta_general_id = '$id'");
+        ejecutarConsulta("UPDATE registro_encuesta_general 
+                          SET estado = 1 
+                          WHERE id = '$id'");
 
         return true;
     }
@@ -199,9 +312,9 @@ class RegistroEncuesta
     {
         $id = limpiarcadena($id);
 
-        ejecutarConsulta("UPDATE registro_encuesta_general SET estado = '0' WHERE id = '$id'");
-        ejecutarConsulta("UPDATE registro_encuesta_docentes SET estado = '0' WHERE encuesta_general_id = '$id'");
-        ejecutarConsulta("UPDATE registro_encuesta_alumno SET estado = '0' WHERE encuesta_general_id = '$id'");
+        ejecutarConsulta("UPDATE registro_encuesta_general 
+                          SET estado = 0 
+                          WHERE id = '$id'");
 
         return true;
     }

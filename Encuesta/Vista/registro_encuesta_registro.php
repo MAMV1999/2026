@@ -75,7 +75,8 @@ if (!isset($_SESSION['nombre'])) {
             <input type="hidden" id="encuesta_alumno_id" name="encuesta_alumno_id">
 
             <div class="alert alert-info">
-                Califique a cada docente marcando las estrellas y escriba un comentario, RECUERDA QUE TODO COMENTARIO ES ANONIMO.
+                Califique a cada docente marcando las estrellas y escriba un comentario. 
+                Recuerda que todo comentario es anónimo.
             </div>
 
             <div id="contenedor_docentes"></div>

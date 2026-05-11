@@ -72,7 +72,7 @@ function responder(encuesta_general_id, encuesta_alumno_id) {
 
                         <label><b>Calificación</b></label>
 
-                        <div class="estrellas mb-3" data-docente="${docente.encuesta_docente_id}">
+                        <div class="estrellas mb-3">
             `;
 
             for (let i = parseInt(data.cabecera.calificacion_menor); i <= parseInt(data.cabecera.calificacion_mayor); i++) {
