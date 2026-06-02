@@ -270,22 +270,33 @@ class PDF extends FPDF
     }
 }
 
-// Obtener el ID de la matrícula
-$id = $_GET['id'];
-
-// Crear instancia del modelo y obtener datos
 $modelo = new ReciboMatricula();
-$result = $modelo->listarPorIdMatriculaDettalle($id);
-$data = $result->fetch_assoc();
+$result = $modelo->listartodosloscontratos();
 
 date_default_timezone_set('America/Lima');
 $fecha_hora_actual = date('d/m/Y H:i:s');
 
-$pdf = new PDF('P', 'mm', 'A4', $fecha_hora_actual, $data);
+$pdf = new PDF('P', 'mm', 'A4', $fecha_hora_actual);
 $pdf->AliasNbPages();
-$pdf->Recibo($data);
 
-$filename = utf8_decode($data['alumno_nombre_completo']) . '.pdf';
+$total_registros = 0;
+
+if ($result) {
+    while ($data = $result->fetch_assoc()) {
+        $total_registros++;
+        $pdf->Recibo($data);
+    }
+}
+
+if ($total_registros == 0) {
+    $pdf->SinDatos();
+}
+
+$filename = 'contratos_matricula.pdf';
+
+if (ob_get_length()) {
+    ob_end_clean();
+}
 
 header('Content-Type: application/pdf');
 header('Content-Disposition: inline; filename="' . $filename . '"');
@@ -293,3 +304,6 @@ header('Cache-Control: private, max-age=0, must-revalidate');
 header('Pragma: public');
 
 $pdf->Output('I', $filename);
+exit;
+
+?>
