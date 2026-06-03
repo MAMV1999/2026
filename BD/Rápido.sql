@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-05-2026 a las 07:21:31
+-- Tiempo de generación: 02-06-2026 a las 21:44:50
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.3
 
@@ -679,7 +679,7 @@ INSERT INTO `almacen_producto` (`id`, `nombre`, `descripcion`, `categoria_id`, `
 (23, 'BUZO TALLA 10', '', 5, '0.00', '78.00', 29, '2026-01-16 11:02:39', 1),
 (24, 'BUZO TALLA 12', '', 5, '0.00', '80.00', 13, '2026-01-16 11:02:39', 1),
 (25, 'BUZO TALLA 14', '', 5, '0.00', '82.00', 11, '2026-01-16 11:02:39', 1),
-(26, 'BUZO TALLA 16', '', 5, '0.00', '83.00', 13, '2026-01-16 11:02:39', 1),
+(26, 'BUZO TALLA 16', '', 5, '0.00', '83.00', 12, '2026-01-16 11:02:39', 1),
 (27, 'BUZO TALLA S', '', 5, '0.00', '83.00', 14, '2026-01-16 11:02:39', 1),
 (28, 'POLO BLANCO TALLA 4', '', 5, '0.00', '34.00', 14, '2026-01-16 11:25:35', 1),
 (29, 'POLO BLANCO TALLA 6', '', 5, '0.00', '34.00', 11, '2026-01-16 11:25:35', 1),
@@ -864,7 +864,7 @@ INSERT INTO `almacen_salida` (`id`, `usuario_apoderado_id`, `almacen_comprobante
 (106, 12, 1, '000106', '2026-03-06', 2, '100.00', '', '2026-03-06 11:14:46', 1),
 (107, 40, 1, '000107', '2026-03-06', 1, '38.00', '', '2026-03-06 12:03:01', 1),
 (108, 40, 1, '000108', '2026-03-06', 1, '12.00', '', '2026-03-06 12:05:12', 1),
-(109, 83, 1, '000109', '2026-03-06', 1, '250.00', 'ADELANTO DE PAGO LIBRO PRIMARIA 3 GRADO - 50 SOLES YAPE\r\nADELANTO DE PAGO LIBRO PRIMARIA 3 GRADO - 200 SOLES YAPE\r\nSE ENTREGA EL LIBRO DE CIENCIAS Y LETRAS DEL PRIMER BIMESTRE A LA ALUMNA\r\nPENDIENTE DE PAGO', '2026-03-06 12:11:00', 1),
+(109, 83, 1, '000109', '2026-03-06', 1, '270.00', 'ADELANTO DE PAGO LIBRO PRIMARIA 3 GRADO - 50 SOLES YAPE\r\nADELANTO DE PAGO LIBRO PRIMARIA 3 GRADO - 200 SOLES YAPE\r\nPAG COMPLETO - PENDIENTE VUELTO X YAPE\r\nSE ENTREGA COMPLETO', '2026-03-06 12:11:00', 1),
 (110, 84, 1, '000110', '2026-03-06', 1, '82.00', 'PAGO COMPLETO\r\nYAPE 20 SOLES / YAPE 2 SOLES / EFECTIVO 60 SOLES', '2026-03-06 12:44:03', 1),
 (111, 85, 1, '000111', '2026-03-06', 1, '519.00', 'ADELANTO DE PAGO LIBRO PRIMARIA 6 GRADO - 50 SOLES / PAGO TOTAL 290 SOLES\r\nCITA PSICOLÓGICA - PROGRAMADA - 100 SOLES', '2026-03-06 13:24:13', 1),
 (112, 32, 1, '000112', '2026-03-06', 2, '121.00', '', '2026-03-06 13:30:08', 1),
@@ -956,7 +956,8 @@ INSERT INTO `almacen_salida` (`id`, `usuario_apoderado_id`, `almacen_comprobante
 (198, 80, 1, '000198', '2026-04-08', 1, '140.00', 'LIBRO PRIMARIA 2 GRADO ADELANTO DE PAGO - 140 SOLES\r\nPAGO TOTAL 260 SOLES', '2026-04-09 13:48:29', 1),
 (199, 84, 1, '000199', '2026-04-14', 2, '100.00', '', '2026-04-14 14:13:49', 1),
 (200, 81, 1, '000200', '2026-04-29', 2, '83.00', 'ENTREGADO COMPLETO', '2026-04-29 14:29:08', 1),
-(201, 98, 1, '000201', '2026-05-04', 1, '80.00', 'PAGO COMPLETO', '2026-05-04 13:35:11', 1);
+(201, 98, 1, '000201', '2026-05-04', 1, '80.00', 'PAGO COMPLETO', '2026-05-04 13:35:11', 1),
+(202, 22, 1, '000202', '2026-05-26', 2, '83.00', 'SE ENTREGO COMPLETO', '2026-05-26 14:34:10', 1);
 
 --
 -- Disparadores `almacen_salida`
@@ -1179,7 +1180,7 @@ INSERT INTO `almacen_salida_detalle` (`id`, `almacen_salida_id`, `almacen_produc
 (193, 106, 15, 1, '100.00', ''),
 (194, 107, 53, 1, '38.00', ''),
 (195, 108, 72, 1, '12.00', ''),
-(196, 109, 9, 1, '250.00', '270.00'),
+(196, 109, 9, 1, '270.00', '270.00'),
 (199, 110, 42, 1, '43.00', ''),
 (200, 110, 64, 1, '39.00', ''),
 (201, 111, 33, 1, '38.00', ''),
@@ -1332,7 +1333,8 @@ INSERT INTO `almacen_salida_detalle` (`id`, `almacen_salida_id`, `almacen_produc
 (350, 198, 8, 1, '140.00', '260.00'),
 (351, 199, 15, 1, '100.00', ''),
 (352, 200, 26, 1, '83.00', ''),
-(353, 201, 46, 1, '80.00', '');
+(353, 201, 46, 1, '80.00', ''),
+(354, 202, 26, 1, '83.00', '');
 
 --
 -- Disparadores `almacen_salida_detalle`
@@ -1573,7 +1575,43 @@ INSERT INTO `documento_detalle` (`id`, `id_matricula_detalle`, `id_documento`, `
 (153, 24, 9, 0, '', '2026-03-27 18:50:15', 1),
 (154, 24, 10, 1, '5 FOTOS', '2026-03-27 18:50:15', 1),
 (155, 24, 11, 1, '', '2026-03-27 18:50:15', 1),
-(156, 24, 12, 0, '', '2026-03-27 18:50:15', 1);
+(156, 24, 12, 0, '', '2026-03-27 18:50:15', 1),
+(157, 49, 1, 1, '', '2026-05-27 15:27:57', 1),
+(158, 49, 2, 1, '', '2026-05-27 15:27:57', 1),
+(159, 49, 3, 0, '', '2026-05-27 15:27:57', 1),
+(160, 49, 4, 0, '', '2026-05-27 15:27:57', 1),
+(161, 49, 5, 1, '', '2026-05-27 15:27:57', 1),
+(162, 49, 6, 1, '', '2026-05-27 15:27:57', 1),
+(163, 49, 7, 1, '', '2026-05-27 15:27:57', 1),
+(164, 49, 8, 1, '', '2026-05-27 15:27:57', 1),
+(165, 49, 9, 1, '', '2026-05-27 15:27:57', 1),
+(166, 49, 10, 1, '6 FOTOS', '2026-05-27 15:27:57', 1),
+(167, 49, 11, 0, '', '2026-05-27 15:27:57', 1),
+(168, 49, 12, 1, 'RECIBO DE AGUA', '2026-05-27 15:27:57', 1),
+(169, 50, 1, 0, '', '2026-05-27 15:33:46', 1),
+(170, 50, 2, 0, '', '2026-05-27 15:33:46', 1),
+(171, 50, 3, 0, '', '2026-05-27 15:33:46', 1),
+(172, 50, 4, 0, '', '2026-05-27 15:33:46', 1),
+(173, 50, 5, 0, '', '2026-05-27 15:33:46', 1),
+(174, 50, 6, 1, '', '2026-05-27 15:33:46', 1),
+(175, 50, 7, 0, '', '2026-05-27 15:33:46', 1),
+(176, 50, 8, 1, '', '2026-05-27 15:33:46', 1),
+(177, 50, 9, 1, '', '2026-05-27 15:33:46', 1),
+(178, 50, 10, 1, '8 FOTOS', '2026-05-27 15:33:46', 1),
+(179, 50, 11, 0, '', '2026-05-27 15:33:46', 1),
+(180, 50, 12, 0, '', '2026-05-27 15:33:46', 1),
+(181, 93, 1, 0, '', '2026-05-27 15:36:33', 1),
+(182, 93, 2, 0, '', '2026-05-27 15:36:33', 1),
+(183, 93, 3, 0, '', '2026-05-27 15:36:33', 1),
+(184, 93, 4, 0, '', '2026-05-27 15:36:33', 1),
+(185, 93, 5, 0, '', '2026-05-27 15:36:33', 1),
+(186, 93, 6, 0, '', '2026-05-27 15:36:33', 1),
+(187, 93, 7, 0, '', '2026-05-27 15:36:33', 1),
+(188, 93, 8, 1, '', '2026-05-27 15:36:33', 1),
+(189, 93, 9, 1, '', '2026-05-27 15:36:33', 1),
+(190, 93, 10, 0, '', '2026-05-27 15:36:33', 1),
+(191, 93, 11, 0, '', '2026-05-27 15:36:33', 1),
+(192, 93, 12, 0, '', '2026-05-27 15:36:33', 1);
 
 -- --------------------------------------------------------
 
@@ -2017,7 +2055,8 @@ INSERT INTO `matricula_detalle` (`id`, `descripcion`, `id_matricula`, `id_matric
 (91, 'MATRICULA 2026 - 17/04/2026\\r\\nNIVEL: INICIAL - GRADO: 4 AÑOS - SECCION: A\\r\\n\\r\\nImpresion: S./15.00\\r\\nMantenimiento: S./30.00\\r\\nMatricula: S./280.00\\r\\nMensualidad: S./300.00\\r\\n\\r\\nObservaciones:', 3, 2, NULL, 96, 91, '', '2026-04-17 16:22:36', 1),
 (92, 'MATRICULA 2026 - 17/04/2026\\r\\nNIVEL: INICIAL - GRADO: 5 AÑOS - SECCION: A\\r\\n\\r\\nImpresion: S./15.00\\r\\nMantenimiento: S./30.00\\r\\nMatricula: S./280.00\\r\\nMensualidad: S./300.00\\r\\n\\r\\nObservaciones:', 4, 2, NULL, 97, 92, '', '2026-04-17 17:13:47', 1),
 (93, 'MATRICULA 2026 - 04/05/2026\\r\\nNIVEL: INICIAL - GRADO: 2 AÑOS - SECCION: A\\r\\n\\r\\nImpresion: S./15.00\\r\\nMantenimiento: S./30.00\\r\\nMatricula: S./280.00\\r\\nMensualidad: S./290.00\\r\\n\\r\\nObservaciones:', 1, 2, NULL, 98, 93, '', '2026-05-04 17:09:44', 1),
-(94, 'MATRICULA 2026 - 04/05/2026\\r\\nNIVEL: INICIAL - GRADO: 2 AÑOS - SECCION: A\\r\\n\\r\\nImpresion: S./15.00\\r\\nMantenimiento: S./30.00\\r\\nMatricula: S./280.00\\r\\nMensualidad: S./290.00\\r\\n\\r\\nObservaciones:', 1, 2, NULL, 99, 94, '', '2026-05-04 18:03:31', 1);
+(94, 'MATRICULA 2026 - 04/05/2026\\r\\nNIVEL: INICIAL - GRADO: 2 AÑOS - SECCION: A\\r\\n\\r\\nImpresion: S./15.00\\r\\nMantenimiento: S./30.00\\r\\nMatricula: S./280.00\\r\\nMensualidad: S./290.00\\r\\n\\r\\nObservaciones:', 1, 2, NULL, 99, 94, '', '2026-05-04 18:03:31', 1),
+(95, 'MATRICULA 2026 - 21/05/2026\\r\\nNIVEL: PRIMARIA - GRADO: 5 GRADO - SECCION: A\\r\\n\\r\\nImpresion: S./10.00\\r\\nMantenimiento: S./30.00\\r\\nMatricula: S./280.00\\r\\nMensualidad: S./320.00\\r\\n\\r\\nObservaciones:', 9, 2, NULL, 100, 95, '', '2026-05-21 18:32:43', 1);
 
 -- --------------------------------------------------------
 
@@ -2237,7 +2276,7 @@ INSERT INTO `matricula_pago` (`id`, `id_matricula_detalle`, `numeracion`, `fecha
 (71, 71, '000071', '2026-03-05', 'MATRICULA 2026 - 05/03/2026\\r\\nNIVEL: PRIMARIA - GRADO: 4 GRADO - SECCION: A\\r\\n\\r\\nImpresion: S./10.00\\r\\nMantenimiento: S./30.00\\r\\nMatricula: S./280.00\\r\\nMensualidad: S./320.00\\r\\n\\r\\nObservaciones:', '280.00', 2, '', '2026-03-05 22:41:51', 1),
 (72, 72, '000072', '2026-03-06', 'MATRICULA 2026 - 06/03/2026\\r\\nNIVEL: INICIAL - GRADO: 4 AÑOS - SECCION: A\\r\\n\\r\\nImpresion: S./15.00\\r\\nMantenimiento: S./30.00\\r\\nMatricula: S./280.00\\r\\nMensualidad: S./300.00\\r\\n\\r\\nObservaciones:', '250.00', 2, '', '2026-03-06 12:39:48', 1),
 (73, 73, '000073', '2026-03-06', 'MATRICULA 2026 - 06/03/2026\\r\\nNIVEL: PRIMARIA - GRADO: 1 GRADO - SECCION: A\\r\\n\\r\\nImpresion: S./10.00\\r\\nMantenimiento: S./30.00\\r\\nMatricula: S./280.00\\r\\nMensualidad: S./320.00\\r\\n\\r\\nObservaciones:', '250.00', 2, '', '2026-03-06 17:07:36', 1),
-(74, 74, '000074', '2026-03-06', 'MATRICULA 2026 - 06/03/2026\\r\\nNIVEL: PRIMARIA - GRADO: 3 GRADO - SECCION: A\\r\\n\\r\\nImpresion: S./10.00\\r\\nMantenimiento: S./30.00\\r\\nMatricula: S./280.00\\r\\nMensualidad: S./320.00\\r\\n\\r\\nObservaciones:', '200.00', 5, 'PENDIENTE DE PAGO 50 SOLES', '2026-03-06 17:10:08', 1),
+(74, 74, '000074', '2026-05-19', '', '230.00', 5, 'PENDIENTE DE PAGO 20 SOLES', '2026-03-06 17:10:08', 1),
 (75, 75, '000075', '2026-03-06', 'MATRICULA 2026 - 06/03/2026\\r\\nNIVEL: PRIMARIA - GRADO: 1 GRADO - SECCION: A\\r\\n\\r\\nImpresion: S./10.00\\r\\nMantenimiento: S./30.00\\r\\nMatricula: S./280.00\\r\\nMensualidad: S./320.00\\r\\n\\r\\nObservaciones:', '250.00', 2, '', '2026-03-06 17:35:05', 1),
 (76, 76, '000076', '2026-03-06', '', '250.00', 2, '', '2026-03-06 18:11:10', 1),
 (77, 77, '000077', '2026-03-06', 'MATRICULA 2026 - 06/03/2026\\r\\nNIVEL: INICIAL - GRADO: 5 AÑOS - SECCION: A\\r\\n\\r\\nImpresion: S./15.00\\r\\nMantenimiento: S./30.00\\r\\nMatricula: S./280.00\\r\\nMensualidad: S./300.00\\r\\n\\r\\nObservaciones:', '250.00', 2, '', '2026-03-06 18:14:28', 1),
@@ -2257,7 +2296,8 @@ INSERT INTO `matricula_pago` (`id`, `id_matricula_detalle`, `numeracion`, `fecha
 (91, 91, '000091', '2026-04-17', 'MATRICULA 2026 - 17/04/2026\\r\\nNIVEL: INICIAL - GRADO: 4 AÑOS - SECCION: A\\r\\n\\r\\nImpresion: S./15.00\\r\\nMantenimiento: S./30.00\\r\\nMatricula: S./280.00\\r\\nMensualidad: S./300.00\\r\\n\\r\\nObservaciones:', '280.00', 2, '', '2026-04-17 16:22:36', 1),
 (92, 92, '000092', '2026-04-17', 'MATRICULA 2026 - 17/04/2026\\r\\nNIVEL: INICIAL - GRADO: 5 AÑOS - SECCION: A\\r\\n\\r\\nImpresion: S./15.00\\r\\nMantenimiento: S./30.00\\r\\nMatricula: S./280.00\\r\\nMensualidad: S./300.00\\r\\n\\r\\nObservaciones:', '280.00', 2, '', '2026-04-17 17:13:47', 1),
 (93, 93, '000093', '2026-05-04', 'MATRICULA 2026 - 04/05/2026\\r\\nNIVEL: INICIAL - GRADO: 2 AÑOS - SECCION: A\\r\\n\\r\\nImpresion: S./15.00\\r\\nMantenimiento: S./30.00\\r\\nMatricula: S./280.00\\r\\nMensualidad: S./290.00\\r\\n\\r\\nObservaciones:', '280.00', 2, '', '2026-05-04 17:09:44', 1),
-(94, 94, '000094', '2026-05-04', 'MATRICULA 2026 - 04/05/2026\\r\\nNIVEL: INICIAL - GRADO: 2 AÑOS - SECCION: A\\r\\n\\r\\nImpresion: S./15.00\\r\\nMantenimiento: S./30.00\\r\\nMatricula: S./280.00\\r\\nMensualidad: S./290.00\\r\\n\\r\\nObservaciones:', '280.00', 2, '', '2026-05-04 18:03:31', 1);
+(94, 94, '000094', '2026-05-04', 'MATRICULA 2026 - 04/05/2026\\r\\nNIVEL: INICIAL - GRADO: 2 AÑOS - SECCION: A\\r\\n\\r\\nImpresion: S./15.00\\r\\nMantenimiento: S./30.00\\r\\nMatricula: S./280.00\\r\\nMensualidad: S./290.00\\r\\n\\r\\nObservaciones:', '280.00', 2, '', '2026-05-04 18:03:31', 1),
+(95, 95, '000095', '2026-05-21', 'MATRICULA 2026 - 21/05/2026\\r\\nNIVEL: PRIMARIA - GRADO: 5 GRADO - SECCION: A\\r\\n\\r\\nImpresion: S./10.00\\r\\nMantenimiento: S./30.00\\r\\nMatricula: S./280.00\\r\\nMensualidad: S./320.00\\r\\n\\r\\nObservaciones:', '0.00', 4, '', '2026-05-21 18:32:43', 1);
 
 -- --------------------------------------------------------
 
@@ -2423,7 +2463,7 @@ INSERT INTO `mensualidad_detalle` (`id`, `matricula_mes_id`, `id_matricula_detal
 (139, 10, 14, '320.00', 0, 0, '', '2026-01-06 17:08:53', 1),
 (140, 11, 14, '350.00', 0, 0, '', '2026-01-06 17:08:53', 1),
 (141, 2, 15, '340.00', 1, 0, '', '2026-01-06 17:24:33', 1),
-(142, 3, 15, '340.00', 0, 0, '', '2026-01-06 17:24:33', 1),
+(142, 3, 15, '340.00', 1, 0, '', '2026-01-06 17:24:33', 1),
 (143, 4, 15, '340.00', 0, 0, '', '2026-01-06 17:24:33', 1),
 (144, 5, 15, '320.00', 0, 0, '', '2026-01-06 17:24:33', 1),
 (145, 6, 15, '350.00', 0, 0, '', '2026-01-06 17:24:33', 1),
@@ -2513,7 +2553,7 @@ INSERT INTO `mensualidad_detalle` (`id`, `matricula_mes_id`, `id_matricula_detal
 (229, 10, 23, '290.00', 0, 0, '', '2026-01-22 14:53:30', 1),
 (230, 11, 23, '320.00', 0, 0, '', '2026-01-22 14:53:30', 1),
 (231, 2, 24, '310.00', 1, 0, '', '2026-01-22 16:43:51', 1),
-(232, 3, 24, '310.00', 0, 0, '', '2026-01-22 16:43:51', 1),
+(232, 3, 24, '310.00', 1, 0, '', '2026-01-22 16:43:51', 1),
 (233, 4, 24, '310.00', 0, 0, '', '2026-01-22 16:43:51', 1),
 (234, 5, 24, '310.00', 0, 0, '', '2026-01-22 16:43:51', 1),
 (235, 6, 24, '320.00', 0, 0, '', '2026-01-22 16:43:51', 1),
@@ -2553,7 +2593,7 @@ INSERT INTO `mensualidad_detalle` (`id`, `matricula_mes_id`, `id_matricula_detal
 (269, 10, 27, '290.00', 0, 0, '', '2026-01-29 13:38:32', 1),
 (270, 11, 27, '320.00', 0, 0, '', '2026-01-29 13:38:32', 1),
 (271, 2, 28, '340.00', 1, 0, '', '2026-01-29 13:43:48', 1),
-(272, 3, 28, '340.00', 0, 0, '', '2026-01-29 13:43:48', 1),
+(272, 3, 28, '340.00', 1, 0, '', '2026-01-29 13:43:48', 1),
 (273, 4, 28, '340.00', 0, 0, '', '2026-01-29 13:43:48', 1),
 (274, 5, 28, '320.00', 0, 0, '', '2026-01-29 13:43:48', 1),
 (275, 6, 28, '350.00', 0, 0, '', '2026-01-29 13:43:48', 1),
@@ -2623,7 +2663,7 @@ INSERT INTO `mensualidad_detalle` (`id`, `matricula_mes_id`, `id_matricula_detal
 (339, 10, 34, '290.00', 0, 0, '', '2026-02-04 02:14:59', 1),
 (340, 11, 34, '320.00', 0, 0, '', '2026-02-04 02:14:59', 1),
 (341, 2, 35, '340.00', 1, 0, '', '2026-02-05 17:03:36', 1),
-(342, 3, 35, '340.00', 0, 0, '', '2026-02-05 17:03:36', 1),
+(342, 3, 35, '340.00', 1, 0, '', '2026-02-05 17:03:36', 1),
 (343, 4, 35, '340.00', 0, 0, '', '2026-02-05 17:03:36', 1),
 (344, 5, 35, '320.00', 0, 0, '', '2026-02-05 17:03:36', 1),
 (345, 6, 35, '350.00', 0, 0, '', '2026-02-05 17:03:36', 1),
@@ -2703,7 +2743,7 @@ INSERT INTO `mensualidad_detalle` (`id`, `matricula_mes_id`, `id_matricula_detal
 (419, 10, 42, '320.00', 0, 0, '', '2026-02-17 23:39:18', 1),
 (420, 11, 42, '350.00', 0, 0, '', '2026-02-17 23:39:18', 1),
 (421, 2, 43, '230.00', 1, 0, '', '2026-02-17 23:41:57', 1),
-(422, 3, 43, '230.00', 0, 0, '', '2026-02-17 23:41:57', 1),
+(422, 3, 43, '230.00', 1, 0, '', '2026-02-17 23:41:57', 1),
 (423, 4, 43, '230.00', 0, 0, '', '2026-02-17 23:41:57', 1),
 (424, 5, 43, '210.00', 0, 0, '', '2026-02-17 23:41:57', 1),
 (425, 6, 43, '240.00', 0, 0, '', '2026-02-17 23:41:57', 1),
@@ -2853,7 +2893,7 @@ INSERT INTO `mensualidad_detalle` (`id`, `matricula_mes_id`, `id_matricula_detal
 (569, 10, 57, '300.00', 0, 0, '', '2026-02-25 17:34:53', 1),
 (570, 11, 57, '330.00', 0, 0, '', '2026-02-25 17:34:53', 1),
 (571, 2, 58, '340.00', 1, 0, '', '2026-02-25 18:00:46', 1),
-(572, 3, 58, '340.00', 0, 0, '', '2026-02-25 18:00:46', 1),
+(572, 3, 58, '340.00', 1, 0, '', '2026-02-25 18:00:46', 1),
 (573, 4, 58, '340.00', 0, 0, '', '2026-02-25 18:00:46', 1),
 (574, 5, 58, '320.00', 0, 0, '', '2026-02-25 18:00:46', 1),
 (575, 6, 58, '350.00', 0, 0, '', '2026-02-25 18:00:46', 1),
@@ -3222,7 +3262,17 @@ INSERT INTO `mensualidad_detalle` (`id`, `matricula_mes_id`, `id_matricula_detal
 (937, 8, 94, '290.00', 0, 0, '', '2026-05-04 18:03:31', 1),
 (938, 9, 94, '290.00', 0, 0, '', '2026-05-04 18:03:31', 1),
 (939, 10, 94, '290.00', 0, 0, '', '2026-05-04 18:03:31', 1),
-(940, 11, 94, '320.00', 0, 0, '', '2026-05-04 18:03:31', 1);
+(940, 11, 94, '320.00', 0, 0, '', '2026-05-04 18:03:31', 1),
+(941, 2, 95, '0.00', 1, 0, 'ANULADO', '2026-05-21 18:32:43', 1),
+(942, 3, 95, '0.00', 1, 0, 'ANULADO', '2026-05-21 18:32:43', 1),
+(943, 4, 95, '0.00', 1, 0, 'ANULADO', '2026-05-21 18:32:43', 1),
+(944, 5, 95, '340.00', 0, 0, '', '2026-05-21 18:32:43', 1),
+(945, 6, 95, '370.00', 0, 0, '', '2026-05-21 18:32:43', 1),
+(946, 7, 95, '340.00', 0, 0, '', '2026-05-21 18:32:43', 1),
+(947, 8, 95, '320.00', 0, 0, '', '2026-05-21 18:32:43', 1),
+(948, 9, 95, '320.00', 0, 0, '', '2026-05-21 18:32:43', 1),
+(949, 10, 95, '320.00', 0, 0, '', '2026-05-21 18:32:43', 1),
+(950, 11, 95, '350.00', 0, 0, '', '2026-05-21 18:32:43', 1);
 
 -- --------------------------------------------------------
 
@@ -3244,17 +3294,81 @@ CREATE TABLE `registro_encuesta_alumno` (
 --
 
 INSERT INTO `registro_encuesta_alumno` (`id`, `encuesta_general_id`, `matricula_detalle_id`, `observaciones`, `fechacreado`, `estado`) VALUES
-(29, 1, 82, NULL, '2026-04-29 10:50:29', 1),
-(30, 1, 19, NULL, '2026-04-29 10:50:29', 1),
-(31, 1, 12, NULL, '2026-04-29 10:50:29', 1),
-(32, 1, 14, NULL, '2026-04-29 10:50:29', 1),
-(33, 1, 81, NULL, '2026-04-29 10:50:29', 1),
-(34, 1, 32, NULL, '2026-04-29 10:50:29', 1),
-(35, 1, 18, NULL, '2026-04-29 10:50:29', 1),
-(36, 1, 7, NULL, '2026-04-29 10:50:29', 1),
-(37, 1, 3, NULL, '2026-04-29 10:50:29', 1),
-(38, 1, 30, NULL, '2026-04-29 10:50:29', 1),
-(39, 1, 29, NULL, '2026-04-29 10:50:29', 1);
+(62, 1, 82, NULL, '2026-05-11 02:32:53', 1),
+(63, 1, 19, NULL, '2026-05-11 02:32:53', 1),
+(64, 1, 12, NULL, '2026-05-11 02:32:53', 1),
+(65, 1, 14, NULL, '2026-05-11 02:32:53', 1),
+(66, 1, 81, NULL, '2026-05-11 02:32:53', 1),
+(67, 1, 32, NULL, '2026-05-11 02:32:53', 1),
+(68, 1, 18, NULL, '2026-05-11 02:32:53', 1),
+(69, 1, 7, NULL, '2026-05-11 02:32:53', 1),
+(70, 1, 3, NULL, '2026-05-11 02:32:53', 1),
+(71, 1, 30, NULL, '2026-05-11 02:32:53', 1),
+(72, 1, 29, NULL, '2026-05-11 02:32:53', 1),
+(73, 1, 55, NULL, '2026-05-11 12:56:02', 1),
+(74, 1, 56, NULL, '2026-05-11 12:56:02', 1),
+(75, 1, 76, NULL, '2026-05-11 12:56:02', 1),
+(76, 1, 35, NULL, '2026-05-11 12:56:02', 1),
+(77, 1, 80, NULL, '2026-05-11 12:56:02', 1),
+(78, 1, 11, NULL, '2026-05-11 12:56:02', 1),
+(79, 1, 82, NULL, '2026-05-11 12:56:02', 0),
+(80, 1, 19, NULL, '2026-05-11 12:56:02', 0),
+(81, 1, 12, NULL, '2026-05-11 12:56:02', 0),
+(82, 1, 14, NULL, '2026-05-11 12:56:02', 0),
+(83, 1, 81, NULL, '2026-05-11 12:56:02', 0),
+(84, 1, 32, NULL, '2026-05-11 12:56:02', 0),
+(85, 1, 18, NULL, '2026-05-11 12:56:02', 0),
+(86, 1, 7, NULL, '2026-05-11 12:56:03', 0),
+(87, 1, 3, NULL, '2026-05-11 12:56:03', 0),
+(88, 1, 30, NULL, '2026-05-11 12:56:03', 0),
+(89, 1, 29, NULL, '2026-05-11 12:56:03', 0),
+(90, 1, 31, NULL, '2026-05-11 14:06:26', 0),
+(91, 1, 74, NULL, '2026-05-11 14:06:26', 0),
+(92, 1, 8, NULL, '2026-05-11 14:06:26', 0),
+(93, 1, 13, NULL, '2026-05-11 14:06:26', 0),
+(94, 1, 2, NULL, '2026-05-11 14:06:26', 0),
+(95, 1, 48, NULL, '2026-05-11 14:06:26', 0),
+(96, 1, 44, NULL, '2026-05-11 14:06:26', 0),
+(97, 1, 55, NULL, '2026-05-11 14:06:26', 0),
+(98, 1, 56, NULL, '2026-05-11 14:06:26', 0),
+(99, 1, 76, NULL, '2026-05-11 14:06:26', 0),
+(100, 1, 35, NULL, '2026-05-11 14:06:26', 0),
+(101, 1, 80, NULL, '2026-05-11 14:06:26', 0),
+(102, 1, 11, NULL, '2026-05-11 14:06:26', 0),
+(103, 1, 82, NULL, '2026-05-11 14:06:26', 0),
+(104, 1, 19, NULL, '2026-05-11 14:06:26', 0),
+(105, 1, 12, NULL, '2026-05-11 14:06:26', 0),
+(106, 1, 14, NULL, '2026-05-11 14:06:26', 0),
+(107, 1, 81, NULL, '2026-05-11 14:06:26', 0),
+(108, 1, 32, NULL, '2026-05-11 14:06:26', 0),
+(109, 1, 18, NULL, '2026-05-11 14:06:26', 0),
+(110, 1, 7, NULL, '2026-05-11 14:06:26', 0),
+(111, 1, 3, NULL, '2026-05-11 14:06:26', 0),
+(112, 1, 30, NULL, '2026-05-11 14:06:26', 0),
+(113, 1, 29, NULL, '2026-05-11 14:06:26', 0),
+(114, 1, 31, NULL, '2026-05-11 14:07:15', 0),
+(115, 1, 74, NULL, '2026-05-11 14:07:15', 0),
+(116, 1, 8, NULL, '2026-05-11 14:07:15', 0),
+(117, 1, 13, NULL, '2026-05-11 14:07:15', 0),
+(118, 1, 2, NULL, '2026-05-11 14:07:15', 0),
+(119, 1, 48, NULL, '2026-05-11 14:07:15', 0),
+(120, 1, 44, NULL, '2026-05-11 14:07:15', 0),
+(121, 1, 31, NULL, '2026-05-11 14:07:47', 0),
+(122, 1, 74, NULL, '2026-05-11 14:07:47', 0),
+(123, 1, 8, NULL, '2026-05-11 14:07:47', 0),
+(124, 1, 13, NULL, '2026-05-11 14:07:47', 0),
+(125, 1, 2, NULL, '2026-05-11 14:07:47', 0),
+(126, 1, 48, NULL, '2026-05-11 14:07:47', 0),
+(127, 1, 44, NULL, '2026-05-11 14:07:47', 0),
+(128, 1, 54, NULL, '2026-05-12 10:05:04', 1),
+(129, 1, 26, NULL, '2026-05-12 10:05:04', 1),
+(130, 1, 4, NULL, '2026-05-12 10:05:04', 1),
+(131, 1, 71, NULL, '2026-05-12 10:05:04', 1),
+(132, 1, 9, NULL, '2026-05-12 10:05:04', 1),
+(133, 1, 60, NULL, '2026-05-12 10:05:04', 1),
+(134, 1, 10, NULL, '2026-05-12 10:05:04', 1),
+(135, 1, 43, NULL, '2026-05-12 10:05:04', 1),
+(136, 1, 36, NULL, '2026-05-12 10:05:04', 1);
 
 -- --------------------------------------------------------
 
@@ -3276,12 +3390,36 @@ CREATE TABLE `registro_encuesta_docentes` (
 --
 
 INSERT INTO `registro_encuesta_docentes` (`id`, `encuesta_general_id`, `usuario_docente_id`, `observaciones`, `fechacreado`, `estado`) VALUES
-(13, 1, 11, NULL, '2026-04-29 10:50:29', 1),
-(14, 1, 10, NULL, '2026-04-29 10:50:29', 1),
-(15, 1, 13, NULL, '2026-04-29 10:50:29', 1),
-(16, 1, 12, NULL, '2026-04-29 10:50:29', 1),
-(17, 1, 2, NULL, '2026-04-29 10:50:29', 1),
-(18, 1, 9, NULL, '2026-04-29 10:50:29', 1);
+(31, 1, 11, NULL, '2026-05-11 02:32:53', 1),
+(32, 1, 10, NULL, '2026-05-11 02:32:53', 1),
+(33, 1, 13, NULL, '2026-05-11 02:32:53', 1),
+(34, 1, 12, NULL, '2026-05-11 02:32:53', 1),
+(35, 1, 2, NULL, '2026-05-11 02:32:53', 1),
+(36, 1, 9, NULL, '2026-05-11 02:32:53', 1),
+(37, 1, 11, NULL, '2026-05-11 12:56:02', 0),
+(38, 1, 10, NULL, '2026-05-11 12:56:02', 0),
+(39, 1, 13, NULL, '2026-05-11 12:56:02', 0),
+(40, 1, 12, NULL, '2026-05-11 12:56:02', 0),
+(41, 1, 2, NULL, '2026-05-11 12:56:02', 0),
+(42, 1, 9, NULL, '2026-05-11 12:56:02', 0),
+(43, 1, 11, NULL, '2026-05-11 14:06:25', 0),
+(44, 1, 10, NULL, '2026-05-11 14:06:25', 0),
+(45, 1, 13, NULL, '2026-05-11 14:06:25', 0),
+(46, 1, 12, NULL, '2026-05-11 14:06:25', 0),
+(47, 1, 2, NULL, '2026-05-11 14:06:26', 0),
+(48, 1, 9, NULL, '2026-05-11 14:06:26', 0),
+(49, 1, 11, NULL, '2026-05-11 14:07:15', 0),
+(50, 1, 10, NULL, '2026-05-11 14:07:15', 0),
+(51, 1, 13, NULL, '2026-05-11 14:07:15', 0),
+(52, 1, 12, NULL, '2026-05-11 14:07:15', 0),
+(53, 1, 2, NULL, '2026-05-11 14:07:15', 0),
+(54, 1, 9, NULL, '2026-05-11 14:07:15', 0),
+(55, 1, 11, NULL, '2026-05-11 14:07:47', 0),
+(56, 1, 10, NULL, '2026-05-11 14:07:47', 0),
+(57, 1, 13, NULL, '2026-05-11 14:07:47', 0),
+(58, 1, 12, NULL, '2026-05-11 14:07:47', 0),
+(59, 1, 2, NULL, '2026-05-11 14:07:47', 0),
+(60, 1, 9, NULL, '2026-05-11 14:07:47', 0);
 
 -- --------------------------------------------------------
 
@@ -3306,7 +3444,7 @@ CREATE TABLE `registro_encuesta_general` (
 --
 
 INSERT INTO `registro_encuesta_general` (`id`, `nombre`, `fecha_inicio`, `fecha_fin`, `calificacion_menor`, `calificacion_mayor`, `observaciones`, `fechacreado`, `estado`) VALUES
-(1, 'COMENTARIOS SOBRE EL 1 BIMESTRE', '2026-04-28', '2026-05-08', 1, 5, '', '2026-04-28 14:33:26', 1);
+(1, 'COMENTARIOS SOBRE EL 1 BIMESTRE', '2026-04-28', '2026-05-12', 1, 5, '', '2026-04-28 14:33:26', 1);
 
 -- --------------------------------------------------------
 
@@ -3325,6 +3463,180 @@ CREATE TABLE `registro_encuesta_registro` (
   `fechacreado` datetime DEFAULT CURRENT_TIMESTAMP,
   `estado` tinyint(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `registro_encuesta_registro`
+--
+
+INSERT INTO `registro_encuesta_registro` (`id`, `encuesta_general_id`, `encuesta_docente_id`, `encuesta_alumno_id`, `numero_calificacion`, `comentario`, `observaciones`, `fechacreado`, `estado`) VALUES
+(1, 1, 31, 67, 1, 'ME GUSTA porque enseña bien', NULL, '2026-05-11 10:29:59', 1),
+(2, 1, 32, 67, 1, 'me guata por que es estricta', NULL, '2026-05-11 10:29:59', 1),
+(3, 1, 33, 67, 1, 'por que enseña  bien ingles', NULL, '2026-05-11 10:29:59', 1),
+(4, 1, 34, 67, 1, 'debe mejorar su voz', NULL, '2026-05-11 10:29:59', 1),
+(5, 1, 35, 67, 1, 'enseña bien', NULL, '2026-05-11 10:29:59', 1),
+(6, 1, 36, 67, 1, 'por que es estricta y enseña bien', NULL, '2026-05-11 10:29:59', 1),
+(7, 1, 31, 71, 1, 'GRACIAS PROFE SU MANERA DE ENSEÑAR EN VERDADA SI ENTENDI TODO GRACIAS GRACIAS', NULL, '2026-05-11 10:31:35', 1),
+(8, 1, 32, 71, 2, 'GRACIAS MISSS ENTENDI TODO THANKSSS ESPERO QUE SE QUEDE EL SIGUIENTE EL SIGUIENTE BIMESTRE', NULL, '2026-05-11 10:31:35', 1),
+(9, 1, 33, 71, 1, 'THANKS MISS CUANDO APRENDI WAS WERE GRACIAS ESPERO QUE SE QUEDE EL SIQUIENTE BIMESTRE', NULL, '2026-05-11 10:31:35', 1),
+(10, 1, 34, 71, 3, 'GRACIAS POR ENSAME COMU TAMBIEN BIOLOGIA THANKS', NULL, '2026-05-11 10:31:35', 1),
+(11, 1, 35, 71, 1, 'GRACIAS PROFE POR TODO ENVERDAD GRACIAS????????????????????????', NULL, '2026-05-11 10:31:35', 1),
+(12, 1, 36, 71, 1, 'APRENDI UCHAS COSAS EN USTED  EN RELIGION Y ACEPTE A DIOS EN MI CORAZON', NULL, '2026-05-11 10:31:35', 1),
+(13, 1, 31, 64, 1, '', NULL, '2026-05-11 10:32:06', 1),
+(14, 1, 32, 64, 1, '', NULL, '2026-05-11 10:32:06', 1),
+(15, 1, 33, 64, 1, '', NULL, '2026-05-11 10:32:06', 1),
+(16, 1, 34, 64, 1, '', NULL, '2026-05-11 10:32:06', 1),
+(17, 1, 35, 64, 1, '', NULL, '2026-05-11 10:32:06', 1),
+(18, 1, 36, 64, 1, '', NULL, '2026-05-11 10:32:06', 1),
+(19, 1, 31, 65, 1, 'explica', NULL, '2026-05-11 10:32:33', 1),
+(20, 1, 32, 65, 1, 'es un buena maestra es la mejor explicando????????', NULL, '2026-05-11 10:32:33', 1),
+(21, 1, 33, 65, 1, 'explica bien el ingles\r\n????????', NULL, '2026-05-11 10:32:33', 1),
+(22, 1, 34, 65, 2, 'enseña bien ????????', NULL, '2026-05-11 10:32:33', 1),
+(23, 1, 35, 65, 5, 'explice con mas detalle ????????????', NULL, '2026-05-11 10:32:33', 1),
+(24, 1, 36, 65, 1, 'me enseña bien su curso', NULL, '2026-05-11 10:32:33', 1),
+(25, 1, 31, 62, 5, 'PROFERSOR MUY ENOJON NO NOS TIENE PACIENCIA Y SI LE HCEMOS ALGUN CHISTE EN CLASE NOS SACA DEL SALON POR LA PURAS COMO A THIAGO CONDORI', NULL, '2026-05-11 10:32:38', 1),
+(26, 1, 32, 62, 1, 'ES UNA PROFESORA MUY AMABLE Y DIVERTIDA ME GUSTA SU FORMA DE EXPLICAR LA CLASE Y NOS TIENE MUCHA PACIENCIA', NULL, '2026-05-11 10:32:38', 1),
+(27, 1, 33, 62, 2, 'UNA PROFESOR Q EXPLICA SUPER BIEN ES MUY CHEVERE Y NOS TIENE PACIENCIA', NULL, '2026-05-11 10:32:38', 1),
+(28, 1, 34, 62, 2, 'UNA PROFESORA MUY DIVERTIDA ALEGRE POSITIVA Y SIEMPRE NOS APOYA', NULL, '2026-05-11 10:32:38', 1),
+(29, 1, 35, 62, 4, 'NO EXPLICA MUY BIEN Q DIGAMOS PERO ES UN PROFESOR MUY CHILL', NULL, '2026-05-11 10:32:38', 1),
+(30, 1, 36, 62, 2, 'UNA PROFESORA QUE AL EXPLICAR ES MUY PROFUNDA Y NOS EXPLICA CON TODOS LOS DETALLES POSIBLES UNA PROFESORA MUY BUENA', NULL, '2026-05-11 10:32:38', 1),
+(31, 1, 31, 63, 2, 'QUE MEJORE EN EL LIBRO', NULL, '2026-05-11 10:33:45', 1),
+(32, 1, 32, 63, 1, 'ES MUY BUENA Y AMABLE', NULL, '2026-05-11 10:33:45', 1),
+(33, 1, 33, 63, 2, 'QUE HAGA MAS DINAMICAS Y JUEGOS Y MUCHAS GRACIAS POR EL APOYO', NULL, '2026-05-11 10:33:45', 1),
+(34, 1, 34, 63, 1, 'EXPLICA BIEN Y ES AMAABLE Y EMPATICA ES MUY BUENA PROFE', NULL, '2026-05-11 10:33:45', 1),
+(35, 1, 35, 63, 1, 'BIEN', NULL, '2026-05-11 10:33:45', 1),
+(36, 1, 36, 63, 3, 'NOSE', NULL, '2026-05-11 10:33:45', 1),
+(37, 1, 31, 69, 1, 'Es un buen profesor enseña muy bien pero tiene que mejorar en explicar no rapido sino un poco lento y si vas a mejorar.', NULL, '2026-05-11 10:34:11', 1),
+(38, 1, 32, 69, 1, 'Usted mis es la mejor mis que tengo ,usted puede seguir hasta la meta.', NULL, '2026-05-11 10:34:11', 1),
+(39, 1, 33, 69, 1, 'Puede mejorar en no hablar muy rapido pero se que usted puede mejorar.', NULL, '2026-05-11 10:34:11', 1),
+(40, 1, 34, 69, 1, 'Es la mejor mis que tenemos en nuestra aula y enseña muy bien espero que llegue hasta la meta.', NULL, '2026-05-11 10:34:11', 1),
+(41, 1, 35, 69, 1, 'Puede mejorar en explicar .', NULL, '2026-05-11 10:34:11', 1),
+(42, 1, 36, 69, 1, '', NULL, '2026-05-11 10:34:11', 1),
+(43, 1, 31, 70, 1, 'Buen profesor , enseña bien , agradable y nos hace reír', NULL, '2026-05-11 10:34:35', 1),
+(44, 1, 32, 70, 1, 'es muy buena profesora empática solidaria', NULL, '2026-05-11 10:34:35', 1),
+(45, 1, 33, 70, 2, 'enseña muy bien ingles y es buena profesora', NULL, '2026-05-11 10:34:35', 1),
+(46, 1, 34, 70, 3, 'enseña bien', NULL, '2026-05-11 10:34:35', 1),
+(47, 1, 35, 70, 1, '', NULL, '2026-05-11 10:34:35', 1),
+(48, 1, 36, 70, 1, 'muy buena profesora nos enseña sobre la biblia y nos da consejos', NULL, '2026-05-11 10:34:35', 1),
+(49, 1, 31, 72, 5, '', NULL, '2026-05-11 10:35:30', 1),
+(50, 1, 32, 72, 1, 'miss Allison es muy buena y siempre tiene paciencia la amoo.', NULL, '2026-05-11 10:35:30', 1),
+(51, 1, 33, 72, 2, 'miss es muy buena y kiero aprender ingles', NULL, '2026-05-11 10:35:30', 1),
+(52, 1, 34, 72, 1, 'es muy buena maestra gracias x ser mi tutora', NULL, '2026-05-11 10:35:30', 1),
+(53, 1, 35, 72, 3, 'bien', NULL, '2026-05-11 10:35:30', 1),
+(54, 1, 36, 72, 3, 'jesus te ama. Bendiciones', NULL, '2026-05-11 10:35:30', 1),
+(55, 1, 31, 66, 2, 'que preste mas antenciòn a las  llamadas de algunos compañeros', NULL, '2026-05-11 10:35:42', 1),
+(56, 1, 32, 66, 1, 'me gusto como me espricava los temas y es paciente', NULL, '2026-05-11 10:35:42', 1),
+(57, 1, 33, 66, 2, 'que no made pasar dos niveles en el raz kinds', NULL, '2026-05-11 10:35:42', 1),
+(58, 1, 34, 66, 3, 'no presta anteciòn a los padres de familia', NULL, '2026-05-11 10:35:42', 1),
+(59, 1, 35, 66, 2, 'muy tranquilo', NULL, '2026-05-11 10:35:42', 1),
+(60, 1, 36, 66, 1, 'me gusto como me enseño la palabra de dios', NULL, '2026-05-11 10:35:42', 1),
+(61, 1, 31, 68, 5, 'que nos enseñe mas pausado y que nos enseñe bien', NULL, '2026-05-11 10:37:02', 1),
+(62, 1, 32, 68, 1, 'mis alisson usted es una buena maestra y me ayuda en enterder las clases siga asi de comprensiva y tan buena.', NULL, '2026-05-11 10:37:02', 1),
+(63, 1, 33, 68, 2, 'es una maestra que explica bien', NULL, '2026-05-11 10:37:02', 1),
+(64, 1, 34, 68, 1, 'es una divertida tutora explica muy bien', NULL, '2026-05-11 10:37:02', 1),
+(65, 1, 35, 68, 1, 'usted es muy divertido y nos deja jugar.', NULL, '2026-05-11 10:37:02', 1),
+(66, 1, 36, 68, 2, 'es una maestra muy buena y amable.', NULL, '2026-05-11 10:37:02', 1),
+(67, 1, 31, 78, 1, 'ENSEÑA BIEN Y SI SE HACE ENTENDER', NULL, '2026-05-11 13:01:09', 1),
+(68, 1, 37, 78, 1, 'ENSEÑA BIEN Y SI SE HACE ENTENDER', NULL, '2026-05-11 13:01:09', 1),
+(69, 1, 38, 78, 1, 'ENSEÑA BIEN Y SI SE HACE ENTENDER', NULL, '2026-05-11 13:01:09', 1),
+(70, 1, 32, 78, 1, 'ENSEÑA BIEN Y SI SE HACE ENTENDER', NULL, '2026-05-11 13:01:09', 1),
+(71, 1, 39, 78, 1, 'ENSEÑA BIEN Y SI SE HACE ENTENDER', NULL, '2026-05-11 13:01:09', 1),
+(72, 1, 33, 78, 1, 'ENSEÑA BIEN Y SI SE HACE ENTENDER', NULL, '2026-05-11 13:01:09', 1),
+(73, 1, 34, 78, 1, 'ENSEÑA BIEN Y SI SE HACE ENTENDER', NULL, '2026-05-11 13:01:09', 1),
+(74, 1, 40, 78, 1, 'ENSEÑA BIEN Y SI SE HACE ENTENDER', NULL, '2026-05-11 13:01:09', 1),
+(75, 1, 41, 78, 1, 'ENSEÑA BIEN Y SI SE HACE ENTENDER', NULL, '2026-05-11 13:01:09', 1),
+(76, 1, 35, 78, 1, 'ENSEÑA BIEN Y SI SE HACE ENTENDER', NULL, '2026-05-11 13:01:09', 1),
+(77, 1, 36, 78, 1, 'ENSEÑA BIEN Y SI SE HACE ENTENDER', NULL, '2026-05-11 13:01:09', 1),
+(78, 1, 42, 78, 1, 'ENSEÑA BIEN Y SI SE HACE ENTENDER', NULL, '2026-05-11 13:01:09', 1),
+(79, 1, 31, 77, 2, 'a veces se enoja', NULL, '2026-05-11 13:06:20', 1),
+(80, 1, 37, 77, 2, 'a veces se enoja', NULL, '2026-05-11 13:06:20', 1),
+(81, 1, 38, 77, 2, 'no me cae bien pero explica bien', NULL, '2026-05-11 13:06:20', 1),
+(82, 1, 32, 77, 2, 'no me cae bien pero explica bien', NULL, '2026-05-11 13:06:20', 1),
+(83, 1, 39, 77, 3, 'no entiendo inglés pero raz kid si', NULL, '2026-05-11 13:06:20', 1),
+(84, 1, 33, 77, 3, 'no entiendo inglés pero raz kid si', NULL, '2026-05-11 13:06:20', 1),
+(85, 1, 34, 77, 2, 'si o si 5 estrellitas pero a veces grita así que seria 4 estrellas', NULL, '2026-05-11 13:06:20', 1),
+(86, 1, 40, 77, 2, 'si o si 5 estrellitas pero a veces grita así que seria 4 estrellas', NULL, '2026-05-11 13:06:20', 1),
+(87, 1, 41, 77, 2, 'bien', NULL, '2026-05-11 13:06:20', 1),
+(88, 1, 35, 77, 2, 'bien', NULL, '2026-05-11 13:06:20', 1),
+(89, 1, 36, 77, 1, 'si bien por que me gusta es maravilloso ed. cristiana', NULL, '2026-05-11 13:06:20', 1),
+(90, 1, 42, 77, 1, 'si bien por que me gusta es maravilloso ed. cristiana', NULL, '2026-05-11 13:06:20', 1),
+(91, 1, 31, 76, 1, 'estabien peronoentien mui bien fisica y quimica', NULL, '2026-05-11 13:07:11', 1),
+(92, 1, 37, 76, 1, '', NULL, '2026-05-11 13:07:11', 1),
+(93, 1, 38, 76, 1, '', NULL, '2026-05-11 13:07:11', 1),
+(94, 1, 32, 76, 1, 'esmui enten dible en algunos temas', NULL, '2026-05-11 13:07:11', 1),
+(95, 1, 39, 76, 1, '', NULL, '2026-05-11 13:07:11', 1),
+(96, 1, 33, 76, 1, 'esmuicomplejo pero no entiendomucho ingels', NULL, '2026-05-11 13:07:11', 1),
+(97, 1, 34, 76, 1, '', NULL, '2026-05-11 13:07:11', 1),
+(98, 1, 40, 76, 1, 'eres lomacximo', NULL, '2026-05-11 13:07:11', 1),
+(99, 1, 41, 76, 1, 'esmuibueno', NULL, '2026-05-11 13:07:11', 1),
+(100, 1, 35, 76, 1, 'Comentario', NULL, '2026-05-11 13:07:11', 1),
+(101, 1, 36, 76, 1, 'esmubien es dibertido aprender lapalabradedios', NULL, '2026-05-11 13:07:11', 1),
+(102, 1, 42, 76, 1, '', NULL, '2026-05-11 13:07:11', 1),
+(103, 1, 31, 75, 1, '', NULL, '2026-05-11 13:18:47', 1),
+(104, 1, 37, 75, 1, 'el profe explica bien y el divertido', NULL, '2026-05-11 13:18:47', 1),
+(105, 1, 38, 75, 1, 'es muy buena es muy alegre  cuando nos equivocamos nos explica', NULL, '2026-05-11 13:18:47', 1),
+(106, 1, 32, 75, 1, 'es muy buena es muy alegre  cuando nos equivocamos nos explica', NULL, '2026-05-11 13:18:47', 1),
+(107, 1, 39, 75, 2, '', NULL, '2026-05-11 13:18:47', 1),
+(108, 1, 33, 75, 2, '', NULL, '2026-05-11 13:18:47', 1),
+(109, 1, 34, 75, 2, 'no me gusta tanto su clase', NULL, '2026-05-11 13:18:47', 1),
+(110, 1, 40, 75, 2, 'es buena pero cuando se enoja no me gusta', NULL, '2026-05-11 13:18:47', 1),
+(111, 1, 41, 75, 1, '', NULL, '2026-05-11 13:18:47', 1),
+(112, 1, 35, 75, 1, 'el profe es divertido pero no parece porque para todo serio', NULL, '2026-05-11 13:18:47', 1),
+(113, 1, 36, 75, 2, '', NULL, '2026-05-11 13:18:47', 1),
+(114, 1, 42, 75, 2, 'me gusta cuando explica le entiendo', NULL, '2026-05-11 13:18:48', 1),
+(115, 1, 31, 130, 2, 'PROFE NO ENTIENDO EXPLIQUE BIEN PORFA', NULL, '2026-05-12 10:11:53', 1),
+(116, 1, 32, 130, 4, '', NULL, '2026-05-12 10:11:53', 1),
+(117, 1, 33, 130, 3, '', NULL, '2026-05-12 10:11:53', 1),
+(118, 1, 34, 130, 2, '', NULL, '2026-05-12 10:11:53', 1),
+(119, 1, 35, 130, 1, '', NULL, '2026-05-12 10:11:53', 1),
+(120, 1, 36, 130, 2, '', NULL, '2026-05-12 10:11:53', 1),
+(121, 1, 31, 132, 1, 'es buen profe nos ayuda en todo cuando no asemos la tarea no se enoja pero si nos ve jugando de frente nos anota y no vamos al recreo', NULL, '2026-05-12 10:21:43', 1),
+(122, 1, 32, 132, 2, 'que no se enoje y sea mas buena con nosotros}', NULL, '2026-05-12 10:21:43', 1),
+(123, 1, 33, 132, 2, 'que nos prestas a tencion cuando vamos al recreo porque siemple la veo en el celu', NULL, '2026-05-12 10:21:43', 1),
+(124, 1, 34, 132, 3, 'mis Doris me gustaria que no grite tanto porque nos \r\ncausa mal y tristes Mis Doris', NULL, '2026-05-12 10:21:43', 1),
+(125, 1, 35, 132, 2, 'es buen profe pero que remos tener una rato no mas para jugar en la compu', NULL, '2026-05-12 10:21:43', 1),
+(126, 1, 36, 132, 1, 'es buena abansamos bastante con las mis Norma abansamos libros y algunas beses nos reimos', NULL, '2026-05-12 10:21:43', 1),
+(127, 1, 31, 135, 2, 'profesor tiene que mejorar en el tiempo porque las paginas son largas', NULL, '2026-05-12 10:21:52', 1),
+(128, 1, 32, 135, 1, 'esta bien todo pero falta que haiga mas practicas', NULL, '2026-05-12 10:21:52', 1),
+(129, 1, 33, 135, 2, '', NULL, '2026-05-12 10:21:52', 1),
+(130, 1, 34, 135, 3, 'esta bien pero tambien son muchas paginas', NULL, '2026-05-12 10:21:52', 1),
+(131, 1, 35, 135, 2, 'esta bien pero falta mas tiempo', NULL, '2026-05-12 10:21:52', 1),
+(132, 1, 36, 135, 2, 'esta bien pero a veses no entiendo', NULL, '2026-05-12 10:21:52', 1),
+(133, 1, 31, 128, 1, 'es  que no entiendo su clase pero es bueno.', NULL, '2026-05-12 10:24:05', 1),
+(134, 1, 32, 128, 1, 'enseñas muchos curso pero eres la mejor', NULL, '2026-05-12 10:24:05', 1),
+(135, 1, 33, 128, 1, 'es inespicable saber ingles espero que venga pupi', NULL, '2026-05-12 10:24:05', 1),
+(136, 1, 34, 128, 1, 'eres buena pero no entiendo cominicacion y rv y en señeme la caligrafia', NULL, '2026-05-12 10:24:05', 1),
+(137, 1, 35, 128, 1, 'me porto mal con el pero el martes  lo are traere mi libro', NULL, '2026-05-12 10:24:05', 1),
+(138, 1, 36, 128, 1, 'mejora la curiosidad  por favor', NULL, '2026-05-12 10:24:05', 1),
+(139, 1, 31, 134, 2, 'profe quiero que no deje muchas hojas de tarea ya que el libro es mucho, ya que la tarea me extresa mucho y yo quiero tiempo libre asi que le recomiendo que hagamos toda la tarea en el colegio para ya no tener tarea en casa solo digo que tambien no mande mucha tarea', NULL, '2026-05-12 10:25:44', 1),
+(140, 1, 32, 134, 2, 'tiene que ser más estricta con los estudiantes  ya que ellos hacen cualquier cosa', NULL, '2026-05-12 10:25:44', 1),
+(141, 1, 33, 134, 2, 'quiero que en la clase haga más orden y que no hable todo en inglés ya que nos confundimos un poco', NULL, '2026-05-12 10:25:44', 1),
+(142, 1, 34, 134, 2, '', NULL, '2026-05-12 10:25:44', 1),
+(143, 1, 35, 134, 2, '', NULL, '2026-05-12 10:25:44', 1),
+(144, 1, 36, 134, 1, '', NULL, '2026-05-12 10:25:44', 1),
+(145, 1, 31, 133, 2, 'anotas muy rapido', NULL, '2026-05-12 10:28:18', 1),
+(146, 1, 32, 133, 1, 'nos ayudas cuando lo nesesitamos', NULL, '2026-05-12 10:28:18', 1),
+(147, 1, 33, 133, 2, 'su tema es un poco dificil', NULL, '2026-05-12 10:28:18', 1),
+(148, 1, 34, 133, 2, 'su tema es dificil  pero entendible', NULL, '2026-05-12 10:28:18', 1),
+(149, 1, 35, 133, 1, 'nos enseñas te como utilizar la computaroda', NULL, '2026-05-12 10:28:18', 1),
+(150, 1, 36, 133, 2, 'su tema es un poco dificil pero entendible', NULL, '2026-05-12 10:28:18', 1),
+(151, 1, 31, 131, 1, 'no entiendo algebra y   arimetica', NULL, '2026-05-12 10:32:11', 1),
+(152, 1, 32, 131, 1, 'enceña  bien pero no entiendo geografia', NULL, '2026-05-12 10:32:11', 1),
+(153, 1, 33, 131, 2, 'no  entiento su clases y no le entiendo cuando habla en  ingles', NULL, '2026-05-12 10:32:11', 1),
+(154, 1, 34, 131, 3, 'que no grite pelle  no escribe bien pero no soy buena en caligrafia', NULL, '2026-05-12 10:32:11', 1),
+(155, 1, 35, 131, 2, 'es bueno pero no tengo nada para comentar', NULL, '2026-05-12 10:32:11', 1),
+(156, 1, 36, 131, 2, 'sientiendo su clases pero esplique mas lento', NULL, '2026-05-12 10:32:11', 1),
+(157, 1, 31, 129, 2, '', NULL, '2026-05-12 10:55:42', 1),
+(158, 1, 32, 129, 1, '', NULL, '2026-05-12 10:55:42', 1),
+(159, 1, 33, 129, 1, '', NULL, '2026-05-12 10:55:42', 1),
+(160, 1, 34, 129, 2, '', NULL, '2026-05-12 10:55:42', 1),
+(161, 1, 35, 129, 1, '', NULL, '2026-05-12 10:55:42', 1),
+(162, 1, 36, 129, 1, '', NULL, '2026-05-12 10:55:42', 1),
+(163, 1, 31, 136, 3, 'nos conguir en todo', NULL, '2026-05-12 11:02:36', 1),
+(164, 1, 32, 136, 1, 'eres buena', NULL, '2026-05-12 11:02:36', 1),
+(165, 1, 33, 136, 5, 'me eñseña', NULL, '2026-05-12 11:02:36', 1),
+(166, 1, 34, 136, 4, '', NULL, '2026-05-12 11:02:36', 1),
+(167, 1, 35, 136, 3, '', NULL, '2026-05-12 11:02:36', 1),
+(168, 1, 36, 136, 4, '', NULL, '2026-05-12 11:02:36', 1);
 
 -- --------------------------------------------------------
 
@@ -3746,7 +4058,8 @@ INSERT INTO `usuario_alumno` (`id`, `id_apoderado`, `id_documento`, `numerodocum
 (91, 96, 1, '92377439', 'FIGUEROA RIVERA XIANNA MIA', '2021-05-27', '', 2, '92377439', '92377439', '', '2026-04-17 16:22:36', 1),
 (92, 97, 1, '92147937', 'DE LA CRUZ HILARIO KHALESSI FERNANDA APARICIA', '2020-12-10', '', 2, '92147937', '92147937', '', '2026-04-17 17:13:47', 1),
 (93, 98, 1, '93438465', 'AURORA MALDONADO EMILIA ALESSIA', '2023-06-24', '', 2, '93438465', '93438465', '', '2026-05-04 17:09:44', 1),
-(94, 99, 1, '93691087', 'RAMOS ABREGO CAMILLY EVANGELINE', '2024-01-19', '', 2, '93691087', '93691087', '', '2026-05-04 18:03:31', 1);
+(94, 99, 1, '93691087', 'RAMOS ABREGO CAMILLY EVANGELINE', '2024-01-19', '', 2, '93691087', '93691087', '', '2026-05-04 18:03:31', 1),
+(95, 100, 1, '78348396', 'ARRISUEÑO VASQUEZ MIGUEL ANGEL NEYMAR', '2013-10-15', '', 1, '78348396', '78348396', '', '2026-05-21 18:32:43', 1);
 
 -- --------------------------------------------------------
 
@@ -3852,7 +4165,7 @@ INSERT INTO `usuario_apoderado` (`id`, `id_apoderado_tipo`, `id_documento`, `num
 (77, 1, 1, '74834333', 'ANGIE FIORELLA GARCIA RAMOS', '927335199', '74834333', '74834333', '', '2026-02-27 19:31:36', 1),
 (78, 1, 1, '48152891', 'NATALI STEFANI POMALAZA FERNANDEZ', '966306903', '48152891', '48152891', '', '2026-02-28 14:07:40', 1),
 (79, 1, 1, '48624260', 'YAHAIRA NINOSHKA HUAMAN ROJAS', '955372719', '48624260', '48624260', '', '2026-03-02 13:59:29', 1),
-(80, 3, 1, '72226583', 'CRISTHY ANAIS MALPARTIDA ALVARADO', '912526406', '72226583', '72226583', 'TIA\r\nROCIO ORIALIS VALVERDE TIBURCIO\r\n40235106\r\n988367562', '2026-03-03 16:32:42', 1),
+(80, 1, 1, '72226583', 'CRISTHY ANAIS MALPARTIDA ALVARADO', '908528412', '72226583', '72226583', 'TIA\r\nROCIO ORIALIS VALVERDE TIBURCIO\r\n40235106\r\n988367562', '2026-03-03 16:32:42', 1),
 (81, 1, 1, '10509031', 'GABY GIOVANNA LOPEZ CASO', '933898373', '10509031', '10509031', '', '2026-03-05 22:41:51', 1),
 (82, 1, 1, '48600899', 'ALISSON VANESSA ANAYA RAMIREZ', '926355396', '48600899', '48600899', '', '2026-03-06 12:39:48', 1),
 (83, 1, 1, '47508272', 'MAYRA MARIA DE LA CRUZ QUISPE', '921471260', '47508272', '47508272', '', '2026-03-06 17:07:36', 1),
@@ -3871,7 +4184,8 @@ INSERT INTO `usuario_apoderado` (`id`, `id_apoderado_tipo`, `id_documento`, `num
 (96, 1, 1, '63571516', 'NAYELI VERANIA RIVERA LEYVA', '937067494', '63571516', '63571516', '', '2026-04-17 16:22:36', 1),
 (97, 1, 1, '46590372', 'MARLENI HILARIO SEBASTIAN', '993818939', '46590372', '46590372', '', '2026-04-17 17:13:47', 1),
 (98, 1, 1, '41335767', 'DIANA ELIZABETH MALDONADO RIOS', '956507357', '41335767', '41335767', '', '2026-05-04 17:09:44', 1),
-(99, 1, 1, '70764831', 'JUANA ABREGO CRUZ', '933505220', '70764831', '70764831', '', '2026-05-04 18:03:31', 1);
+(99, 1, 1, '70764831', 'JUANA ABREGO CRUZ', '933505220', '70764831', '70764831', '', '2026-05-04 18:03:31', 1),
+(100, 1, 1, '10815567', 'MARISOL VASQUEZ EVANGELISTA', '981984747', '10815567', '10815567', '', '2026-05-21 18:32:43', 1);
 
 -- --------------------------------------------------------
 
@@ -3984,17 +4298,17 @@ INSERT INTO `usuario_cargo_menu` (`id`, `id_usuario_cargo`, `id_usuario_menu`, `
 (232, 4, 9, 1, '', '2026-04-29 13:16:10', 1),
 (233, 4, 10, 1, '', '2026-04-29 13:16:10', 1),
 (234, 4, 11, 0, '', '2026-04-29 13:16:10', 1),
-(246, 6, 1, 0, '', '2026-05-10 00:11:11', 1),
-(247, 6, 2, 0, '', '2026-05-10 00:11:11', 1),
-(248, 6, 3, 0, '', '2026-05-10 00:11:11', 1),
-(249, 6, 4, 0, '', '2026-05-10 00:11:11', 1),
-(250, 6, 5, 0, '', '2026-05-10 00:11:11', 1),
-(251, 6, 6, 0, '', '2026-05-10 00:11:11', 1),
-(252, 6, 7, 0, '', '2026-05-10 00:11:11', 1),
-(253, 6, 8, 0, '', '2026-05-10 00:11:11', 1),
-(254, 6, 9, 0, '', '2026-05-10 00:11:11', 1),
-(255, 6, 10, 0, '', '2026-05-10 00:11:11', 1),
-(256, 6, 11, 0, '', '2026-05-10 00:11:11', 1);
+(257, 6, 1, 1, '', '2026-05-11 00:50:56', 1),
+(258, 6, 2, 0, '', '2026-05-11 00:50:56', 1),
+(259, 6, 3, 0, '', '2026-05-11 00:50:56', 1),
+(260, 6, 4, 0, '', '2026-05-11 00:50:56', 1),
+(261, 6, 5, 0, '', '2026-05-11 00:50:56', 1),
+(262, 6, 6, 0, '', '2026-05-11 00:50:56', 1),
+(263, 6, 7, 0, '', '2026-05-11 00:50:56', 1),
+(264, 6, 8, 0, '', '2026-05-11 00:50:56', 1),
+(265, 6, 9, 0, '', '2026-05-11 00:50:56', 1),
+(266, 6, 10, 0, '', '2026-05-11 00:50:56', 1),
+(267, 6, 11, 1, '', '2026-05-11 00:50:56', 1);
 
 -- --------------------------------------------------------
 
@@ -4550,13 +4864,13 @@ ALTER TABLE `almacen_producto`
 -- AUTO_INCREMENT de la tabla `almacen_salida`
 --
 ALTER TABLE `almacen_salida`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=202;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=203;
 
 --
 -- AUTO_INCREMENT de la tabla `almacen_salida_detalle`
 --
 ALTER TABLE `almacen_salida_detalle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=354;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=355;
 
 --
 -- AUTO_INCREMENT de la tabla `biblioteca_libro`
@@ -4574,7 +4888,7 @@ ALTER TABLE `documento`
 -- AUTO_INCREMENT de la tabla `documento_detalle`
 --
 ALTER TABLE `documento_detalle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=193;
 
 --
 -- AUTO_INCREMENT de la tabla `documento_responsable`
@@ -4646,7 +4960,7 @@ ALTER TABLE `matricula_cobro_detalle`
 -- AUTO_INCREMENT de la tabla `matricula_detalle`
 --
 ALTER TABLE `matricula_detalle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT de la tabla `matricula_mes`
@@ -4670,25 +4984,25 @@ ALTER TABLE `matricula_monto`
 -- AUTO_INCREMENT de la tabla `matricula_pago`
 --
 ALTER TABLE `matricula_pago`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT de la tabla `mensualidad_detalle`
 --
 ALTER TABLE `mensualidad_detalle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=941;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=951;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_encuesta_alumno`
 --
 ALTER TABLE `registro_encuesta_alumno`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_encuesta_docentes`
 --
 ALTER TABLE `registro_encuesta_docentes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_encuesta_general`
@@ -4700,7 +5014,7 @@ ALTER TABLE `registro_encuesta_general`
 -- AUTO_INCREMENT de la tabla `registro_encuesta_registro`
 --
 ALTER TABLE `registro_encuesta_registro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=169;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_utiles`
@@ -4718,13 +5032,13 @@ ALTER TABLE `registro_utiles_detalle`
 -- AUTO_INCREMENT de la tabla `usuario_alumno`
 --
 ALTER TABLE `usuario_alumno`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_apoderado`
 --
 ALTER TABLE `usuario_apoderado`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_apoderado_tipo`
@@ -4742,7 +5056,7 @@ ALTER TABLE `usuario_cargo`
 -- AUTO_INCREMENT de la tabla `usuario_cargo_menu`
 --
 ALTER TABLE `usuario_cargo_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=257;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=268;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_docente`
