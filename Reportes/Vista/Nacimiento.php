@@ -68,10 +68,10 @@ class PDFNacimiento extends FPDF
         $this->SetFont('Arial', 'B', 9);
         $this->SetFillColor(188, 188, 188);
 
-        $this->Cell(90, 8, utf8_decode('ALUMNO(A)'), 1, 0, 'C', true);
-        $this->Cell(28, 8, utf8_decode('CUMPLEAÑOS'), 1, 0, 'C', true);
-        $this->Cell(25, 8, utf8_decode('EDAD'), 1, 0, 'C', true);
-        $this->Cell(0, 8, utf8_decode('EDAD DETALLADA'), 1, 1, 'C', true);
+        $this->Cell(90, 7, utf8_decode('ALUMNO(A)'), 1, 0, 'C', true);
+        $this->Cell(28, 7, utf8_decode('CUMPLEAÑOS'), 1, 0, 'C', true);
+        $this->Cell(25, 7, utf8_decode('EDAD'), 1, 0, 'C', true);
+        $this->Cell(0, 7, utf8_decode('EDAD DETALLADA'), 1, 1, 'C', true);
     }
 
     function verificarSalto($alto = 8)
@@ -118,9 +118,9 @@ while ($row = $data->fetch_assoc()) {
 
         $mesActual = $nombreMes;
 
-        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->SetFont('Arial', 'B', 9);
         $pdf->SetFillColor(220, 230, 241);
-        $pdf->Cell(0, 8, utf8_decode($mesActual), 1, 1, 'C', true);
+        $pdf->Cell(0, 7, utf8_decode($mesActual), 1, 1, 'C', true);
         $pdf->encabezadoTabla();
     }
 
@@ -128,10 +128,10 @@ while ($row = $data->fetch_assoc()) {
 
     $pdf->verificarSalto(8);
 
-    $pdf->Cell(90, 8, utf8_decode($row['alumno']), 1, 0, 'C');
-    $pdf->Cell(28, 8, utf8_decode($row['cumpleanios']), 1, 0, 'C');
-    $pdf->Cell(25, 8, utf8_decode($row['edad']), 1, 0, 'C');
-    $pdf->Cell(0, 8, utf8_decode($row['edad_detallada']), 1, 1, 'C');
+    $pdf->Cell(90, 7, utf8_decode($row['alumno']), 1, 0, 'C');
+    $pdf->Cell(28, 7, utf8_decode($row['cumpleanios']), 1, 0, 'C');
+    $pdf->Cell(25, 7, utf8_decode($row['edad']), 1, 0, 'C');
+    $pdf->Cell(0, 7, utf8_decode($row['edad_detallada']), 1, 1, 'C');
 }
 
 $pdf->Output('I', 'Lista_Cumpleanios.pdf');
