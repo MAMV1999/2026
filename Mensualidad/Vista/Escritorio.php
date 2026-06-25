@@ -21,7 +21,8 @@ if (!isset($_SESSION['nombre'])) {
                     "1" => array("nombre" => "REGISTRO MENSUALIDAD X ALUMNO", "link" => "Mensualidad_detalle.php"),
                     "2" => array("nombre" => "REGISTRO MENSUALIDAD X APODERADO", "link" => "mensualidad_x_apoderado.php"),
                     "3" => array("nombre" => "REGISTRO MENSUALIDAD X MES", "link" => "mensualidad_x_mes.php"),
-                    "4" => array("nombre" => "REGISTRO MENSUALIDAD X AÑO", "link" => "mensualidad_x_grupo.php"),
+                    "4" => array("nombre" => "REGISTRO MENSUALIDAD X GRADO", "link" => "mensualidad_x_grado.php"),
+                    "5" => array("nombre" => "REGISTRO MENSUALIDAD X AÑO", "link" => "mensualidad_x_grupo.php"),
                 );
                 ?>
                 <table class="table">
