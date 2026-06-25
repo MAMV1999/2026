@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-06-2026 a las 15:39:42
+-- Tiempo de generación: 25-06-2026 a las 21:03:44
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.3
 
@@ -728,9 +728,9 @@ INSERT INTO `almacen_producto` (`id`, `nombre`, `descripcion`, `categoria_id`, `
 (72, 'CUADERNO DE CONTROL', '', 6, '0.00', '12.00', 13, '2026-03-02 09:17:30', 1),
 (73, 'POLO BLANCO TALLA M', '', 5, '0.00', '51.00', 9, '2026-03-05 10:28:26', 1),
 (74, 'POLO PLOMO TALLA M', '', 5, '0.00', '51.00', 8, '2026-03-05 10:28:26', 1),
-(75, 'MANDIL DE ARTE Y MINICHEF', '', 1, '0.00', '80.00', 14, '2026-03-18 12:58:11', 1),
-(76, 'MANDIL DE ARTE', '', 1, '0.00', '45.00', 15, '2026-03-18 12:58:11', 1),
-(77, 'MANDIL DE MINICHEF', '', 1, '0.00', '45.00', 15, '2026-03-18 12:58:11', 1);
+(75, 'MANDIL DE ARTE Y MINICHEF', '', 5, '0.00', '80.00', 14, '2026-03-18 12:58:11', 1),
+(76, 'MANDIL DE ARTE', '', 5, '0.00', '45.00', 15, '2026-03-18 12:58:11', 1),
+(77, 'MANDIL DE MINICHEF', '', 5, '0.00', '45.00', 15, '2026-03-18 12:58:11', 1);
 
 -- --------------------------------------------------------
 
