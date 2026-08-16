@@ -54,8 +54,7 @@ if (!isset($_SESSION['nombre'])) {
                 <br>
                 <?php
                 $array = array(
-                    "1" => array("nombre" => "HOJA DE RESPUESTAS SIMULACRO", "link" => "registro_utiles_detalle.php"),
-                    "2" => array("nombre" => "HOJA DE RESPUESTAS BIMESTRAL", "link" => "registro_encuestas_detalle.php"),
+                    "1" => array("nombre" => "HOJA DE RESPUESTAS SIMULACRO", "link" => "hoja_respuestas_simulacro.php"),
                 );
                 ?>
                 <table class="table">
