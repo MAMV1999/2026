@@ -47,6 +47,42 @@ if (!isset($_SESSION['nombre'])) {
             </div>
         </div>
 
+        <!-- CUERPO_INICIO -->
+        <div class="my-3 p-3 bg-body rounded shadow-sm" id="listado">
+            <h5 class="border-bottom pb-2 mb-0"><b>HOJA DE RESPUESTAS</b></h5>
+            <div class="d-flex text-body-secondary pt-3">
+                <br>
+                <?php
+                $array = array(
+                    "1" => array("nombre" => "HOJA DE RESPUESTAS SIMULACRO", "link" => "registro_utiles_detalle.php"),
+                    "2" => array("nombre" => "HOJA DE RESPUESTAS BIMESTRAL", "link" => "registro_encuestas_detalle.php"),
+                );
+                ?>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">NOMBRE</th>
+                            <th scope="col">PAGUINA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $a = 1;
+                        while ($a <= count($array)) {
+                            echo '<tr>
+                                    <th scope="row">' . $a . '</th>
+                                    <td>' . $array[$a]["nombre"] . '</td>
+                                    <td><a class="btn btn-primary" href="' . $array[$a]["link"] . '" role="button">Ir a ' . $array[$a]["nombre"] . '</a></td>
+                                </tr>';
+                            $a++;
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <hr>
 
         <p class="d-inline-flex gap-1">
