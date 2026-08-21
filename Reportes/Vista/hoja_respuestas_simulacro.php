@@ -5,21 +5,16 @@ require_once("../Modelo/hoja_respuestas_simulacro.php");
 class PDFSimulacro extends FPDF
 {
     protected $fecha_actual;
+    protected $background_image;
 
-    function __construct($orientation = 'P', $unit = 'mm', $size = 'A4', $fecha_actual = null)
+    function __construct($orientation = 'P', $unit = 'mm', $size = 'A4', $fecha_actual = null, $background_image = null)
     {
         parent::__construct($orientation, $unit, $size);
         $this->fecha_actual = $fecha_actual;
+        $this->background_image = $background_image;
 
-        $this->SetMargins(15, 15, 15);
-        $this->SetAutoPageBreak(true, 10);
-    }
-
-    function Footer()
-    {
-        $this->SetY(-15);
-        $this->SetFont('Arial', 'I', 8);
-        $this->Cell(0, 10, utf8_decode('Página ') . $this->PageNo() . '/{nb}', 0, 0, 'C');
+        $this->SetMargins(15, 12, 15);
+        $this->SetAutoPageBreak(true, 5);
     }
 
     function Circle($x, $y, $r, $style = '')
@@ -105,11 +100,17 @@ class PDFSimulacro extends FPDF
 
     function addEncabezado($datos)
     {
-        $this->SetFont('Arial', 'B', 13);
+
+        // Si hay una imagen de fondo configurada, agrégala
+        if ($this->background_image) {
+            $this->Image($this->background_image, 0, 0, $this->GetPageWidth(), $this->GetPageHeight());
+        }
+
+        $this->SetFont('Arial', 'B', 18);
         $this->Cell(0, 7, utf8_decode($datos['nombre_institucion']), 0, 1, 'C');
 
         $this->SetFont('Arial', 'B', 13);
-        $this->Cell(0, 7, 'SIMULACRO', 0, 1, 'C');
+        $this->Cell(0, 7, 'HOJA DE RESPUESTAS - SIMULACRO', 0, 1, 'C');
 
         $this->SetFont('Arial', '', 13);
         $this->Cell(0, 7, utf8_decode($this->fecha_actual), 0, 1, 'C');
@@ -123,7 +124,7 @@ class PDFSimulacro extends FPDF
         $this->SetFillColor(220, 220, 220);
         $this->Cell(0, 7, 'DATOS PERSONALES', 1, 1, 'L', true);
 
-        $this->SetFont('Arial', '', 10);
+        $this->SetFont('Arial', '', 9.5);
         $this->SetFillColor(255, 255, 255);
 
         $this->Cell(40, 7, 'AULA', 1, 0, 'L');
@@ -137,9 +138,6 @@ class PDFSimulacro extends FPDF
 
         $this->Cell(40, 7, 'APODERADO', 1, 0, 'L');
         $this->Cell(0, 7, utf8_decode($datos['nombre_apoderado']), 1, 1, 'L');
-
-        $this->Cell(40, 7, 'TELEFONO', 1, 0, 'L');
-        $this->Cell(0, 7, utf8_decode($datos['telefono_apoderado']), 1, 1, 'L');
 
         $this->Ln(3);
     }
@@ -320,6 +318,9 @@ function fechaActualLiteral()
     return $dia_semana . ', ' . $dia . ' de ' . $mes . ' del ' . $anio;
 }
 
+// Ruta de la imagen de fondo
+$background_image = 'insignia_centrado_2.jpg';
+
 $modelo = new Reportesimulacro();
 
 $id_seccion = isset($_GET['id_seccion']) ? limpiarcadena($_GET['id_seccion']) : "";
@@ -345,7 +346,7 @@ if ($resultado) {
 if (!empty($datos)) {
     $fecha_actual = fechaActualLiteral();
 
-    $pdf = new PDFSimulacro('P', 'mm', 'A4', $fecha_actual);
+    $pdf = new PDFSimulacro('P', 'mm', 'A4', $fecha_actual, $background_image);
     $pdf->AliasNbPages();
 
     foreach ($datos as $fila) {
