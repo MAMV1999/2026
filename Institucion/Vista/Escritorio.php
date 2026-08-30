@@ -18,11 +18,12 @@ if (!isset($_SESSION['nombre'])) {
                 <br>
                 <?php
                 $array = array(
-                    "1" => array("nombre" => "INSTITUCION", "link" => "Institucion.php"),
-                    "2" => array("nombre" => "AÑO LECTIVO", "link" => "Institucion_lectivo.php"),
-                    "3" => array("nombre" => "NIVEL", "link" => "Institucion_nivel.php"),
-                    "4" => array("nombre" => "GRADO", "link" => "Institucion_grado.php"),
-                    "5" => array("nombre" => "SECCION", "link" => "Institucion_seccion.php"),
+                    "1" => array("nombre" => "ESTRUCTURA GENERAL", "link" => "Institucion_estructura.php"),
+                    "2" => array("nombre" => "INSTITUCION", "link" => "Institucion.php"),
+                    "3" => array("nombre" => "AÑO LECTIVO", "link" => "Institucion_lectivo.php"),
+                    "4" => array("nombre" => "NIVEL", "link" => "Institucion_nivel.php"),
+                    "5" => array("nombre" => "GRADO", "link" => "Institucion_grado.php"),
+                    "6" => array("nombre" => "SECCION", "link" => "Institucion_seccion.php"),
                 );
                 ?>
                 <table class="table">
