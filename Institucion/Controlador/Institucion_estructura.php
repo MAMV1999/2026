@@ -4,77 +4,46 @@ include_once("../Modelo/Institucion_estructura.php");
 $institucionEstructura = new Institucion_estructura();
 
 $id = isset($_POST["id"]) ? limpiarcadena($_POST["id"]) : "";
-
-function limpiarEstructura($estructura)
-{
-    $nuevo = array();
-
-    foreach ($estructura as $lectivo) {
-        $lectivoNuevo = array(
-            "id" => isset($lectivo["id"]) ? limpiarcadena($lectivo["id"]) : "",
-            "nombre" => isset($lectivo["nombre"]) ? limpiarcadena(strtoupper($lectivo["nombre"])) : "",
-            "niveles" => array()
-        );
-
-        if (isset($lectivo["niveles"])) {
-            foreach ($lectivo["niveles"] as $nivel) {
-                $nivelNuevo = array(
-                    "id" => isset($nivel["id"]) ? limpiarcadena($nivel["id"]) : "",
-                    "nombre" => isset($nivel["nombre"]) ? limpiarcadena(strtoupper($nivel["nombre"])) : "",
-                    "grados" => array()
-                );
-
-                if (isset($nivel["grados"])) {
-                    foreach ($nivel["grados"] as $grado) {
-                        $gradoNuevo = array(
-                            "id" => isset($grado["id"]) ? limpiarcadena($grado["id"]) : "",
-                            "nombre" => isset($grado["nombre"]) ? limpiarcadena(strtoupper($grado["nombre"])) : "",
-                            "secciones" => array()
-                        );
-
-                        if (isset($grado["secciones"])) {
-                            foreach ($grado["secciones"] as $seccion) {
-                                $gradoNuevo["secciones"][] = array(
-                                    "id" => isset($seccion["id"]) ? limpiarcadena($seccion["id"]) : "",
-                                    "nombre" => isset($seccion["nombre"]) ? limpiarcadena(strtoupper($seccion["nombre"])) : ""
-                                );
-                            }
-                        }
-
-                        $nivelNuevo["grados"][] = $gradoNuevo;
-                    }
-                }
-
-                $lectivoNuevo["niveles"][] = $nivelNuevo;
-            }
-        }
-
-        $nuevo[] = $lectivoNuevo;
-    }
-
-    return $nuevo;
-}
+$nombre = isset($_POST["nombre"]) ? limpiarcadena($_POST["nombre"]) : "";
+$id_usuario_docente = isset($_POST["id_usuario_docente"]) ? limpiarcadena($_POST["id_usuario_docente"]) : "";
+$telefono = isset($_POST["telefono"]) ? limpiarcadena($_POST["telefono"]) : "";
+$correo = isset($_POST["correo"]) ? limpiarcadena($_POST["correo"]) : "";
+$ruc = isset($_POST["ruc"]) ? limpiarcadena($_POST["ruc"]) : "";
+$razon_social = isset($_POST["razon_social"]) ? limpiarcadena($_POST["razon_social"]) : "";
+$direccion = isset($_POST["direccion"]) ? limpiarcadena($_POST["direccion"]) : "";
+$observaciones = isset($_POST["observaciones"]) ? limpiarcadena($_POST["observaciones"]) : "";
 
 switch ($_GET["op"]) {
     case 'guardaryeditar':
         $institucion = array(
-            "id" => isset($_POST["id"]) ? limpiarcadena($_POST["id"]) : "",
-            "nombre" => isset($_POST["nombre"]) ? limpiarcadena(strtoupper($_POST["nombre"])) : "",
-            "id_usuario_docente" => isset($_POST["id_usuario_docente"]) ? limpiarcadena($_POST["id_usuario_docente"]) : "",
-            "telefono" => isset($_POST["telefono"]) ? limpiarcadena($_POST["telefono"]) : "",
-            "correo" => isset($_POST["correo"]) ? limpiarcadena($_POST["correo"]) : "",
-            "ruc" => isset($_POST["ruc"]) ? limpiarcadena($_POST["ruc"]) : "",
-            "razon_social" => isset($_POST["razon_social"]) ? limpiarcadena(strtoupper($_POST["razon_social"])) : "",
-            "direccion" => isset($_POST["direccion"]) ? limpiarcadena(strtoupper($_POST["direccion"])) : "",
-            "observaciones" => isset($_POST["observaciones"]) ? limpiarcadena($_POST["observaciones"]) : ""
+            "id" => $id,
+            "nombre" => strtoupper($nombre),
+            "id_usuario_docente" => $id_usuario_docente,
+            "telefono" => $telefono,
+            "correo" => $correo,
+            "ruc" => $ruc,
+            "razon_social" => strtoupper($razon_social),
+            "direccion" => strtoupper($direccion),
+            "observaciones" => $observaciones
         );
 
-        $estructura = isset($_POST['estructura']) ? json_decode($_POST['estructura'], true) : array();
-        $estructura = limpiarEstructura($estructura);
+        $detalles = isset($_POST['detalles']) ? json_decode($_POST['detalles'], true) : [];
 
-        $rspta = $institucionEstructura->guardarEditarMasivo($institucion, $estructura);
+        $rspta = $institucionEstructura->guardarEditarMasivo($institucion, $detalles);
 
-        echo $rspta ? "Institución y estructura guardadas correctamente" : "No se pudo guardar la institución y estructura";
+        if ($rspta) {
+            echo json_encode(array(
+                "estado" => true,
+                "mensaje" => "Institución y estructura guardadas correctamente",
+                "id" => $rspta
+            ));
+        } else {
+            echo json_encode(array(
+                "estado" => false,
+                "mensaje" => "No se pudo guardar la institución y estructura",
+                "id" => ""
+            ));
+        }
         break;
 
     case 'listar':
@@ -83,14 +52,13 @@ switch ($_GET["op"]) {
 
         while ($reg = $rspta->fetch_object()) {
             $data[] = array(
-                "0" => 'N° '.$reg->id,
+                "0" => 'N° ' . $reg->id,
                 "1" => $reg->nombre,
                 "2" => $reg->director,
                 "3" => $reg->ruc,
-                "4" => $reg->telefono,
-                "5" => ($reg->estado) ?
-                    '<button class="btn btn-warning btn-sm" onclick="mostrar(' . $reg->id . ')">EDITAR</button> <button class="btn btn-danger btn-sm" onclick="desactivar(' . $reg->id . ')">DESACTIVAR</button>' :
-                    '<button class="btn btn-warning btn-sm" onclick="mostrar(' . $reg->id . ')">EDITAR</button> <button class="btn btn-primary btn-sm" onclick="activar(' . $reg->id . ')">ACTIVAR</button>'
+                "4" => ($reg->estado) ?
+                    '<button class="btn btn-warning btn-sm" onclick="mostrar(' . $reg->id . ')">EDITAR</button> <button class="btn btn-danger btn-sm" onclick="desactivarInstitucion(' . $reg->id . ')">DESACTIVAR</button>' :
+                    '<button class="btn btn-warning btn-sm" onclick="mostrar(' . $reg->id . ')">EDITAR</button> <button class="btn btn-primary btn-sm" onclick="activarInstitucion(' . $reg->id . ')">ACTIVAR</button>'
             );
         }
 
@@ -110,8 +78,9 @@ switch ($_GET["op"]) {
         break;
 
     case 'listar_estructura':
-        $rspta = $institucionEstructura->listar_estructura($id);
+        $id_institucion = isset($_POST["id_institucion"]) ? limpiarcadena($_POST["id_institucion"]) : "";
 
+        $rspta = $institucionEstructura->listarEstructura($id_institucion);
         $data = array();
 
         while ($reg = $rspta->fetch_object()) {
@@ -121,14 +90,45 @@ switch ($_GET["op"]) {
         echo json_encode($data);
         break;
 
-    case 'desactivar':
-        $rspta = $institucionEstructura->desactivar($id);
-        echo $rspta ? "Institución desactivada correctamente" : "No se pudo desactivar la institución";
+    case 'agregar_lectivo':
+        $id_institucion = isset($_POST["id_institucion"]) ? limpiarcadena($_POST["id_institucion"]) : "";
+        $nombre_lectivo = isset($_POST["nombre_lectivo"]) ? limpiarcadena($_POST["nombre_lectivo"]) : "";
+
+        $rspta = $institucionEstructura->agregarLectivo($id_institucion, strtoupper($nombre), strtoupper($nombre_lectivo));
+        echo $rspta ? "Lectivo agregado correctamente" : "No se pudo agregar el lectivo";
+        break;
+
+    case 'agregar_nivel':
+        $id_lectivo = isset($_POST["id_lectivo"]) ? limpiarcadena($_POST["id_lectivo"]) : "";
+
+        $rspta = $institucionEstructura->agregarNivel($id_lectivo, strtoupper($nombre));
+        echo $rspta ? "Nivel agregado correctamente" : "No se pudo agregar el nivel";
+        break;
+
+    case 'agregar_grado':
+        $id_nivel = isset($_POST["id_nivel"]) ? limpiarcadena($_POST["id_nivel"]) : "";
+
+        $rspta = $institucionEstructura->agregarGrado($id_nivel, strtoupper($nombre));
+        echo $rspta ? "Grado agregado correctamente" : "No se pudo agregar el grado";
+        break;
+
+    case 'agregar_seccion':
+        $id_grado = isset($_POST["id_grado"]) ? limpiarcadena($_POST["id_grado"]) : "";
+
+        $rspta = $institucionEstructura->agregarSeccion($id_grado, strtoupper($nombre));
+        echo $rspta ? "Sección agregada correctamente" : "No se pudo agregar la sección";
         break;
 
     case 'activar':
-        $rspta = $institucionEstructura->activar($id);
-        echo $rspta ? "Institución activada correctamente" : "No se pudo activar la institución";
+        $tipo = isset($_POST["tipo"]) ? limpiarcadena($_POST["tipo"]) : "";
+        $rspta = $institucionEstructura->cambiarEstado($tipo, $id, 1);
+        echo $rspta ? "Registro activado correctamente" : "No se pudo activar el registro";
+        break;
+
+    case 'desactivar':
+        $tipo = isset($_POST["tipo"]) ? limpiarcadena($_POST["tipo"]) : "";
+        $rspta = $institucionEstructura->cambiarEstado($tipo, $id, 0);
+        echo $rspta ? "Registro desactivado correctamente" : "No se pudo desactivar el registro";
         break;
 
     case 'listar_docentes_activos':

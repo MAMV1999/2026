@@ -7,22 +7,23 @@ if (!isset($_SESSION['nombre'])) {
 } else {
 ?>
     <?php include "../../General/Include/1_header.php"; ?>
+
     <main class="container">
         <!-- TITULO -->
         <?php include "../../General/Include/3_body.php"; ?>
 
         <!-- CUERPO_INICIO -->
         <div class="my-3 p-3 bg-body rounded shadow-sm" id="listado">
-            <h5 class="border-bottom pb-2 mb-0"><b>INSTITUCIONES - LISTADO</b></h5>
+            <h5 class="border-bottom pb-2 mb-0"><b>INSTITUCIÓN Y ESTRUCTURA - LISTADO</b></h5>
+
             <div class="p-3">
                 <table class="table" id="myTable">
                     <thead>
                         <tr>
-                            <th>ID INSTITUCIÓN</th>
+                            <th>ID</th>
                             <th>INSTITUCIÓN</th>
                             <th>DIRECTOR</th>
                             <th>RUC</th>
-                            <th>TELÉFONO</th>
                             <th>ESTADO</th>
                         </tr>
                     </thead>
@@ -31,12 +32,13 @@ if (!isset($_SESSION['nombre'])) {
             </div>
 
             <small class="d-block text-end mt-3">
-                <button type="button" onclick="MostrarFormulario();" class="btn btn-success">Agregar</button>
+                <button type="button" onclick="nuevo();" class="btn btn-success">Agregar</button>
             </small>
         </div>
 
         <div class="my-3 p-3 bg-body rounded shadow-sm" id="formulario">
-            <h5 class="border-bottom pb-2 mb-0"><b>INSTITUCIONES - FORMULARIO</b></h5>
+            <h5 class="border-bottom pb-2 mb-0"><b>INSTITUCIÓN Y ESTRUCTURA - FORMULARIO</b></h5>
+
             <form id="frm_form" name="frm_form" method="post">
                 <input type="hidden" id="id" name="id" placeholder="id" class="form-control">
 
@@ -55,21 +57,66 @@ if (!isset($_SESSION['nombre'])) {
                 </div>
 
                 <div class="p-3">
-                    <table class="table table-bordered">
+                    <label for="telefono" class="form-label"><b>TELÉFONO:</b></label>
+                    <div class="input-group">
+                        <input type="text" id="telefono" name="telefono" placeholder="Teléfono" class="form-control">
+                    </div>
+                </div>
+
+                <div class="p-3">
+                    <label for="correo" class="form-label"><b>CORREO:</b></label>
+                    <div class="input-group">
+                        <input type="text" id="correo" name="correo" placeholder="Correo" class="form-control">
+                    </div>
+                </div>
+
+                <div class="p-3">
+                    <label for="ruc" class="form-label"><b>RUC:</b></label>
+                    <div class="input-group">
+                        <input type="text" id="ruc" name="ruc" placeholder="RUC" class="form-control">
+                    </div>
+                </div>
+
+                <div class="p-3">
+                    <label for="razon_social" class="form-label"><b>RAZÓN SOCIAL:</b></label>
+                    <div class="input-group">
+                        <input type="text" id="razon_social" name="razon_social" placeholder="Razón Social" class="form-control">
+                    </div>
+                </div>
+
+                <div class="p-3">
+                    <label for="direccion" class="form-label"><b>DIRECCIÓN:</b></label>
+                    <div class="input-group">
+                        <input type="text" id="direccion" name="direccion" placeholder="Dirección" class="form-control">
+                    </div>
+                </div>
+
+                <div class="p-3">
+                    <label for="observaciones" class="form-label"><b>OBSERVACIONES:</b></label>
+                    <div class="input-group">
+                        <textarea id="observaciones" name="observaciones" placeholder="Observaciones" class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <div class="p-3">
+                    <table class="table" style="border: 3px solid #000;">
                         <thead>
                             <tr>
-                                <th colspan="4" class="text-center">ESTRUCTURA</th>
+                                <th colspan="4" class="text-center" style="border: 3px solid #000;">ESTRUCTURA</th>
                             </tr>
                             <tr>
-                                <th class="text-center">LECTIVO</th>
-                                <th class="text-center">NIVEL</th>
-                                <th class="text-center">GRADO</th>
-                                <th class="text-center">SECCIÓN</th>
+                                <th class="text-center" style="border: 3px solid #000;">LECTIVO</th>
+                                <th class="text-center" style="border: 3px solid #000;">NIVEL</th>
+                                <th class="text-center" style="border: 3px solid #000;">GRADO</th>
+                                <th class="text-center" style="border: 3px solid #000;">SECCIÓN</th>
                             </tr>
                         </thead>
-                        <tbody id="tbody_estructura">
-                        </tbody>
+                        <tbody id="tbody_estructura"></tbody>
                     </table>
+
+                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="agregarLectivo();">
+                        Agregar lectivo
+                    </button>
                 </div>
 
                 <div class="p-3">
@@ -81,6 +128,7 @@ if (!isset($_SESSION['nombre'])) {
         <!-- CUERPO_FIN -->
 
     </main>
+
     <?php include "../../General/Include/2_footer.php"; ?>
     <script src="Institucion_estructura.js"></script>
 <?php
