@@ -282,7 +282,7 @@ switch ($_GET["op"]) {
                                     <br>
                                     <center>
                                         <button type="button" onclick="eliminarConValidacion(' . $reg->matricula_detalle_id . ')" class="btn btn-danger  btn-sm">ELIMINAR</button>
-                                        <button type="button" onclick="desactivarConValidacion(' . $reg->matricula_detalle_id . ')" class="btn btn-warning  btn-sm">DESACTIVAR</button>
+                                        <button type="button" onclick="desactivarConValidacion(' . $reg->matricula_detalle_id . ')" class="btn btn-warning  btn-sm">RETIRADO</button>
                                     </center>
                                 </div>
                             <!-- fin-body -->

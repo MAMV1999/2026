@@ -357,13 +357,13 @@ class MatriculaDetalle
         // ejecutarConsulta($sql_mensualidad_detalle);
 
         // Desactivar registros relacionados en matricula_pago
-        $sql_matricula_pago = "UPDATE matricula_pago SET estado = 0 WHERE id_matricula_detalle = '$id_matricula_detalle'";
-        ejecutarConsulta($sql_matricula_pago);
+        // $sql_matricula_pago = "UPDATE matricula_pago SET estado = 0 WHERE id_matricula_detalle = '$id_matricula_detalle'";
+        // ejecutarConsulta($sql_matricula_pago);
 
         // Desactivar registro en matricula_detalle
         $sql_matricula_detalle = "UPDATE matricula_detalle SET estado = 0 WHERE id = '$id_matricula_detalle'";
         ejecutarConsulta($sql_matricula_detalle);
-
+        /*
         // Desactivar usuario_alumno
         if (!empty($id_alumno)) {
             $sql_alumno = "UPDATE usuario_alumno SET estado = 0 WHERE id = '$id_alumno'";
@@ -375,7 +375,7 @@ class MatriculaDetalle
             $sql_apoderado = "UPDATE usuario_apoderado SET estado = 0 WHERE id = '$id_apoderado'";
             ejecutarConsulta($sql_apoderado);
         }
-
+        */
         return true;
     }
 

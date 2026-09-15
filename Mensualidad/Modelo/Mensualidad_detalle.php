@@ -95,7 +95,7 @@ public function listar()
             md.estado AS estado
             FROM mensualidad_detalle md
             LEFT JOIN matricula_mes mm ON md.matricula_mes_id = mm.id AND mm.estado = '1'
-            LEFT JOIN matricula_detalle mdet ON md.id_matricula_detalle = mdet.id AND mdet.estado = '1'
+            LEFT JOIN matricula_detalle mdet ON md.id_matricula_detalle = mdet.id /*AND mdet.estado = '1'*/
             LEFT JOIN matricula_categoria mc ON mdet.id_matricula_categoria = mc.id AND mc.estado = '1'
             LEFT JOIN usuario_apoderado uap ON mdet.id_usuario_apoderado = uap.id AND uap.estado = '1'
             LEFT JOIN usuario_alumno ual ON mdet.id_usuario_alumno = ual.id AND ual.estado = '1'
