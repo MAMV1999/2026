@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-10-2026 a las 19:30:24
+-- Tiempo de generación: 28-10-2026 a las 18:04:18
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.3
 
@@ -1324,7 +1324,7 @@ ALTER TABLE `matricula_metodo_pago`
 -- AUTO_INCREMENT de la tabla `matricula_monto`
 --
 ALTER TABLE `matricula_monto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
 
 --
 -- AUTO_INCREMENT de la tabla `matricula_pago`

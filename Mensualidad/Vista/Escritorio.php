@@ -60,9 +60,10 @@ if (!isset($_SESSION['nombre'])) {
                 <?php
                 $array = array(
                     "1" => array("nombre" => "DETALLE DE MENSUALIDADES", "link" => "../../Reportes/Vista/Mensualidad_reporte_general.php"),
-                    "2" => array("nombre" => "DETALLE DE MENSUALIDADES X GRADO", "link" => "../../Reportes/Vista/Mensualidad_reporte_x_grado.php"),
-                    "3" => array("nombre" => "DETALLE DE MENSUALIDADES PENDIENTES MONTOS", "link" => "../../Reportes/Vista/mensualidad_detalle_deudores_montos.php"),
-                    "4" => array("nombre" => "DETALLE DE MENSUALIDADES PENDIENTES X NIVEL", "link" => "../../Reportes/Vista/mensualidad_detalle_deudores_nivel.php"),
+                    "2" => array("nombre" => "DETALLE DE MENSUALIDADES GENERAL", "link" => "../../Reportes/Vista/Mensualidad_reporte_todos.php"),
+                    "3" => array("nombre" => "DETALLE DE MENSUALIDADES X GRADO", "link" => "../../Reportes/Vista/Mensualidad_reporte_x_grado.php"),
+                    "4" => array("nombre" => "DETALLE DE MENSUALIDADES PENDIENTES MONTOS", "link" => "../../Reportes/Vista/mensualidad_detalle_deudores_montos.php"),
+                    "5" => array("nombre" => "DETALLE DE MENSUALIDADES PENDIENTES X NIVEL", "link" => "../../Reportes/Vista/mensualidad_detalle_deudores_nivel.php"),
                     /*
                     "2" => array("nombre" => "DETALLE DE MENSUALIDADES X MES", "link" => "../../Reportes/Vista/mensualidad_detalle_general.php"),
                     "3" => array("nombre" => "DETALLE DE MENSUALIDADES X APODERADO", "link" => "../../Reportes/Vista/Mensualidad_reporte_x_apoderado.php"),
