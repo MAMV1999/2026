@@ -38,21 +38,26 @@ if (!isset($_SESSION['nombre'])) {
         <div class="my-3 p-3 bg-body rounded shadow-sm" id="formulario">
             <h5 class="border-bottom pb-2 mb-0"><b>LIBROS - FORMULARIO</b></h5>
             <form id="frm_form" name="frm_form" method="post">
-                
-                <div class="p-3"><button type="button" class="btn btn-info" onclick="agregarFila();">Agregar Fila</button></div>
+                <div class="p-3">
+                    <button type="button" class="btn btn-info" onclick="agregarFila();">AGREGAR FILA</button>
+                </div>
 
-                <table class="table table-bordered" id="tabla_dinamica">
-                    <thead>
-                        <tr>
-                            <th style="width: auto;">N°</th>
-                            <th style="width: 20%;">Código</th>
-                            <th style="width: 50%;">Nombre</th>
-                            <th style="width: 20%;">Observaciones</th>
-                            <th style="width: auto;">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="tabla_dinamica">
+                        <thead>
+                            <tr>
+                                <th style="width: 5%;">N°</th>
+                                <th style="width: 20%;">CÓDIGO</th>
+                                <th style="width: 35%;">NOMBRE</th>
+                                <th style="width: 10%;">STOCK</th>
+                                <th style="width: 20%;">OBSERVACIONES</th>
+                                <th style="width: 10%;">ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
                 <button type="submit" class="btn btn-primary">GUARDAR</button>
                 <button type="button" onclick="MostrarListado();" class="btn btn-secondary">CANCELAR</button>
             </form>

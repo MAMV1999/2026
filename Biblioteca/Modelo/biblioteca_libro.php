@@ -7,23 +7,26 @@ class BibliotecaLibro
     {
     }
 
-    // Método para guardar o editar múltiples libros a la vez
     public function guardarEditarMasivo($detalles)
     {
         try {
             global $conectar;
+
             foreach ($detalles as $detalle) {
                 $id = isset($detalle['id']) ? limpiarcadena($detalle['id']) : null;
-                $codigo = isset($detalle['codigo']) ? limpiarcadena($detalle['codigo']) : null;
-                $nombre = isset($detalle['nombre']) ? limpiarcadena($detalle['nombre']) : null;
+                $codigo = isset($detalle['codigo']) ? limpiarcadena($detalle['codigo']) : '';
+                $nombre = isset($detalle['nombre']) ? limpiarcadena($detalle['nombre']) : '';
+                $stock = isset($detalle['stock']) ? (int)$detalle['stock'] : 0;
                 $observaciones = isset($detalle['observaciones']) ? limpiarcadena($detalle['observaciones']) : '';
 
+                if ($stock < 0) {
+                    $stock = 0;
+                }
+
                 if ($id) {
-                    // Actualizar libro existente
-                    $sql = "UPDATE biblioteca_libro SET codigo='$codigo', nombre='$nombre', observaciones='$observaciones' WHERE id='$id'";
+                    $sql = "UPDATE biblioteca_libro SET codigo='$codigo', nombre='$nombre', stock='$stock', observaciones='$observaciones' WHERE id='$id'";
                 } else {
-                    // Insertar nuevo libro
-                    $sql = "INSERT INTO biblioteca_libro (codigo, nombre, observaciones, stock, estado) VALUES ('$codigo', '$nombre', '$observaciones', '0', '1')";
+                    $sql = "INSERT INTO biblioteca_libro (codigo, nombre, observaciones, stock, estado) VALUES ('$codigo', '$nombre', '$observaciones', '$stock', '1')";
                 }
 
                 if (!ejecutarConsulta($sql)) {
@@ -38,28 +41,24 @@ class BibliotecaLibro
         }
     }
 
-    // Método para mostrar los detalles de un libro específico
     public function mostrar($id)
     {
         $sql = "SELECT * FROM biblioteca_libro WHERE id='" . limpiarcadena($id) . "'";
         return ejecutarConsultaSimpleFila($sql);
     }
 
-    // Método para listar todos los libros
     public function listar()
     {
-        $sql = "SELECT id, codigo, nombre, observaciones, stock, estado FROM biblioteca_libro";
+        $sql = "SELECT id, codigo, nombre, observaciones, stock, estado FROM biblioteca_libro ORDER BY nombre ASC, codigo ASC";
         return ejecutarConsulta($sql);
     }
 
-    // Método para desactivar un libro
     public function desactivar($id)
     {
         $sql = "UPDATE biblioteca_libro SET estado='0' WHERE id='" . limpiarcadena($id) . "'";
         return ejecutarConsulta($sql);
     }
 
-    // Método para activar un libro
     public function activar($id)
     {
         $sql = "UPDATE biblioteca_libro SET estado='1' WHERE id='" . limpiarcadena($id) . "'";

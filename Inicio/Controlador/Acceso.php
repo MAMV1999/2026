@@ -8,9 +8,44 @@ $usuario = isset($_POST["usuario"]) ? limpiarcadena($_POST["usuario"]) : "";
 $clave = isset($_POST["clave"]) ? limpiarcadena($_POST["clave"]) : "";
 
 switch ($_GET["op"]) {
+
+    case 'sesion':
+
+        if (isset($_SESSION['nombre'])) {
+            echo json_encode(array(
+                "status" => "success"
+            ));
+        } else {
+            echo json_encode(array(
+                "status" => "error"
+            ));
+        }
+
+        break;
+
+
     case 'verificar':
+
+        /*
+        SI YA EXISTE UNA SESIÓN,
+        NO PERMITIR INICIAR OTRA.
+        */
+
+        if (isset($_SESSION['nombre'])) {
+
+            echo json_encode(array(
+                "status" => "success",
+                "sesion" => "activa"
+            ));
+
+            break;
+        }
+
+
         $rspta = $acceso->verificar($usuario, $clave);
+
         if ($rspta->num_rows > 0) {
+
             $fetch = $rspta->fetch_object();
             
             $_SESSION['docente_id'] = $fetch->docente_id;
@@ -33,18 +68,57 @@ switch ($_GET["op"]) {
             $_SESSION['docente_sunat_usuario'] = $fetch->docente_sunat_usuario;
             $_SESSION['docente_sunat_contraseña'] = $fetch->docente_sunat_contraseña;
             $_SESSION['docente_estado'] = $fetch->docente_estado;
-            // Añadir otras variables de sesión según sea necesario
 
-            echo json_encode(array("status" => "success", "datos" => $fetch));
+            echo json_encode(array(
+                "status" => "success",
+                "datos" => $fetch
+            ));
+
         } else {
-            echo json_encode(array("status" => "error", "message" => "Usuario o contraseña incorrectos o el usuario está desactivado."));
+
+            echo json_encode(array(
+                "status" => "error",
+                "message" => "Usuario o contraseña incorrectos o el usuario está desactivado."
+            ));
         }
+
         break;
+
 
     case 'salir':
+
+        /*
+        ELIMINAR TODAS LAS VARIABLES
+        DE LA SESIÓN ACTUAL.
+        */
+
+        $_SESSION = array();
+
         session_unset();
+
+        /*
+        ELIMINAR TAMBIÉN LA COOKIE
+        DE LA SESIÓN.
+        */
+
+        if (ini_get("session.use_cookies")) {
+
+            $params = session_get_cookie_params();
+
+            setcookie(
+                session_name(),
+                '',
+                time() - 42000,
+                $params["path"],
+                $params["domain"],
+                $params["secure"],
+                $params["httponly"]
+            );
+        }
+
         session_destroy();
+
         header("Location: ../../index.php");
-        break;
+        exit();
 }
 ?>

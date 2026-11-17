@@ -32,6 +32,7 @@ function guardaryeditar(e) {
         let id = $(this).find("input[name='ids[]']").val() || null;
         let codigo = $(this).find("input[name='codigos[]']").val() || "";
         let nombre = $(this).find("input[name='nombres[]']").val() || "";
+        let stock = $(this).find("input[name='stocks[]']").val() || "0";
         let observaciones = $(this).find("input[name='observaciones[]']").val() || "";
 
         if (codigo !== "" && nombre !== "") {
@@ -39,6 +40,7 @@ function guardaryeditar(e) {
                 id: id,
                 codigo: codigo,
                 nombre: nombre,
+                stock: stock,
                 observaciones: observaciones
             });
         }
@@ -55,9 +57,10 @@ function guardaryeditar(e) {
         data: { detalles: JSON.stringify(detalles) },
         success: function (response) {
             alert(response);
-            tabla.ajax.reload();
-            MostrarListado();
-            limpiar();
+            if (response.includes("correctamente")) {
+                tabla.ajax.reload();
+                MostrarListado();
+            }
         },
         error: function () {
             alert("Error al guardar los registros.");
@@ -66,10 +69,15 @@ function guardaryeditar(e) {
 }
 
 function agregarFila() {
+    let numero = $("#tabla_dinamica tbody tr").length + 1;
     let fila = `<tr>
-        <td><input type="hidden" name="ids[]"></td>
+        <td>
+            ${numero}
+            <input type="hidden" name="ids[]">
+        </td>
         <td><input type="text" name="codigos[]" class="form-control" required></td>
         <td><input type="text" name="nombres[]" class="form-control" required></td>
+        <td><input type="number" name="stocks[]" class="form-control" min="0" value="1" required></td>
         <td><input type="text" name="observaciones[]" class="form-control"></td>
         <td><button type="button" class="btn btn-danger btn-sm" onclick="eliminarFila(this)">ELIMINAR</button></td>
     </tr>`;
@@ -78,6 +86,15 @@ function agregarFila() {
 
 function eliminarFila(fila) {
     $(fila).closest("tr").remove();
+    renumerarFilas();
+}
+
+function renumerarFilas() {
+    $("#tabla_dinamica tbody tr").each(function (index) {
+        $(this).find("td:first").contents().filter(function () {
+            return this.nodeType === 3;
+        }).first().replaceWith((index + 1) + " ");
+    });
 }
 
 function mostrar(id) {
@@ -91,11 +108,12 @@ function mostrar(id) {
                 MostrarFormulario();
                 $("#tabla_dinamica tbody").empty();
                 let fila = `<tr>
-                    <td><input type="hidden" name="ids[]" value="${data.id}"></td>
+                    <td>1<input type="hidden" name="ids[]" value="${data.id}"></td>
                     <td><input type="text" name="codigos[]" class="form-control" value="${data.codigo}" required></td>
                     <td><input type="text" name="nombres[]" class="form-control" value="${data.nombre}" required></td>
+                    <td><input type="number" name="stocks[]" class="form-control" min="0" value="${data.stock}" required></td>
                     <td><input type="text" name="observaciones[]" class="form-control" value="${data.observaciones || ''}"></td>
-                    <td><button type="button" class="btn btn-danger btn-sm" onclick="eliminarFila(this)">Eliminar</button></td>
+                    <td><button type="button" class="btn btn-danger btn-sm" onclick="eliminarFila(this)">ELIMINAR</button></td>
                 </tr>`;
                 $("#tabla_dinamica tbody").append(fila);
             } else {

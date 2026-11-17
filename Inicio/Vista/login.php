@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (isset($_SESSION['nombre'])) {
+    header("Location: Escritorio.php");
+    exit();
+}
+?>
+
 <!doctype html>
 <html lang="es" data-bs-theme="auto">
 

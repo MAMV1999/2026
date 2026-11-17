@@ -70,10 +70,10 @@ if (!isset($_SESSION['nombre'])) {
                         $a = 1;
                         while ($a <= count($array)) {
                             echo '<tr>
-                                <th scope="row">' . $a . '</th>
-                                <td>' . $array[$a]["nombre"] . '</td>
-                                <td><a class="btn btn-primary" href="' . $array[$a]["link"] . '" role="button">Ir a ' . $array[$a]["nombre"] . '</a></td>
-                            </tr>';
+                                    <th scope="row">' . $a . '</th>
+                                    <td>' . $array[$a]["nombre"] . '</td>
+                                    <td><a class="btn btn-primary" Target="_blank" href="' . $array[$a]["link"] . '" role="button">Ir a ' . $array[$a]["nombre"] . '</a></td>
+                                </tr>';
                             $a++;
                         }
                         ?>
