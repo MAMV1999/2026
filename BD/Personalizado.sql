@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-10-2026 a las 18:04:18
+-- Tiempo de generación: 19-11-2026 a las 13:53:47
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.3
 
@@ -239,6 +239,40 @@ CREATE TABLE `biblioteca_libro` (
   `observaciones` text,
   `fecha_creado` datetime DEFAULT CURRENT_TIMESTAMP,
   `estado` tinyint(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `biblioteca_retiro`
+--
+
+CREATE TABLE `biblioteca_retiro` (
+  `id` int(11) NOT NULL,
+  `codigo_retiro` varchar(30) NOT NULL,
+  `usuario_docente_id` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `observaciones` text,
+  `fechacreado` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `estado` tinyint(1) NOT NULL DEFAULT '1',
+  `devuelto` tinyint(1) NOT NULL DEFAULT '0',
+  `fecha_devolucion` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `biblioteca_retiro_detalle`
+--
+
+CREATE TABLE `biblioteca_retiro_detalle` (
+  `id` int(11) NOT NULL,
+  `biblioteca_retiro_id` int(11) NOT NULL,
+  `biblioteca_libro_id` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL DEFAULT '1',
+  `observaciones` text,
+  `fechacreado` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `estado` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -905,6 +939,24 @@ ALTER TABLE `biblioteca_libro`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `biblioteca_retiro`
+--
+ALTER TABLE `biblioteca_retiro`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_biblioteca_retiro_codigo` (`codigo_retiro`),
+  ADD KEY `usuario_docente_id` (`usuario_docente_id`),
+  ADD KEY `fecha` (`fecha`),
+  ADD KEY `idx_biblioteca_retiro_devuelto` (`devuelto`);
+
+--
+-- Indices de la tabla `biblioteca_retiro_detalle`
+--
+ALTER TABLE `biblioteca_retiro_detalle`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `biblioteca_retiro_id` (`biblioteca_retiro_id`),
+  ADD KEY `biblioteca_libro_id` (`biblioteca_libro_id`);
+
+--
 -- Indices de la tabla `documento`
 --
 ALTER TABLE `documento`
@@ -1222,6 +1274,18 @@ ALTER TABLE `almacen_salida_detalle`
 -- AUTO_INCREMENT de la tabla `biblioteca_libro`
 --
 ALTER TABLE `biblioteca_libro`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=844;
+
+--
+-- AUTO_INCREMENT de la tabla `biblioteca_retiro`
+--
+ALTER TABLE `biblioteca_retiro`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `biblioteca_retiro_detalle`
+--
+ALTER TABLE `biblioteca_retiro_detalle`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -1324,7 +1388,7 @@ ALTER TABLE `matricula_metodo_pago`
 -- AUTO_INCREMENT de la tabla `matricula_monto`
 --
 ALTER TABLE `matricula_monto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=165;
 
 --
 -- AUTO_INCREMENT de la tabla `matricula_pago`
@@ -1408,7 +1472,7 @@ ALTER TABLE `usuario_cargo_menu`
 -- AUTO_INCREMENT de la tabla `usuario_docente`
 --
 ALTER TABLE `usuario_docente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario_documento`
