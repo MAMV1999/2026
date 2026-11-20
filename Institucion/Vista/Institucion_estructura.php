@@ -6,131 +6,137 @@ if (!isset($_SESSION['nombre'])) {
     header("Location: ../../Inicio/Controlador/Acceso.php?op=salir");
 } else {
 ?>
-    <?php include "../../General/Include/1_header.php"; ?>
+<?php include "../../General/Include/1_header.php"; ?>
+<main class="container">
+    <?php include "../../General/Include/3_body.php"; ?>
 
-    <main class="container">
-        <!-- TITULO -->
-        <?php include "../../General/Include/3_body.php"; ?>
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <div class="border-bottom pb-2 mb-3">
+            <h5 class="mb-1"><b>ESTRUCTURA ACADÉMICA</b></h5>
+            <small class="text-body-secondary">Se muestra automáticamente la estructura del año lectivo activo. También puede seleccionar otro lectivo activo.</small>
+        </div>
 
-        <!-- CUERPO_INICIO -->
-        <div class="my-3 p-3 bg-body rounded shadow-sm" id="listado">
-            <h5 class="border-bottom pb-2 mb-0"><b>INSTITUCIÓN Y ESTRUCTURA - LISTADO</b></h5>
+        <div class="row g-3 align-items-end">
+            <div class="col-md-8">
+                <label for="id_institucion_lectivo" class="form-label"><b>Año lectivo:</b></label>
+                <select id="id_institucion_lectivo" class="form-select"></select>
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-primary w-100" onclick="cargar_estructura();">Cargar estructura</button>
+            </div>
+        </div>
+    </div>
 
-            <div class="p-3">
-                <table class="table" id="myTable">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>INSTITUCIÓN</th>
-                            <th>DIRECTOR</th>
-                            <th>RUC</th>
-                            <th>ESTADO</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+    <div class="my-3 p-3 bg-body rounded shadow-sm" id="contenedor_estructura">
+        <div class="alert alert-info mb-0" id="mensaje_inicial">
+            Cargando año lectivo activo y estructura académica...
+        </div>
+
+        <div id="estructura" style="display:none;">
+            <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+                <div>
+                    <h5 class="mb-1"><b>NIVELES, GRADOS Y SECCIONES</b></h5>
+                    <small class="text-body-secondary">Use los botones de cada bloque para agregar o editar la estructura.</small>
+                </div>
+                <button type="button" class="btn btn-success btn-sm" onclick="nuevo_nivel();">Agregar nivel</button>
             </div>
 
-            <small class="d-block text-end mt-3">
-                <button type="button" onclick="nuevo();" class="btn btn-success">Agregar</button>
-            </small>
+            <div id="lista_niveles"></div>
         </div>
+    </div>
 
-        <div class="my-3 p-3 bg-body rounded shadow-sm" id="formulario">
-            <h5 class="border-bottom pb-2 mb-0"><b>INSTITUCIÓN Y ESTRUCTURA - FORMULARIO</b></h5>
-
-            <form id="frm_form" name="frm_form" method="post">
-                <input type="hidden" id="id" name="id" placeholder="id" class="form-control">
-
-                <div class="p-3">
-                    <label for="nombre" class="form-label"><b>NOMBRE:</b></label>
-                    <div class="input-group">
-                        <input type="text" id="nombre" name="nombre" placeholder="Nombre de la Institución" class="form-control">
+    <!-- MODAL NIVEL -->
+    <div class="modal fade" id="modalNivel" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="frm_nivel">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><b>NIVEL</b></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                </div>
-
-                <div class="p-3">
-                    <label for="id_usuario_docente" class="form-label"><b>DIRECTOR:</b></label>
-                    <div class="input-group">
-                        <select id="id_usuario_docente" name="id_usuario_docente" class="form-control selectpicker" data-live-search="true"></select>
+                    <div class="modal-body">
+                        <input type="hidden" id="nivel_id" name="id">
+                        <input type="hidden" id="nivel_id_lectivo" name="id_institucion_lectivo">
+                        <div class="mb-3">
+                            <label for="nivel_nombre" class="form-label"><b>Nombre del nivel:</b></label>
+                            <input type="text" class="form-control" id="nivel_nombre" name="nombre" placeholder="Ej.: INICIAL, PRIMARIA, SECUNDARIA" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nivel_observaciones" class="form-label"><b>Observaciones:</b></label>
+                            <textarea class="form-control" id="nivel_observaciones" name="observaciones" rows="3"></textarea>
+                        </div>
                     </div>
-                </div>
-
-                <div class="p-3">
-                    <label for="telefono" class="form-label"><b>TELÉFONO:</b></label>
-                    <div class="input-group">
-                        <input type="text" id="telefono" name="telefono" placeholder="Teléfono" class="form-control">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar nivel</button>
                     </div>
-                </div>
-
-                <div class="p-3">
-                    <label for="correo" class="form-label"><b>CORREO:</b></label>
-                    <div class="input-group">
-                        <input type="text" id="correo" name="correo" placeholder="Correo" class="form-control">
-                    </div>
-                </div>
-
-                <div class="p-3">
-                    <label for="ruc" class="form-label"><b>RUC:</b></label>
-                    <div class="input-group">
-                        <input type="text" id="ruc" name="ruc" placeholder="RUC" class="form-control">
-                    </div>
-                </div>
-
-                <div class="p-3">
-                    <label for="razon_social" class="form-label"><b>RAZÓN SOCIAL:</b></label>
-                    <div class="input-group">
-                        <input type="text" id="razon_social" name="razon_social" placeholder="Razón Social" class="form-control">
-                    </div>
-                </div>
-
-                <div class="p-3">
-                    <label for="direccion" class="form-label"><b>DIRECCIÓN:</b></label>
-                    <div class="input-group">
-                        <input type="text" id="direccion" name="direccion" placeholder="Dirección" class="form-control">
-                    </div>
-                </div>
-
-                <div class="p-3">
-                    <label for="observaciones" class="form-label"><b>OBSERVACIONES:</b></label>
-                    <div class="input-group">
-                        <textarea id="observaciones" name="observaciones" placeholder="Observaciones" class="form-control"></textarea>
-                    </div>
-                </div>
-
-                <div class="p-3">
-                    <table class="table" style="border: 3px solid #000;">
-                        <thead>
-                            <tr>
-                                <th colspan="4" class="text-center" style="border: 3px solid #000;">ESTRUCTURA</th>
-                            </tr>
-                            <tr>
-                                <th class="text-center" style="border: 3px solid #000;">LECTIVO</th>
-                                <th class="text-center" style="border: 3px solid #000;">NIVEL</th>
-                                <th class="text-center" style="border: 3px solid #000;">GRADO</th>
-                                <th class="text-center" style="border: 3px solid #000;">SECCIÓN</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody_estructura"></tbody>
-                    </table>
-
-                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="agregarLectivo();">
-                        Agregar lectivo
-                    </button>
-                </div>
-
-                <div class="p-3">
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                    <button type="button" onclick="MostrarListado();" class="btn btn-secondary">Cancelar</button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-        <!-- CUERPO_FIN -->
+    </div>
 
-    </main>
+    <!-- MODAL GRADO -->
+    <div class="modal fade" id="modalGrado" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="frm_grado">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><b>GRADO</b></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="grado_id" name="id">
+                        <input type="hidden" id="grado_id_nivel" name="id_institucion_nivel">
+                        <div class="mb-3">
+                            <label for="grado_nombre" class="form-label"><b>Nombre del grado:</b></label>
+                            <input type="text" class="form-control" id="grado_nombre" name="nombre" placeholder="Ej.: 1 GRADO" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="grado_observaciones" class="form-label"><b>Observaciones:</b></label>
+                            <textarea class="form-control" id="grado_observaciones" name="observaciones" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar grado</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-    <?php include "../../General/Include/2_footer.php"; ?>
-    <script src="Institucion_estructura.js"></script>
+    <!-- MODAL SECCION -->
+    <div class="modal fade" id="modalSeccion" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="frm_seccion">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><b>SECCIÓN</b></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="seccion_id" name="id">
+                        <input type="hidden" id="seccion_id_grado" name="id_institucion_grado">
+                        <div class="mb-3">
+                            <label for="seccion_nombre" class="form-label"><b>Nombre de la sección:</b></label>
+                            <input type="text" class="form-control" id="seccion_nombre" name="nombre" placeholder="Ej.: A, B, C" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="seccion_observaciones" class="form-label"><b>Observaciones:</b></label>
+                            <textarea class="form-control" id="seccion_observaciones" name="observaciones" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar sección</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<?php include "../../General/Include/2_footer.php"; ?>
+<script src="Institucion_estructura.js"></script>
 <?php
 }
 ob_end_flush();

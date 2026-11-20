@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-11-2026 a las 13:53:32
+-- Tiempo de generación: 20-11-2026 a las 05:49:43
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.3
 
@@ -663,9 +663,9 @@ INSERT INTO `almacen_producto` (`id`, `nombre`, `descripcion`, `categoria_id`, `
 (4, 'LIBRO INICIAL 3 AÑOS', '', 2, '0.00', '300.00', 3, '2026-01-05 12:12:50', 1),
 (5, 'LIBRO INICIAL 4 AÑOS', '', 2, '0.00', '300.00', 10, '2026-01-05 12:12:50', 1),
 (6, 'LIBRO INICIAL 5 AÑOS', '', 2, '0.00', '300.00', 9, '2026-01-05 12:12:50', 1),
-(7, 'LIBRO PRIMARIA 1 GRADO', '', 3, '0.00', '260.00', 6, '2026-01-05 12:14:57', 1),
+(7, 'LIBRO PRIMARIA 1 GRADO', '', 3, '0.00', '260.00', 5, '2026-01-05 12:14:57', 1),
 (8, 'LIBRO PRIMARIA 2 GRADO', '', 3, '0.00', '260.00', 8, '2026-01-05 12:14:57', 1),
-(9, 'LIBRO PRIMARIA 3 GRADO', '', 3, '0.00', '270.00', 8, '2026-01-05 12:14:57', 1),
+(9, 'LIBRO PRIMARIA 3 GRADO', '', 3, '0.00', '270.00', 7, '2026-01-05 12:14:57', 1),
 (10, 'LIBRO PRIMARIA 4 GRADO', '', 3, '0.00', '270.00', 6, '2026-01-05 12:14:57', 1),
 (11, 'LIBRO PRIMARIA 5 GRADO', '', 3, '0.00', '290.00', 10, '2026-01-05 12:14:57', 1),
 (12, 'LIBRO PRIMARIA 6 GRADO', '', 3, '0.00', '290.00', 4, '2026-01-05 12:14:57', 1),
@@ -964,7 +964,9 @@ INSERT INTO `almacen_salida` (`id`, `usuario_apoderado_id`, `almacen_comprobante
 (201, 98, 1, '000201', '2026-05-04', 1, '80.00', 'PAGO COMPLETO', '2026-05-04 13:35:11', 1),
 (202, 22, 1, '000202', '2026-05-26', 2, '83.00', 'SE ENTREGO COMPLETO', '2026-05-26 14:34:10', 1),
 (203, 101, 1, '000203', '2026-07-01', 2, '264.00', '', '2026-07-01 12:54:34', 1),
-(204, 5, 1, '000204', '2026-09-02', 1, '100.00', '', '2026-09-02 09:01:48', 1);
+(204, 5, 1, '000204', '2026-09-02', 1, '100.00', '', '2026-09-02 09:01:48', 1),
+(205, 62, 1, '000205', '2026-03-16', 2, '50.00', 'LIBRO PRIMARIA 1 GRADO - SOLO SE REALIZO EL PAGO DE 50 SOLES - PENDIENTE 210 SOLES\r\nREALIZAR EL PAGO YAPE AL NUMERO 976300448 - CECILIA MANRIQUE', '2026-11-19 14:37:32', 1),
+(206, 62, 1, '000206', '2026-03-16', 2, '50.00', 'LIBRO PRIMARIA 3 GRADO - SOLO SE REALIZO EL PAGO DE 50 SOLES - PENDIENTE 220 SOLES\r\nREALIZAR EL PAGO YAPE AL NUMERO 976300448 - CECILIA MANRIQUE', '2026-11-19 14:39:06', 1);
 
 --
 -- Disparadores `almacen_salida`
@@ -1349,7 +1351,9 @@ INSERT INTO `almacen_salida_detalle` (`id`, `almacen_salida_id`, `almacen_produc
 (359, 203, 20, 1, '80.00', ''),
 (360, 204, 16, 1, '10.00', ''),
 (361, 204, 18, 1, '80.00', ''),
-(362, 204, 17, 1, '10.00', '');
+(362, 204, 17, 1, '10.00', ''),
+(363, 205, 7, 1, '50.00', '260.00'),
+(364, 206, 9, 1, '50.00', '270.00');
 
 --
 -- Disparadores `almacen_salida_detalle`
@@ -2637,7 +2641,7 @@ CREATE TABLE `institucion_lectivo` (
 --
 
 INSERT INTO `institucion_lectivo` (`id`, `nombre`, `nombre_lectivo`, `id_institucion`, `observaciones`, `fechacreado`, `estado`) VALUES
-(1, '2026', 'AñO DE LA ESPERANZA Y EL FORTALECIMIENTO DE LA DEMOCRACIA', 1, '', '2025-12-27 07:22:03', 1);
+(1, '2026', 'AÑO DE LA ESPERANZA Y EL FORTALECIMIENTO DE LA DEMOCRACIA', 1, '', '2025-12-27 07:22:03', 1);
 
 -- --------------------------------------------------------
 
@@ -5910,13 +5914,13 @@ ALTER TABLE `almacen_producto`
 -- AUTO_INCREMENT de la tabla `almacen_salida`
 --
 ALTER TABLE `almacen_salida`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=207;
 
 --
 -- AUTO_INCREMENT de la tabla `almacen_salida_detalle`
 --
 ALTER TABLE `almacen_salida_detalle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=363;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=365;
 
 --
 -- AUTO_INCREMENT de la tabla `biblioteca_libro`

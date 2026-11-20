@@ -1,603 +1,398 @@
 var link = "../Controlador/Institucion_estructura.php?op=";
-var tabla;
+var modalNivel;
+var modalGrado;
+var modalSeccion;
 
 function init() {
-    $("#frm_form").on("submit", function (e) {
-        guardaryeditar(e);
+    cargar_lectivos();
+    $("#id_institucion_lectivo").on("change", cargar_estructura);
+
+    $("#frm_nivel").on("submit", function (e) {
+        guardar_nivel(e);
     });
 
-    MostrarListado();
-    cargar_docentes();
+    $("#frm_grado").on("submit", function (e) {
+        guardar_grado(e);
+    });
+
+    $("#frm_seccion").on("submit", function (e) {
+        guardar_seccion(e);
+    });
+
+    modalNivel = new bootstrap.Modal(document.getElementById("modalNivel"));
+    modalGrado = new bootstrap.Modal(document.getElementById("modalGrado"));
+    modalSeccion = new bootstrap.Modal(document.getElementById("modalSeccion"));
+
     actualizarFechaHora();
     setInterval(actualizarFechaHora, 1000);
 }
 
-function refrescarSelectPicker(id) {
-    if ($.fn.selectpicker) {
-        $("#" + id).selectpicker("refresh");
-    }
-}
-
-function cargar_docentes() {
-    $.post(link + "listar_docentes_activos", function (r) {
-        $("#id_usuario_docente").html(r);
-        refrescarSelectPicker("id_usuario_docente");
-    });
-}
-
-$(document).ready(function () {
-    tabla = $("#myTable").DataTable({
-        ajax: link + "listar",
-    });
-});
-
-function limpiar() {
-    $("#id").val("");
-    $("#nombre").val("");
-    $("#id_usuario_docente").val("");
-    $("#telefono").val("");
-    $("#correo").val("");
-    $("#ruc").val("");
-    $("#razon_social").val("");
-    $("#direccion").val("");
-    $("#observaciones").val("");
-    $("#tbody_estructura").empty();
-
-    cargar_docentes();
-}
-
-function MostrarListado() {
-    limpiar();
-    $("#listado").show();
-    $("#formulario").hide();
-}
-
-function MostrarFormulario() {
-    $("#listado").hide();
-    $("#formulario").show();
-}
-
-function guardaryeditar(e) {
-    e.preventDefault();
-
-    let detalles = [];
-
-    $(".estructura-input").each(function () {
-        let tipo = $(this).data("tipo");
-        let id = $(this).data("id");
-        let nombre = $(this).val();
-        let nombre_lectivo = "";
-
-        if (tipo == "lectivo") {
-            nombre_lectivo = $("#nombre_lectivo_" + id).val();
-        }
-
-        detalles.push({
-            tipo: tipo,
-            id: id,
-            nombre: nombre,
-            nombre_lectivo: nombre_lectivo
-        });
-    });
-
-    let formData = $("#frm_form").serializeArray();
-    formData.push({
-        name: "detalles",
-        value: JSON.stringify(detalles)
-    });
-
+function cargar_lectivos() {
     $.ajax({
-        url: link + "guardaryeditar",
+        url: link + "listar_lectivos_activos",
         type: "POST",
-        data: formData,
-
-        success: function (datos) {
-            let respuesta = JSON.parse(datos);
-            alert(respuesta.mensaje);
-
-            if (respuesta.estado) {
-                $("#id").val(respuesta.id);
-                cargar_estructura(respuesta.id);
-                MostrarListado();
-                tabla.ajax.reload();
+        success: function (r) {
+            let selector = $("#id_institucion_lectivo");
+            selector.html(r);
+            let primero = selector.find("option[value!='']").first().val();
+            if (primero) {
+                selector.val(primero);
+                cargar_estructura();
+            } else {
+                $("#mensaje_inicial").text("No hay años lectivos activos. Active uno desde Años lectivos.").show();
+                $("#estructura").hide();
             }
         },
+        error: function () {
+            $("#mensaje_inicial").text("No se pudo cargar la lista de años lectivos. Revise la conexión.").show();
+        }
     });
 }
 
-function mostrar(id) {
-    $.post(
-        link + "mostrar",
-        {
-            id: id,
+function cargar_estructura() {
+    let id_lectivo = $("#id_institucion_lectivo").val();
+    if (!id_lectivo) {
+        $("#mensaje_inicial").text("Seleccione un año lectivo activo.").show();
+        $("#estructura").hide();
+        return;
+    }
+    $.ajax({
+        url: link + "listar_estructura",
+        type: "POST",
+        data: { id_institucion_lectivo: id_lectivo },
+        dataType: "json",
+        success: function (respuesta) {
+            pintar_estructura(respuesta);
+            $("#mensaje_inicial").hide();
+            $("#estructura").show();
         },
-        function (data, status) {
-            data = JSON.parse(data);
-            MostrarFormulario();
-
-            $("#id").val(data.id);
-            $("#nombre").val(data.nombre);
-            $("#id_usuario_docente").val(data.id_usuario_docente);
-            $("#telefono").val(data.telefono);
-            $("#correo").val(data.correo);
-            $("#ruc").val(data.ruc);
-            $("#razon_social").val(data.razon_social);
-            $("#direccion").val(data.direccion);
-            $("#observaciones").val(data.observaciones);
-
-            refrescarSelectPicker("id_usuario_docente");
-            cargar_estructura(data.id);
+        error: function () {
+            $("#mensaje_inicial").text("No se pudo cargar la estructura académica. Revise la conexión.").show();
+            $("#estructura").hide();
         }
-    );
-}
-
-function cargar_estructura(id_institucion) {
-    $.post(
-        link + "listar_estructura",
-        {
-            id_institucion: id_institucion
-        },
-        function (data) {
-            let detalles = JSON.parse(data);
-            pintar_estructura(detalles);
-        }
-    );
+    });
 }
 
 function pintar_estructura(detalles) {
-    let tbody = $("#tbody_estructura");
-    tbody.empty();
+    let contenedor = $("#lista_niveles");
+    contenedor.empty();
 
-    if ($("#id").val() == "") {
-        tbody.append(`
-            <tr>
-                <td colspan="4" class="text-center">
-                    Primero guarde la institución para agregar lectivos, niveles, grados y secciones.
-                </td>
-            </tr>
+    if (!Array.isArray(detalles) || detalles.length === 0) {
+        contenedor.html(`
+            <div class="alert alert-light border text-center mb-0">
+                Este año lectivo todavía no tiene niveles registrados.<br>
+                Use el botón <b>Agregar nivel</b> para comenzar.
+            </div>
         `);
         return;
     }
 
-    if (detalles.length == 0) {
-        tbody.append(`
-            <tr>
-                <td colspan="4" class="text-center">
-                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="agregarLectivo()">
-                        AGREGAR LECTIVO
-                    </button>
-                </td>
-            </tr>
-        `);
-        return;
-    }
-
-    let lectivos = [];
+    let niveles = [];
 
     detalles.forEach(function (item) {
-        let lectivo = lectivos.find(x => x.id == item.lectivo_id);
+        let nivel = niveles.find(x => x.id == item.nivel_id);
 
-        if (!lectivo) {
-            lectivo = {
-                id: item.lectivo_id,
-                nombre: item.lectivo_nombre,
-                nombre_lectivo: item.lectivo_nombre_lectivo,
-                estado: item.lectivo_estado,
-                niveles: []
+        if (!nivel) {
+            nivel = {
+                id: item.nivel_id,
+                nombre: item.nivel_nombre,
+                observaciones: item.nivel_observaciones || "",
+                estado: item.nivel_estado,
+                grados: []
             };
-            lectivos.push(lectivo);
+            niveles.push(nivel);
         }
 
-        if (item.nivel_id != null) {
-            let nivel = lectivo.niveles.find(x => x.id == item.nivel_id);
+        if (item.grado_id != null) {
+            let grado = nivel.grados.find(x => x.id == item.grado_id);
 
-            if (!nivel) {
-                nivel = {
-                    id: item.nivel_id,
-                    nombre: item.nivel_nombre,
-                    estado: item.nivel_estado,
-                    grados: []
+            if (!grado) {
+                grado = {
+                    id: item.grado_id,
+                    nombre: item.grado_nombre,
+                    observaciones: item.grado_observaciones || "",
+                    estado: item.grado_estado,
+                    secciones: []
                 };
-                lectivo.niveles.push(nivel);
+                nivel.grados.push(grado);
             }
 
-            if (item.grado_id != null) {
-                let grado = nivel.grados.find(x => x.id == item.grado_id);
-
-                if (!grado) {
-                    grado = {
-                        id: item.grado_id,
-                        nombre: item.grado_nombre,
-                        estado: item.grado_estado,
-                        secciones: []
-                    };
-                    nivel.grados.push(grado);
-                }
-
-                if (item.seccion_id != null) {
-                    let existeSeccion = grado.secciones.find(x => x.id == item.seccion_id);
-
-                    if (!existeSeccion) {
-                        grado.secciones.push({
-                            id: item.seccion_id,
-                            nombre: item.seccion_nombre,
-                            estado: item.seccion_estado
-                        });
-                    }
+            if (item.seccion_id != null) {
+                let existe = grado.secciones.find(x => x.id == item.seccion_id);
+                if (!existe) {
+                    grado.secciones.push({
+                        id: item.seccion_id,
+                        nombre: item.seccion_nombre,
+                        observaciones: item.seccion_observaciones || "",
+                        estado: item.seccion_estado
+                    });
                 }
             }
         }
     });
 
-    lectivos.forEach(function (lectivo) {
-        let lectivoRowspan = calcularRowspanLectivo(lectivo);
-        let pintoLectivo = false;
+    niveles.forEach(function (nivel) {
+        let idNivel = Number(nivel.id);
+        let estadoNivel = nivel.estado == 1
+            ? `<button type="button" class="btn btn-outline-danger btn-sm" onclick="cambiar_estado('nivel', ${idNivel}, 0)">Desactivar</button>`
+            : `<button type="button" class="btn btn-outline-primary btn-sm" onclick="cambiar_estado('nivel', ${idNivel}, 1)">Activar</button>`;
 
-        if (lectivo.niveles.length == 0) {
-            tbody.append(`
+        let gradosHtml = "";
+
+        if (nivel.grados.length === 0) {
+            gradosHtml = `
                 <tr>
-                    <td style="border: 3px solid #000; vertical-align: middle;" rowspan="1">
-                        ${inputLectivo(lectivo)}
+                    <td colspan="4" class="text-center text-body-secondary py-3">
+                        No hay grados registrados en este nivel.
                     </td>
-                    <td style="border: 3px solid #000; vertical-align: middle;"></td>
-                    <td style="border: 3px solid #000; vertical-align: middle;"></td>
-                    <td style="border: 3px solid #000; vertical-align: middle;"></td>
                 </tr>
-            `);
-            return;
-        }
+            `;
+        } else {
+            nivel.grados.forEach(function (grado, indiceGrado) {
+                let idGrado = Number(grado.id);
+                let collapseId = `secciones_grado_${idGrado}`;
+                let estadoGrado = grado.estado == 1
+                    ? `<span class="badge bg-success ms-2">ACTIVO</span>`
+                    : `<span class="badge bg-secondary ms-2">INACTIVO</span>`;
+                let accionGrado = grado.estado == 1
+                    ? `<button type="button" class="btn btn-outline-danger btn-sm" onclick="cambiar_estado('grado', ${idGrado}, 0)">Desactivar</button>`
+                    : `<button type="button" class="btn btn-outline-primary btn-sm" onclick="cambiar_estado('grado', ${idGrado}, 1)">Activar</button>`;
 
-        lectivo.niveles.forEach(function (nivel) {
-            let nivelRowspan = calcularRowspanNivel(nivel);
-            let pintoNivel = false;
-
-            if (nivel.grados.length == 0) {
-                tbody.append(`
-                    <tr>
-                        ${!pintoLectivo ? `<td style="border: 3px solid #000; vertical-align: middle;" rowspan="${lectivoRowspan}">${inputLectivo(lectivo)}</td>` : ``}
-                        <td style="border: 3px solid #000; vertical-align: middle;" rowspan="1">
-                            ${inputNivel(nivel, lectivo)}
-                        </td>
-                        <td style="border: 3px solid #000; vertical-align: middle;"></td>
-                        <td style="border: 3px solid #000; vertical-align: middle;"></td>
-                    </tr>
-                `);
-
-                pintoLectivo = true;
-                return;
-            }
-
-            nivel.grados.forEach(function (grado) {
-                let gradoRowspan = calcularRowspanGrado(grado);
-                let pintoGrado = false;
-
-                if (grado.secciones.length == 0) {
-                    tbody.append(`
+                let seccionesHtml = "";
+                if (grado.secciones.length === 0) {
+                    seccionesHtml = `
                         <tr>
-                            ${!pintoLectivo ? `<td style="border: 3px solid #000; vertical-align: middle;" rowspan="${lectivoRowspan}">${inputLectivo(lectivo)}</td>` : ``}
-                            ${!pintoNivel ? `<td style="border: 3px solid #000; vertical-align: middle;" rowspan="${nivelRowspan}">${inputNivel(nivel, lectivo)}</td>` : ``}
-                            <td style="border: 3px solid #000; vertical-align: middle;" rowspan="1">
-                                ${inputGrado(grado, nivel)}
+                            <td colspan="4" class="text-center text-body-secondary py-3">
+                                Este grado todavía no tiene secciones registradas.
                             </td>
-                            <td style="border: 3px solid #000; vertical-align: middle;"></td>
                         </tr>
-                    `);
+                    `;
+                } else {
+                    grado.secciones.forEach(function (seccion, indiceSeccion) {
+                        let idSeccion = Number(seccion.id);
+                        let estadoSeccion = seccion.estado == 1
+                            ? `<span class="badge bg-success">ACTIVA</span>`
+                            : `<span class="badge bg-secondary">INACTIVA</span>`;
+                        let accionSeccion = seccion.estado == 1
+                            ? `<button type="button" class="btn btn-outline-danger btn-sm" onclick="cambiar_estado('seccion', ${idSeccion}, 0)">Desactivar</button>`
+                            : `<button type="button" class="btn btn-outline-primary btn-sm" onclick="cambiar_estado('seccion', ${idSeccion}, 1)">Activar</button>`;
 
-                    pintoLectivo = true;
-                    pintoNivel = true;
-                    return;
+                        seccionesHtml += `
+                            <tr>
+                                <th scope="row" class="text-center">${indiceSeccion + 1}</th>
+                                <td>${escapeHtml(seccion.nombre)}</td>
+                                <td class="text-center">${estadoSeccion}</td>
+                                <td class="text-center">
+                                    <div class="d-flex flex-wrap justify-content-center gap-1">
+                                        <button type="button" class="btn btn-warning btn-sm" onclick="editar_seccion(${idSeccion})">Editar</button>
+                                        ${accionSeccion}
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    });
                 }
 
-                grado.secciones.forEach(function (seccion) {
-                    tbody.append(`
-                        <tr>
-                            ${!pintoLectivo ? `<td style="border: 3px solid #000; vertical-align: middle;" rowspan="${lectivoRowspan}">${inputLectivo(lectivo)}</td>` : ``}
-                            ${!pintoNivel ? `<td style="border: 3px solid #000; vertical-align: middle;" rowspan="${nivelRowspan}">${inputNivel(nivel, lectivo)}</td>` : ``}
-                            ${!pintoGrado ? `<td style="border: 3px solid #000; vertical-align: middle;" rowspan="${gradoRowspan}">${inputGrado(grado, nivel)}</td>` : ``}
-                            <td style="border: 3px solid #000; vertical-align: middle;">
-                                ${inputSeccion(seccion, grado)}
-                            </td>
-                        </tr>
-                    `);
-
-                    pintoLectivo = true;
-                    pintoNivel = true;
-                    pintoGrado = true;
-                });
+                gradosHtml += `
+                    <tr>
+                        <th scope="row" class="text-center">${indiceGrado + 1}</th>
+                        <td>
+                            <b>${escapeHtml(grado.nombre)}</b>
+                            ${estadoGrado}
+                        </td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-outline-secondary btn-sm"
+                                data-bs-toggle="collapse" data-bs-target="#${collapseId}"
+                                aria-expanded="false" aria-controls="${collapseId}">
+                                ${grado.secciones.length} <span aria-hidden="true">⌄</span>
+                            </button>
+                        </td>
+                        <td class="text-center">
+                            <div class="d-flex flex-wrap justify-content-center gap-1">
+                                <button type="button" class="btn btn-warning btn-sm" onclick="editar_grado(${idGrado})">Editar</button>
+                                ${accionGrado}
+                                <button type="button" class="btn btn-success btn-sm" onclick="nueva_seccion(${idGrado})">+ Sección</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="p-0 border-0">
+                            <div class="collapse" id="${collapseId}">
+                                <div class="p-3 border-bottom">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <b>SECCIONES DE ${escapeHtml(grado.nombre)}</b>
+                                        <span class="text-body-secondary small">${grado.secciones.length} registro(s)</span>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-sm align-middle mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center" style="width: 8%;">N.º</th>
+                                                    <th>SECCIÓN</th>
+                                                    <th class="text-center" style="width: 18%;">ESTADO</th>
+                                                    <th class="text-center" style="width: 30%;">ACCIÓN</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>${seccionesHtml}</tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                `;
             });
-        });
+        }
+
+        contenedor.append(`
+            <div class="card mb-3 shadow-sm">
+                <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+                    <div>
+                        <b>NIVEL: ${escapeHtml(nivel.nombre)}</b>
+                        ${nivel.estado == 1 ? '<span class="badge bg-success ms-2">ACTIVO</span>' : '<span class="badge bg-secondary ms-2">INACTIVO</span>'}
+                    </div>
+                    <div class="d-flex flex-wrap gap-1">
+                        <button type="button" class="btn btn-warning btn-sm" onclick="editar_nivel(${idNivel})">Editar nivel</button>
+                        ${estadoNivel}
+                        <button type="button" class="btn btn-success btn-sm" onclick="nuevo_grado(${idNivel})">+ Agregar grado</button>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-bordered align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="text-center" style="width: 8%;">#</th>
+                                    <th>DESCRIPCIÓN</th>
+                                    <th class="text-center" style="width: 18%;">N.º DE SECCIONES</th>
+                                    <th class="text-center" style="width: 34%;">ACCIÓN</th>
+                                </tr>
+                            </thead>
+                            <tbody>${gradosHtml}</tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        `);
     });
 }
 
-function calcularRowspanLectivo(lectivo) {
-    let total = 0;
-
-    if (lectivo.niveles.length == 0) {
-        return 1;
-    }
-
-    lectivo.niveles.forEach(function (nivel) {
-        total += calcularRowspanNivel(nivel);
-    });
-
-    return total;
-}
-
-function calcularRowspanNivel(nivel) {
-    let total = 0;
-
-    if (nivel.grados.length == 0) {
-        return 1;
-    }
-
-    nivel.grados.forEach(function (grado) {
-        total += calcularRowspanGrado(grado);
-    });
-
-    return total;
-}
-
-function calcularRowspanGrado(grado) {
-    if (grado.secciones.length == 0) {
-        return 1;
-    }
-
-    return grado.secciones.length;
-}
-
-function inputLectivo(lectivo) {
-    return `
-        <div class="input-group mb-2">
-            <input type="text" 
-                   class="form-control estructura-input" 
-                   data-tipo="lectivo" 
-                   data-id="${lectivo.id}" 
-                   value="${lectivo.nombre}">
-            ${botonOpciones("lectivo", lectivo.id, lectivo.estado)}
-        </div>
-
-        <input type="text" 
-               class="form-control" 
-               id="nombre_lectivo_${lectivo.id}" 
-               value="${lectivo.nombre_lectivo == null ? "" : lectivo.nombre_lectivo}" 
-               placeholder="Nombre lectivo">
-    `;
-}
-
-function inputNivel(nivel, lectivo) {
-    return `
-        <div class="input-group mb-3">
-            <input type="text" 
-                   class="form-control estructura-input" 
-                   data-tipo="nivel" 
-                   data-id="${nivel.id}" 
-                   value="${nivel.nombre}">
-            ${botonOpciones("nivel", nivel.id, nivel.estado, lectivo.estado)}
-        </div>
-    `;
-}
-
-function inputGrado(grado, nivel) {
-    return `
-        <div class="input-group mb-3">
-            <input type="text" 
-                   class="form-control estructura-input" 
-                   data-tipo="grado" 
-                   data-id="${grado.id}" 
-                   value="${grado.nombre}">
-            ${botonOpciones("grado", grado.id, grado.estado, nivel.estado)}
-        </div>
-    `;
-}
-
-function inputSeccion(seccion, grado) {
-    return `
-        <div class="input-group mb-3">
-            <input type="text" 
-                   class="form-control estructura-input" 
-                   data-tipo="seccion" 
-                   data-id="${seccion.id}" 
-                   value="${seccion.nombre}">
-            ${botonOpciones("seccion", seccion.id, seccion.estado, grado.estado)}
-        </div>
-    `;
-}
-
-function botonOpciones(tipo, id, estado, estadoPadre = 1) {
-    let textoEstado = estado == 1 ? "DESACTIVAR" : "ACTIVAR";
-    let funcionEstado = estado == 1 ? `desactivar('${tipo}', ${id})` : `activar('${tipo}', ${id})`;
-
-    let opcionesAgregar = "";
-
-    if (tipo == "lectivo") {
-        opcionesAgregar = `<li><a class="dropdown-item" href="#" onclick="agregarNivel(${id}, ${estado})">AGREGAR NIVEL</a></li>`;
-    }
-
-    if (tipo == "nivel") {
-        opcionesAgregar = `<li><a class="dropdown-item" href="#" onclick="agregarGrado(${id}, ${estado}, ${estadoPadre})">AGREGAR GRADO</a></li>`;
-    }
-
-    if (tipo == "grado") {
-        opcionesAgregar = `<li><a class="dropdown-item" href="#" onclick="agregarSeccion(${id}, ${estado}, ${estadoPadre})">AGREGAR SECCIÓN</a></li>`;
-    }
-
-    if (tipo == "seccion") {
-        opcionesAgregar = ``;
-    }
-
-    return `
-        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            OPC.
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end">
-            ${opcionesAgregar}
-            <li><a class="dropdown-item" href="#" onclick="${funcionEstado}">${textoEstado}</a></li>
-        </ul>
-    `;
-}
-
-function agregarLectivo() {
-    let id_institucion = $("#id").val();
-
-    if (id_institucion == "") {
-        alert("Primero guarde la institución");
+function nuevo_nivel() {
+    let id_lectivo = $("#id_institucion_lectivo").val();
+    if (!id_lectivo) {
+        alert("Seleccione un año lectivo");
         return;
     }
 
-    let nombre = prompt("Ingrese el nombre del lectivo");
-    if (nombre == null || nombre == "") {
-        return;
-    }
+    $("#frm_nivel")[0].reset();
+    $("#nivel_id").val("");
+    $("#nivel_id_lectivo").val(id_lectivo);
+    modalNivel.show();
+}
 
-    let nombre_lectivo = prompt("Ingrese el nombre lectivo");
-    if (nombre_lectivo == null) {
-        nombre_lectivo = "";
-    }
+function editar_nivel(id) {
+    $.post(link + "mostrar_nivel", { id: id }, function (data) {
+        let item = JSON.parse(data);
+        $("#nivel_id").val(item.id);
+        $("#nivel_id_lectivo").val(item.id_institucion_lectivo);
+        $("#nivel_nombre").val(item.nombre);
+        $("#nivel_observaciones").val(item.observaciones);
+        modalNivel.show();
+    });
+}
 
+function nuevo_grado(id_nivel) {
+    $("#frm_grado")[0].reset();
+    $("#grado_id").val("");
+    $("#grado_id_nivel").val(id_nivel);
+    modalGrado.show();
+}
+
+function editar_grado(id) {
+    $.post(link + "mostrar_grado", { id: id }, function (data) {
+        let item = JSON.parse(data);
+        $("#grado_id").val(item.id);
+        $("#grado_id_nivel").val(item.id_institucion_nivel);
+        $("#grado_nombre").val(item.nombre);
+        $("#grado_observaciones").val(item.observaciones);
+        modalGrado.show();
+    });
+}
+
+function nueva_seccion(id_grado) {
+    $("#frm_seccion")[0].reset();
+    $("#seccion_id").val("");
+    $("#seccion_id_grado").val(id_grado);
+    modalSeccion.show();
+}
+
+function editar_seccion(id) {
+    $.post(link + "mostrar_seccion", { id: id }, function (data) {
+        let item = JSON.parse(data);
+        $("#seccion_id").val(item.id);
+        $("#seccion_id_grado").val(item.id_institucion_grado);
+        $("#seccion_nombre").val(item.nombre);
+        $("#seccion_observaciones").val(item.observaciones);
+        modalSeccion.show();
+    });
+}
+
+function guardar_nivel(e) {
+    e.preventDefault();
     $.ajax({
+        url: link + "guardar_nivel",
         type: "POST",
-        url: link + "agregar_lectivo",
-        data: {
-            id_institucion: id_institucion,
-            nombre: nombre,
-            nombre_lectivo: nombre_lectivo
-        },
+        data: $("#frm_nivel").serialize(),
         success: function (datos) {
             alert(datos);
-            cargar_estructura(id_institucion);
-        },
+            modalNivel.hide();
+            cargar_estructura();
+        }
     });
 }
 
-function agregarNivel(id_lectivo, estadoLectivo) {
-    if (estadoLectivo == 0) {
-        alert("No se puede agregar nivel porque el lectivo está desactivado");
-        return;
-    }
-
-    let nombre = prompt("Ingrese el nombre del nivel");
-    if (nombre == null || nombre == "") {
-        return;
-    }
-
+function guardar_grado(e) {
+    e.preventDefault();
     $.ajax({
+        url: link + "guardar_grado",
         type: "POST",
-        url: link + "agregar_nivel",
-        data: {
-            id_lectivo: id_lectivo,
-            nombre: nombre
-        },
+        data: $("#frm_grado").serialize(),
         success: function (datos) {
             alert(datos);
-            cargar_estructura($("#id").val());
-        },
+            modalGrado.hide();
+            cargar_estructura();
+        }
     });
 }
 
-function agregarGrado(id_nivel, estadoNivel, estadoLectivo) {
-    if (estadoLectivo == 0 || estadoNivel == 0) {
-        alert("No se puede agregar grado porque el nivel o lectivo está desactivado");
-        return;
-    }
-
-    let nombre = prompt("Ingrese el nombre del grado");
-    if (nombre == null || nombre == "") {
-        return;
-    }
-
+function guardar_seccion(e) {
+    e.preventDefault();
     $.ajax({
+        url: link + "guardar_seccion",
         type: "POST",
-        url: link + "agregar_grado",
-        data: {
-            id_nivel: id_nivel,
-            nombre: nombre
-        },
+        data: $("#frm_seccion").serialize(),
         success: function (datos) {
             alert(datos);
-            cargar_estructura($("#id").val());
-        },
+            modalSeccion.hide();
+            cargar_estructura();
+        }
     });
 }
 
-function agregarSeccion(id_grado, estadoGrado, estadoNivel) {
-    if (estadoNivel == 0 || estadoGrado == 0) {
-        alert("No se puede agregar sección porque el grado o nivel está desactivado");
+function cambiar_estado(tipo, id, estado) {
+    let accion = estado == 1 ? "ACTIVAR" : "DESACTIVAR";
+    if (!confirm("¿" + accion + " este registro?")) {
         return;
     }
 
-    let nombre = prompt("Ingrese el nombre de la sección");
-    if (nombre == null || nombre == "") {
-        return;
-    }
-
-    $.ajax({
-        type: "POST",
-        url: link + "agregar_seccion",
-        data: {
-            id_grado: id_grado,
-            nombre: nombre
-        },
-        success: function (datos) {
-            alert(datos);
-            cargar_estructura($("#id").val());
-        },
+    $.post(link + "cambiar_estado", { tipo: tipo, id: id, estado: estado }, function (datos) {
+        alert(datos);
+        cargar_estructura();
     });
 }
 
-function activar(tipo, id) {
-    let condicion = confirm("¿ACTIVAR?");
-    if (condicion === true) {
-        $.ajax({
-            type: "POST",
-            url: link + "activar",
-            data: {
-                tipo: tipo,
-                id: id,
-            },
-            success: function (datos) {
-                alert(datos);
-                cargar_estructura($("#id").val());
-                tabla.ajax.reload();
-            },
-        });
-    } else {
-        alert("CANCELADO");
-    }
-}
-
-function desactivar(tipo, id) {
-    let condicion = confirm("¿DESACTIVAR?");
-    if (condicion === true) {
-        $.ajax({
-            type: "POST",
-            url: link + "desactivar",
-            data: {
-                tipo: tipo,
-                id: id,
-            },
-            success: function (datos) {
-                alert(datos);
-                cargar_estructura($("#id").val());
-                tabla.ajax.reload();
-            },
-        });
-    } else {
-        alert("CANCELADO");
-    }
-}
-
-function activarInstitucion(id) {
-    activar("institucion", id);
-}
-
-function desactivarInstitucion(id) {
-    desactivar("institucion", id);
-}
-
-function nuevo() {
-    limpiar();
-    MostrarFormulario();
-    pintar_estructura([]);
+function escapeHtml(texto) {
+    return $("<div>").text(texto == null ? "" : texto).html();
 }
 
 init();

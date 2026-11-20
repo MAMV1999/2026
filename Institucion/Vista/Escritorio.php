@@ -13,12 +13,14 @@ if (!isset($_SESSION['nombre'])) {
 
         <!-- CUERPO_INICIO -->
         <div class="my-3 p-3 bg-body rounded shadow-sm" id="listado">
-            <h5 class="border-bottom pb-2 mb-0"><b>INSTITUCION</b></h5>
+            <h5 class="border-bottom pb-2 mb-0"><b>INSTITUCIÓN</b></h5>
             <div class="d-flex text-body-secondary pt-3">
                 <br>
                 <?php
                 $array = array(
-                    "1" => array("nombre" => "ESTRUCTURA GENERAL", "link" => "Institucion_estructura.php"),
+                    "1" => array("nombre" => "INSTITUCIÓN", "link" => "Institucion.php", "texto" => "Ir a institución"),
+                    "2" => array("nombre" => "AÑO LECTIVO", "link" => "Institucion_lectivo.php", "texto" => "Ir a años lectivos"),
+                    "3" => array("nombre" => "NIVELES, GRADOS Y SECCIONES", "link" => "Institucion_estructura.php", "texto" => "Ir a estructura académica"),
                 );
                 ?>
                 <table class="table">
@@ -26,7 +28,7 @@ if (!isset($_SESSION['nombre'])) {
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">NOMBRE</th>
-                            <th scope="col">PAGUINA</th>
+                            <th scope="col">PÁGINA</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,53 +48,73 @@ if (!isset($_SESSION['nombre'])) {
             </div>
         </div>
 
-
-        <p class="d-inline-flex gap-1">
-            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">AJUSTES DE INSTITUCION</a>
-        </p>
-        <div class="collapse" id="collapseExample">
-            <div class="card card-body">
-
-                <!-- CUERPO_INICIO -->
-                <div class="my-3 p-3 bg-body rounded shadow-sm" id="listado">
-                    <h5 class="border-bottom pb-2 mb-0"><b>VALIDACION</b></h5>
-                    <div class="d-flex text-body-secondary pt-3">
-                        <br>
+        <!-- REPORTES -->
+        <div class="my-3 p-3 bg-body rounded shadow-sm" id="listado_reportes">
+            <h5 class="border-bottom pb-2 mb-0"><b>REPORTES</b></h5>
+            <div class="d-flex text-body-secondary pt-3">
+                <br>
+                <?php
+                $array = array(
+                    "1" => array("nombre" => "REPORTE DE ESTRUCTURA ACADÉMICA", "link" => "../../Reportes/Vista/institucion_estructura.php"),
+                );
+                ?>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">NOMBRE</th>
+                            <th scope="col">PÁGINA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         <?php
-                        $array = array(
-                            "1" => array("nombre" => "VALIDACION PARA ELIMINAR", "link" => "InstitucionValidacion.php"),
-                        );
-                        ?>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">NOMBRE</th>
-                                    <th scope="col">PAGUINA</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $a = 1;
-                                while ($a <= count($array)) {
-                                    echo '<tr>
+                        $a = 1;
+                        while ($a <= count($array)) {
+                            echo '<tr>
                                 <th scope="row">' . $a . '</th>
                                 <td>' . $array[$a]["nombre"] . '</td>
-                                <td><a class="btn btn-primary" href="' . $array[$a]["link"] . '" role="button">Ir a ' . $array[$a]["nombre"] . '</a></td>
+                                <td><a class="btn btn-primary" target="_blank" href="' . $array[$a]["link"] . '" role="button">Ir a ' . $array[$a]["nombre"] . '</a></td>
                             </tr>';
-                                    $a++;
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
+                            $a++;
+                        }
+                        ?>
+                    </tbody>
+                </table>
             </div>
         </div>
 
+        <hr>
 
+        <!-- AJUSTES -->
+        <p class="d-inline-flex gap-1">
+            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseAjustesInstitucion" role="button" aria-expanded="false" aria-controls="collapseAjustesInstitucion">AJUSTES DE INSTITUCIÓN</a>
+        </p>
+        <div class="collapse" id="collapseAjustesInstitucion">
+            <div class="my-3 p-3 bg-body rounded shadow-sm">
+                <h5 class="border-bottom pb-2 mb-0"><b>VALIDACIÓN</b></h5>
+                <div class="d-flex text-body-secondary pt-3">
+                    <br>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">NOMBRE</th>
+                                <th scope="col">PÁGINA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>VALIDACIÓN PARA ELIMINAR</td>
+                                <td><a class="btn btn-primary" href="InstitucionValidacion.php" role="button">Ir a validación para eliminar</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </main>
+
     <?php include "../../General/Include/2_footer.php"; ?>
     <script>
         function init() {

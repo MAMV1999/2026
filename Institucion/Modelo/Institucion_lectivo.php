@@ -10,6 +10,9 @@ class Institucion_lectivo
     // Método para guardar una nueva institución lectiva
     public function guardar($nombre, $nombre_lectivo, $id_institucion, $observaciones)
     {
+        $sql_desactivar = "UPDATE institucion_lectivo SET estado='0' WHERE id_institucion='$id_institucion'";
+        ejecutarConsulta($sql_desactivar);
+
         $sql = "INSERT INTO institucion_lectivo (nombre, nombre_lectivo, id_institucion, observaciones) VALUES ('$nombre', '$nombre_lectivo', '$id_institucion', '$observaciones')";
         return ejecutarConsulta($sql);
     }
@@ -47,6 +50,15 @@ class Institucion_lectivo
     // Método para activar una institución lectiva
     public function activar($id)
     {
+        $registro = ejecutarConsultaSimpleFila("SELECT id_institucion FROM institucion_lectivo WHERE id='$id'");
+
+        if (!$registro) {
+            return false;
+        }
+
+        $id_institucion = $registro['id_institucion'];
+        ejecutarConsulta("UPDATE institucion_lectivo SET estado='0' WHERE id_institucion='$id_institucion'");
+
         $sql = "UPDATE institucion_lectivo SET estado='1' WHERE id='$id'";
         return ejecutarConsulta($sql);
     }
