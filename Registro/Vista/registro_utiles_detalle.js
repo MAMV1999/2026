@@ -6,6 +6,23 @@ function init() {
         guardaryeditar(e);
     });
 
+    $("#utiles_list").on("click", ".stock-menos, .stock-mas", function () {
+        var grupo = $(this).closest(".input-group");
+        var campo = grupo.find(".stock-cantidad");
+        var stock = Math.max(0, parseInt(campo.val(), 10) || 0);
+        stock = Math.max(0, stock + ($(this).hasClass("stock-mas") ? 1 : -1));
+        campo.val(stock).trigger("input");
+    });
+
+    $("#utiles_list").on("input change", ".stock-cantidad", function () {
+        var campo = $(this);
+        var stock = Math.max(0, parseInt(campo.val(), 10) || 0);
+        if (campo.val() !== "" && Number(campo.val()) !== stock) {
+            campo.val(stock);
+        }
+        campo.closest(".input-group").find(".stock-menos").prop("disabled", stock === 0);
+    });
+
     MostrarListado();
 }
 
@@ -93,8 +110,14 @@ function mostrar(id) {
                 html += "<td>" + numero + "</td>";
                 html += "<td>" + (util.nombre_util || "") + "</td>";
 
-                html += '<td style="width:140px;">' +
-                        '<input type="number" min="0" name="utiles[' + util.id + '][stock]" value="' + (detalle.stock || 0) + '" class="form-control" placeholder="CANT." />' +
+                var stock = Math.max(0, parseInt(detalle.stock, 10) || 0);
+
+                html += '<td style="width:180px;">' +
+                        '<div class="input-group">' +
+                        '<button type="button" class="btn btn-outline-secondary stock-menos" aria-label="Restar cantidad"' + (stock === 0 ? ' disabled' : '') + '>-</button>' +
+                        '<input type="number" min="0" step="1" name="utiles[' + util.id + '][stock]" value="' + stock + '" class="form-control text-center stock-cantidad" placeholder="CANT." />' +
+                        '<button type="button" class="btn btn-outline-secondary stock-mas" aria-label="Sumar cantidad">+</button>' +
+                        '</div>' +
                         "</td>";
 
                 html += '<td>' +

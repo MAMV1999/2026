@@ -19,7 +19,8 @@ if (!isset($_SESSION['nombre'])) {
                 <?php
                 $array = array(
                     "1" => array("nombre" => "REGISTRO UTILES ESCOLARES", "link" => "registro_utiles.php"),
-                    "2" => array("nombre" => "UTILES ESCOLARES", "link" => "registro_utiles_detalle.php"),
+                    "2" => array("nombre" => "UTILES ESCOLARES - GENERAL", "link" => "registro_utiles_detalle.php"),
+                    "3" => array("nombre" => "UTILES ESCOLARES - MI AULA", "link" => "registro_utiles_mi_aula.php"),
                 );
                 ?>
                 <table class="table">
